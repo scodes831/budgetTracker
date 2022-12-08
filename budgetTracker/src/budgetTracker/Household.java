@@ -2,6 +2,8 @@ package budgetTracker;
 
 public class Household {
 	
+	
+	
 	private double income;
 	private double expenses;
 	

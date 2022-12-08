@@ -1,5 +1,11 @@
 package budgetTracker;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Formatter;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Budget {
@@ -8,26 +14,93 @@ public class Budget {
 
 	}
 
-	public static void main(String[] args) {
-		// create household budget object
-		Budget budget = new Budget();
-		Household household = new Household();
-		
-		// ask user to input family members
-		System.out.println("Please add family members to your household. Enter X when finished.\nHow many family members do you want to add?");
+	public static void setUpBudget(Household household) {
 		Scanner in = new Scanner(System.in);
-		int userInputNum = in.nextInt();
-		int numFamilyMembers = 0;FamilyMember.getHouseholdMembers().size();
-		do {
-			System.out.println("Family Member #" + (numFamilyMembers+1) + " name: ");
-			String name = in.next();
-			System.out.println("Family Member #" + (numFamilyMembers+1) + " monthly income: ");
-			double salary = in.nextDouble();
-			FamilyMember familyMember = new FamilyMember(name, salary);
-			FamilyMember.getHouseholdMembers().add(familyMember);
-			numFamilyMembers = FamilyMember.getHouseholdMembers().size();
-			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $" + familyMember.getSalary());
-		} while (userInputNum != numFamilyMembers);
+
+		System.out.println("Let's create a new budget!");
+		Budget budget = new Budget();
+		System.out.println("Enter budget for housing: ");
+		double housingBudget = in.nextDouble();
+		household.setHousingBudget(housingBudget);
+
+		System.out.println("Enter budget for utilities: ");
+		double utilitiesBudget = in.nextDouble();
+		household.setUtilitiesBudget(utilitiesBudget);
+
+		System.out.println("Enter budget for health: ");
+		double healthBudget = in.nextDouble();
+		household.setHealthBudget(healthBudget);
+
+		System.out.println("Enter budget for car: ");
+		double carBudget = in.nextDouble();
+		household.setCarBudget(carBudget);
+
+		System.out.println("Enter budget for groceries: ");
+		double groceryBudget = in.nextDouble();
+		household.setGroceryBudget(groceryBudget);
+
+		System.out.println("Enter budget for dining out: ");
+		double diningBudget = in.nextDouble();
+		household.setDiningBudget(diningBudget);
+
+		System.out.println("Enter budget for fun: ");
+		double funBudget = in.nextDouble();
+		household.setFunBudget(funBudget);
+
+		System.out.println("Enter budget for miscellaneous: ");
+		double miscBudget = in.nextDouble();
+		household.setMiscBudget(miscBudget);
+	}
+
+	public static void displayBudget(Household household) {
+		Formatter table = new Formatter();
+		
+		Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
+		budgetMap.put("housing", new ArrayList<>(Arrays.asList(household.getHousingBudget(), household.getHousingSpend())));
+		budgetMap.put("utilities", new ArrayList<>(Arrays.asList(household.getUtilitiesBudget(), household.getUtilitiesSpend())));
+		budgetMap.put("health", new ArrayList<>(Arrays.asList(household.getHealthBudget(), household.getHealthSpend())));
+		budgetMap.put("car", new ArrayList<>(Arrays.asList(household.getCarBudget(), household.getCarSpend())));
+		budgetMap.put("groceries", new ArrayList<>(Arrays.asList(household.getGroceryBudget(), household.getGrocerySpend())));
+		budgetMap.put("dining", new ArrayList<>(Arrays.asList(household.getDiningBudget(), household.getDiningSpend())));
+		budgetMap.put("fun", new ArrayList<>(Arrays.asList(household.getFunBudget(), household.getFunSpend())));
+		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
+		
+		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");
+		
+
+	}
+
+	public static void main(String[] args) {
+		Household household = new Household();
+//		System.out.println("Please add family members to your household. Enter X when finished.\nHow many family members do you want to add?");
+		Scanner in = new Scanner(System.in);
+//		int userInputNum = in.nextInt();
+//		int numFamilyMembers = 0;FamilyMember.getHouseholdMembers().size();
+//		do {
+//			System.out.println("Family Member #" + (numFamilyMembers+1) + " name: ");
+//			String name = in.next();
+//			System.out.println("Family Member #" + (numFamilyMembers+1) + " monthly income: ");
+//			double salary = in.nextDouble();
+//			FamilyMember familyMember = new FamilyMember(name, salary);
+//			FamilyMember.getHouseholdMembers().add(familyMember);
+//			numFamilyMembers = FamilyMember.getHouseholdMembers().size();
+//			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $" + familyMember.getSalary());
+//		} while (userInputNum != numFamilyMembers);
+
+		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget");
+		int userSelection = in.nextInt();
+		switch (userSelection) {
+		case 1:
+			setUpBudget(household);
+			// display full budget that was entered by user
+			break;
+		case 2:
+			System.out.println("Let's check your current budget!");
+			displayBudget(household);
+			break;
+		default:
+			System.out.println("Please enter a valid option.");
+		}
 		// present options of check budget and add a purchase
 		// check budget
 		// display all categories with budget amount and remaining amount

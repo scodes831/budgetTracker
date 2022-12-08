@@ -66,7 +66,12 @@ public class Budget {
 		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
 		
 		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");
+		budgetMap.forEach((k, v) -> {
+			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0)-v.get(1));
+		});
 		
+		
+		System.out.println(table);
 
 	}
 

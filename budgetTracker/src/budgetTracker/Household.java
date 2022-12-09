@@ -1,8 +1,8 @@
 package budgetTracker;
 
+import java.util.Scanner;
+
 public class Household {
-	
-	
 	
 	private double income;
 	private double expenses;
@@ -30,6 +30,25 @@ public class Household {
 	
 	private double miscBudget;
 	private double miscSpend;
+	
+	public void addFamilyMembers() {
+		System.out.println("Please add family members to your household. Enter X when finished.\nHow many family members do you want to add?");
+		Scanner in = new Scanner(System.in);
+		int userInputNum = in.nextInt();
+		int numFamilyMembers = 0;FamilyMember.getHouseholdMembers().size();
+		do {
+			System.out.println("Family Member #" + (numFamilyMembers+1) + " name: ");
+			String name = in.next();
+			System.out.println("Family Member #" + (numFamilyMembers+1) + " monthly income: ");
+			double salary = in.nextDouble();
+			FamilyMember familyMember = new FamilyMember(name, salary);
+			FamilyMember.getHouseholdMembers().add(familyMember);
+			numFamilyMembers = FamilyMember.getHouseholdMembers().size();
+			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $" + familyMember.getSalary());
+		} while (userInputNum != numFamilyMembers);
+	}
+	
+	
 	public double getIncome() {
 		return income;
 	}

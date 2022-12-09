@@ -1,8 +1,11 @@
 package budgetTracker;
 
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Household {
+	
+	TreeMap<String, Double> purchasesMap = new TreeMap<String, Double>();
 	
 	private double income;
 	private double expenses;
@@ -48,6 +51,16 @@ public class Household {
 		} while (userInputNum != numFamilyMembers);
 	}
 	
+	public void addPurchase(String category, double amount) {
+		purchasesMap.put(category, amount);
+	}
+	
+	public void totalPurchases() {
+		//loop over each element in treemap
+		//sort into groups based on key name
+		//sum amounts in each group
+		//set spend var for each category
+	}
 	
 	public double getIncome() {
 		return income;

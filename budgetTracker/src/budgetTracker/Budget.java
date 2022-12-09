@@ -33,9 +33,43 @@ public class Budget {
 				new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
 		return budgetMap;
 	}
-
-	public static void addPurchase(String category, double amount) {
-
+	
+	public void addPurchaseMenu(Household household) {
+		Scanner in = new Scanner(System.in);
+		System.out.println("Add your purchase...\nEnter purchase amount:");
+		double amount = in.nextDouble();
+		System.out.println(
+				"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
+		String categorySel = in.next();
+		switch (categorySel) {
+		case "a":
+			household.addPurchase("housing", amount);
+			System.out.println("Your purchase has been added: " + amount + " for housing.");
+			break;
+		case "b":
+			household.addPurchase("utilities", amount);
+			break;
+		case "c":
+			household.addPurchase("health", amount);
+			break;
+		case "d":
+			household.addPurchase("car", amount);
+			break;
+		case "e":
+			household.addPurchase("groceries", amount);
+			break;
+		case "f":
+			household.addPurchase("dining", amount);
+			break;
+		case "g":
+			household.addPurchase("fun", amount);
+			break;
+		case "h":
+			household.addPurchase("miscellaneous", amount);
+			break;
+		default:
+			System.out.println("Please enter a valid option a-h");
+		}
 	}
 
 	public static void setUpBudget(Household household) {
@@ -75,6 +109,36 @@ public class Budget {
 		double miscBudget = in.nextDouble();
 		household.setMiscBudget(miscBudget);
 	}
+	
+	public void editBudget(Household household, String category, double newAmount) {
+		switch (category) {
+		case "housing":
+			household.setHousingBudget(newAmount);
+			break;
+		case "utilities":
+			household.setUtilitiesBudget(newAmount);
+			break;
+		case "health":
+			household.setHealthBudget(newAmount);
+			break;
+		case "car":
+			household.setCarBudget(newAmount);
+			break;
+		case "grocery":
+			household.setGroceryBudget(newAmount);
+			break;
+		case "dining":
+			household.setDiningBudget(newAmount);
+			break;
+		case "fun":
+			household.setFunBudget(newAmount);
+			break;
+		case "miscellaneous":
+			household.setMiscBudget(newAmount);
+			break;
+		}
+	
+	}
 
 	public void displayBudget(Household household) {
 		Formatter table = new Formatter();
@@ -106,40 +170,7 @@ public class Budget {
 			budget.displayBudget(household);
 			break;
 		case 3:
-			System.out.println("Add your purchase...\nEnter purchase amount:");
-			double amount = in.nextDouble();
-			System.out.println(
-					"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
-			String categorySel = in.next();
-			switch (categorySel) {
-			case "a":
-				addPurchase("housing", amount);
-				System.out.println("Your purchase has been added: " + amount + " for housing.");
-				break;
-			case "b":
-				addPurchase("utilities", amount);
-				break;
-			case "c":
-				addPurchase("health", amount);
-				break;
-			case "d":
-				addPurchase("car", amount);
-				break;
-			case "e":
-				addPurchase("groceries", amount);
-				break;
-			case "f":
-				addPurchase("dining", amount);
-				break;
-			case "g":
-				addPurchase("fun", amount);
-				break;
-			case "h":
-				addPurchase("miscellaneous", amount);
-				break;
-			default:
-				System.out.println("Please enter a valid option a-h");
-			}
+			
 		}
 		// check budget
 		// display all categories with budget amount and remaining amount

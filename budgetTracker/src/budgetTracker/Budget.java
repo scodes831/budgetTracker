@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Budget {
 
-	public static void addPurchase(FamilyMember purchasedBy, String date, String category, double amount) {
+	public static void addPurchase(String category, double amount) {
 
 	}
 
@@ -54,23 +54,28 @@ public class Budget {
 
 	public static void displayBudget(Household household) {
 		Formatter table = new Formatter();
-		
+
 		Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
-		budgetMap.put("housing", new ArrayList<>(Arrays.asList(household.getHousingBudget(), household.getHousingSpend())));
-		budgetMap.put("utilities", new ArrayList<>(Arrays.asList(household.getUtilitiesBudget(), household.getUtilitiesSpend())));
-		budgetMap.put("health", new ArrayList<>(Arrays.asList(household.getHealthBudget(), household.getHealthSpend())));
+		budgetMap.put("housing",
+				new ArrayList<>(Arrays.asList(household.getHousingBudget(), household.getHousingSpend())));
+		budgetMap.put("utilities",
+				new ArrayList<>(Arrays.asList(household.getUtilitiesBudget(), household.getUtilitiesSpend())));
+		budgetMap.put("health",
+				new ArrayList<>(Arrays.asList(household.getHealthBudget(), household.getHealthSpend())));
 		budgetMap.put("car", new ArrayList<>(Arrays.asList(household.getCarBudget(), household.getCarSpend())));
-		budgetMap.put("groceries", new ArrayList<>(Arrays.asList(household.getGroceryBudget(), household.getGrocerySpend())));
-		budgetMap.put("dining", new ArrayList<>(Arrays.asList(household.getDiningBudget(), household.getDiningSpend())));
+		budgetMap.put("groceries",
+				new ArrayList<>(Arrays.asList(household.getGroceryBudget(), household.getGrocerySpend())));
+		budgetMap.put("dining",
+				new ArrayList<>(Arrays.asList(household.getDiningBudget(), household.getDiningSpend())));
 		budgetMap.put("fun", new ArrayList<>(Arrays.asList(household.getFunBudget(), household.getFunSpend())));
-		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
-		
+		budgetMap.put("miscellaneous",
+				new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
+
 		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");
 		budgetMap.forEach((k, v) -> {
-			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0)-v.get(1));
+			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0) - v.get(1));
 		});
-		
-		
+
 		System.out.println(table);
 
 	}
@@ -92,21 +97,53 @@ public class Budget {
 //			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $" + familyMember.getSalary());
 //		} while (userInputNum != numFamilyMembers);
 
-		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget");
+		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget\n3 - Add a Purchase");
 		int userSelection = in.nextInt();
 		switch (userSelection) {
 		case 1:
 			setUpBudget(household);
-			// display full budget that was entered by user
+			displayBudget(household);
 			break;
 		case 2:
 			System.out.println("Let's check your current budget!");
 			displayBudget(household);
 			break;
-		default:
-			System.out.println("Please enter a valid option.");
+		case 3:
+			System.out.println("Add your purchase...\nEnter purchase amount:");
+			double amount = in.nextDouble();
+			System.out.println(
+					"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
+			String categorySel = in.next();
+			switch(categorySel) {
+			case "a":
+				addPurchase("housing", amount);
+				System.out.println("Your purchase has been added: " + amount + " for housing.");
+				break;
+			case "b":
+				addPurchase("utilities", amount);
+				break;
+			case "c": 
+				addPurchase("health", amount);
+				break;
+			case "d": 
+				addPurchase("car", amount);
+				break;
+			case "e":
+				addPurchase("groceries", amount);
+				break;
+			case "f":
+				addPurchase("dining", amount);
+				break;
+			case "g":
+				addPurchase("fun", amount);
+				break;
+			case "h":
+				addPurchase("miscellaneous", amount);
+				break;
+			default: 
+				System.out.println("Please enter a valid option a-h");
+			}
 		}
-		// present options of check budget and add a purchase
 		// check budget
 		// display all categories with budget amount and remaining amount
 		// provide option to add a purchase

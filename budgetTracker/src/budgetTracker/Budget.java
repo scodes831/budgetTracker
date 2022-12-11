@@ -32,36 +32,38 @@ public class Budget {
 	
 	public void addPurchaseMenu(Household household) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("Add your purchase...\nEnter purchase amount:");
+		System.out.println("Who made the purchase?");
+		String purchasedBy = in.next();
+		System.out.println("Enter purchase amount:");
 		double amount = in.nextDouble();
 		System.out.println(
 				"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
 		String categorySel = in.next();
 		switch (categorySel) {
 		case "a":
-			household.addPurchase("housing", amount);
+			household.addPurchase("housing", amount, purchasedBy);
 			System.out.println("Your purchase has been added: " + amount + " for housing.");
 			break;
 		case "b":
-			household.addPurchase("utilities", amount);
+			household.addPurchase("utilities", amount, purchasedBy);
 			break;
 		case "c":
-			household.addPurchase("health", amount);
+			household.addPurchase("health", amount, purchasedBy);
 			break;
 		case "d":
-			household.addPurchase("car", amount);
+			household.addPurchase("car", amount, purchasedBy);
 			break;
 		case "e":
-			household.addPurchase("grocery", amount);
+			household.addPurchase("grocery", amount, purchasedBy);
 			break;
 		case "f":
-			household.addPurchase("dining", amount);
+			household.addPurchase("dining", amount, purchasedBy);
 			break;
 		case "g":
-			household.addPurchase("fun", amount);
+			household.addPurchase("fun", amount, purchasedBy);
 			break;
 		case "h":
-			household.addPurchase("miscellaneous", amount);
+			household.addPurchase("miscellaneous", amount, purchasedBy);
 			break;
 		default:
 			System.out.println("Please enter a valid option a-h");
@@ -152,6 +154,8 @@ public class Budget {
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0) - v.get(1));
 		});
+		System.out.println("\nTotal amount budgeted: ");
+		System.out.println("Total amount remaining: ");
 		System.out.println(table);
 		return table;
 	}
@@ -177,7 +181,7 @@ public class Budget {
 	}
 	
 	public void subMenuOptions(Household household) {
-		System.out.println("Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 -Add a Purchase");
+		System.out.println("Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - Show Purchaes By Family Member");
 		Scanner in = new Scanner(System.in);
 		int userSelection = in.nextInt();
 		switch (userSelection) {
@@ -223,8 +227,16 @@ public class Budget {
 			break;
 		case 3:
 			addPurchaseMenu(household);
+		case 4:
+			showPurchasesByMember();
 		}
 		subMenuOptions(household);
+	}
+	
+	public void showPurchasesByMember() {
+			for (Purchase purchase : Household.getPurchasesList()) {
+				System.out.println(purchase.getPurchasedBy().toUpperCase() + " spent " + "$" + purchase.getAmount() + " on " + purchase.getCategory());
+			}
 	}
 
 	
@@ -232,18 +244,12 @@ public class Budget {
 	public static void main(String[] args) {
 		Household household = new Household();
 		Budget budget = new Budget();
-//		budget.makeBudgetMap(household);
-//		household.addFamilyMembers();
+		household.addFamilyMembers();
 		budget.mainMenuOptions(household);
-
-		
-		// check budget
-		// display all categories with budget amount and remaining amount
-		// provide option to add a purchase
-		// add a purchase
-		// ask user for purchase date, category, and amount
-		// ask user if they want to add another purchase
-		// if yes, repeat
-		// if no, display all categories with budget amount and remaining amount
+		for (FamilyMember member : Household.getHouseholdMembers()) {
+			for (Purchase purchase : member.getMemberPurchases()) {
+				System.out.println(member.getName() + "has purchased " + purchase.getAmount() + purchase.getCategory());
+			}
+		}
 	}
 }

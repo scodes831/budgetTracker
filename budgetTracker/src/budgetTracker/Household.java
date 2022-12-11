@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Household {
-
-	ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
+	private static ArrayList<FamilyMember> householdMembers = new ArrayList<FamilyMember>();
+	private static ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
 
 	private double income;
 	private double expenses;
@@ -40,26 +40,33 @@ public class Household {
 		Scanner in = new Scanner(System.in);
 		int userInputNum = in.nextInt();
 		int numFamilyMembers = 0;
-		FamilyMember.getHouseholdMembers().size();
+		Household.getHouseholdMembers().size();
 		do {
 			System.out.println("Family Member #" + (numFamilyMembers + 1) + " name: ");
 			String name = in.next();
 			System.out.println("Family Member #" + (numFamilyMembers + 1) + " monthly income: ");
 			double salary = in.nextDouble();
 			FamilyMember familyMember = new FamilyMember(name, salary);
-			FamilyMember.getHouseholdMembers().add(familyMember);
-			numFamilyMembers = FamilyMember.getHouseholdMembers().size();
+			Household.getHouseholdMembers().add(familyMember);
+			numFamilyMembers = Household.getHouseholdMembers().size();
 			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
 					+ familyMember.getSalary());
 		} while (userInputNum != numFamilyMembers);
 	}
 
-	public void addPurchase(String category, double amount) {
-		Purchase purchase = new Purchase(category, amount);
+	public void addPurchase(String category, double amount, String purchasedBy) {
+		Purchase purchase = new Purchase(category, amount, purchasedBy);
 		System.out.println("Your purchase is: " + category + amount);
 		purchasesList.add(purchase);
 		int purchaseNum = purchasesList.size()-1;
 		totalPurchases(purchaseNum);
+		ArrayList<FamilyMember> members = Household.getHouseholdMembers();
+		for (FamilyMember member : members) {
+			if (purchasedBy == member.getName()) {
+				member.getMemberPurchases().add(purchase);
+			}
+		}
+		
 	}
 
 	public void totalPurchases(int purchaseNum) {
@@ -234,5 +241,21 @@ public class Household {
 
 	public void setMiscSpend(double miscSpend) {
 		this.miscSpend = miscSpend;
+	}
+
+	public static ArrayList<FamilyMember> getHouseholdMembers() {
+		return householdMembers;
+	}
+
+	public static void setHouseholdMembers(ArrayList<FamilyMember> householdMembers) {
+		Household.householdMembers = householdMembers;
+	}
+
+	public static ArrayList<Purchase> getPurchasesList() {
+		return purchasesList;
+	}
+
+	public static void setPurchasesList(ArrayList<Purchase> purchasesList) {
+		Household.purchasesList = purchasesList;
 	}
 }

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FamilyMember {
-	private static List<FamilyMember> householdMembers = new ArrayList<FamilyMember>();
+	
+	private ArrayList<Purchase> memberPurchases = new ArrayList<Purchase>();
 	private String name;
 	private double salary;
 	
@@ -24,10 +25,11 @@ public class FamilyMember {
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-	public static List<FamilyMember> getHouseholdMembers() {
-		return householdMembers;
+	
+	public ArrayList<Purchase> getMemberPurchases() {
+		return memberPurchases;
 	}
-	public static void setHouseholdMembers(List<FamilyMember> householdMembers) {
-		FamilyMember.householdMembers = householdMembers;
+	public void setPurchases(ArrayList<Purchase> memberPurchases) {
+		this.memberPurchases = memberPurchases;
 	}
 }

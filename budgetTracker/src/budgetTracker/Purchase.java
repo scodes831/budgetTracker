@@ -4,10 +4,12 @@ public class Purchase {
 		
 	String category;
 	double amount;
+	String purchasedBy;
 	
-	Purchase(String category, double amount) {
+	Purchase(String category, double amount, String purchasedBy) {
 		this.category = category;
 		this.amount = amount;
+		this.purchasedBy = purchasedBy;
 	}
 
 	public String getCategory() {
@@ -24,5 +26,13 @@ public class Purchase {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public String getPurchasedBy() {
+		return purchasedBy;
+	}
+
+	public void setPurchasedBy(String purchasedBy) {
+		this.purchasedBy = purchasedBy;
 	}
 }

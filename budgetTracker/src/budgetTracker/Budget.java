@@ -218,7 +218,6 @@ public class Budget {
 				editBudget(household, "miscellaneous", amountInput);
 				break;
 			}
-			
 			break;
 		case 2:
 			System.out.println("Let's check your current budget!");
@@ -239,17 +238,10 @@ public class Budget {
 			}
 	}
 
-	
-
 	public static void main(String[] args) {
 		Household household = new Household();
 		Budget budget = new Budget();
 		household.addFamilyMembers();
 		budget.mainMenuOptions(household);
-		for (FamilyMember member : Household.getHouseholdMembers()) {
-			for (Purchase purchase : member.getMemberPurchases()) {
-				System.out.println(member.getName() + "has purchased " + purchase.getAmount() + purchase.getCategory());
-			}
-		}
 	}
 }

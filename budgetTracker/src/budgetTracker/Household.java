@@ -36,7 +36,7 @@ public class Household {
 	private double miscSpend;
 
 	public void addFamilyMembers() {
-		System.out.println("Please add family members to your household.\nHow many family members do you want to add?");
+		System.out.println("You currently have " + Household.getHouseholdMembers().size() + " family members in your household.\nHow many family members do you want to add?");
 		Scanner in = new Scanner(System.in);
 		int userInputNum = in.nextInt();
 		int numFamilyMembers = 0;
@@ -66,7 +66,6 @@ public class Household {
 				member.getMemberPurchases().add(purchase);
 			}
 		}
-		
 	}
 
 	public void totalPurchases(int purchaseNum) {

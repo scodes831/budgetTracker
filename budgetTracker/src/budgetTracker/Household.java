@@ -64,7 +64,6 @@ public class Household {
 
 	public void totalPurchases(int purchaseNum) {
 		double categoryPurchase = 0.0;
-//		for (Purchase purchase : purchasesList) {
 		Purchase purchase = purchasesList.get(purchaseNum);
 		if (purchase.getCategory() == "housing") {
 			categoryPurchase = purchase.getAmount() + getHousingSpend();
@@ -91,7 +90,6 @@ public class Household {
 			categoryPurchase = purchase.getAmount() + getMiscSpend();
 			setMiscSpend(categoryPurchase);
 		}
-//		}
 	}
 
 	public double getIncome() {

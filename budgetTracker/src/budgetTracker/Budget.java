@@ -11,10 +11,6 @@ import java.util.Scanner;
 public class Budget {
 
 	Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
-	
-	Budget(Household household) {
-		this.budgetMap = makeBudgetMap(household);
-	}
 
 	private Map<String, ArrayList<Double>> makeBudgetMap(Household household) {
 		budgetMap.put("housing",
@@ -56,7 +52,7 @@ public class Budget {
 			household.addPurchase("car", amount);
 			break;
 		case "e":
-			household.addPurchase("groceries", amount);
+			household.addPurchase("grocery", amount);
 			break;
 		case "f":
 			household.addPurchase("dining", amount);
@@ -76,7 +72,7 @@ public class Budget {
 		Scanner in = new Scanner(System.in);
 
 		System.out.println("Let's create a new budget!");
-		Budget budget = new Budget(household);
+		Budget budget = new Budget();
 		System.out.println("Enter budget for housing: ");
 		double housingBudget = in.nextDouble();
 		household.setHousingBudget(housingBudget);
@@ -111,67 +107,136 @@ public class Budget {
 	}
 	
 	public void editBudget(Household household, String category, double newAmount) {
+		ArrayList<Double> list = budgetMap.get(category);
 		switch (category) {
 		case "housing":
 			household.setHousingBudget(newAmount);
+			list.set(0, household.getHousingBudget());
+			System.out.println("The new budget for housing is $" + household.getHousingBudget());
 			break;
 		case "utilities":
 			household.setUtilitiesBudget(newAmount);
+			list.set(0, household.getUtilitiesBudget());
 			break;
 		case "health":
 			household.setHealthBudget(newAmount);
+			list.set(0, household.getHealthBudget());
 			break;
 		case "car":
 			household.setCarBudget(newAmount);
+			list.set(0, household.getCarBudget());
 			break;
 		case "grocery":
 			household.setGroceryBudget(newAmount);
+			list.set(0, household.getGroceryBudget());
 			break;
 		case "dining":
 			household.setDiningBudget(newAmount);
+			list.set(0, household.getDiningBudget());
 			break;
 		case "fun":
 			household.setFunBudget(newAmount);
+			list.set(0, household.getFunBudget());
 			break;
 		case "miscellaneous":
 			household.setMiscBudget(newAmount);
+			list.set(0, household.getMiscBudget());
 			break;
 		}
-	
 	}
 
-	public void displayBudget(Household household) {
+	public Formatter displayBudget(Household household) {
 		Formatter table = new Formatter();
+		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household);
 		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0) - v.get(1));
 		});
-
 		System.out.println(table);
-
+		return table;
 	}
-
-	public static void main(String[] args) {
-		Household household = new Household();
-		Budget budget = new Budget(household);
-		budget.makeBudgetMap(household);
-		household.addFamilyMembers();
-
+	
+	public void mainMenuOptions(Household household) {
 		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget\n3 - Add a Purchase");
 		Scanner in = new Scanner(System.in);
 		int userSelection = in.nextInt();
 		switch (userSelection) {
 		case 1:
 			setUpBudget(household);
-			budget.displayBudget(household);
+			Formatter budgetTable = displayBudget(household);
+			budgetTable.close();
 			break;
 		case 2:
 			System.out.println("Let's check your current budget!");
-			budget.displayBudget(household);
+			displayBudget(household);
 			break;
 		case 3:
-			
+			addPurchaseMenu(household);
 		}
+		subMenuOptions(household);
+	}
+	
+	public void subMenuOptions(Household household) {
+		System.out.println("Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 -Add a Purchase");
+		Scanner in = new Scanner(System.in);
+		int userSelection = in.nextInt();
+		switch (userSelection) {
+		case 1:
+			System.out.println("Let's edit your budget!");
+			System.out.println("Select a category to edit:\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
+			String categorySel = in.next();
+			System.out.println("Enter a new amount:");
+			double amountInput = in.nextDouble();
+			switch (categorySel) {
+			case "a":
+				System.out.println("Editing your housing budget with new amount: " + amountInput);
+				editBudget(household, "housing", amountInput);
+				break;
+			case "b":
+				editBudget(household, "utilities", amountInput);
+				break;
+			case "c":
+				editBudget(household, "health", amountInput);
+				break;
+			case "d":
+				editBudget(household, "car", amountInput);
+				break;
+			case "e":
+				editBudget(household, "groceries", amountInput);
+				break;
+			case "f":
+				editBudget(household, "dining", amountInput);
+				break;
+			case "g":
+				editBudget(household, "fun", amountInput);
+				break;
+			case "h":
+				editBudget(household, "miscellaneous", amountInput);
+				break;
+			}
+			
+			break;
+		case 2:
+			System.out.println("Let's check your current budget!");
+			Formatter budgetTable = displayBudget(household);
+			budgetTable.close();
+			break;
+		case 3:
+			addPurchaseMenu(household);
+		}
+		subMenuOptions(household);
+	}
+
+	
+
+	public static void main(String[] args) {
+		Household household = new Household();
+		Budget budget = new Budget();
+//		budget.makeBudgetMap(household);
+//		household.addFamilyMembers();
+		budget.mainMenuOptions(household);
+
+		
 		// check budget
 		// display all categories with budget amount and remaining amount
 		// provide option to add a purchase

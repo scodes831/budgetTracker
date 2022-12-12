@@ -73,7 +73,7 @@ public class Budget {
 	public static void setUpBudget(Household household) {
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("Let's create a new budget!");
+		System.out.println("Let's create a new budget!\nYour total household income is $" + household.calculateHouseholdIncome(household));
 		Budget budget = new Budget();
 		System.out.println("Enter budget for housing: ");
 		double housingBudget = in.nextDouble();
@@ -227,13 +227,13 @@ public class Budget {
 		case 3:
 			addPurchaseMenu(household);
 		case 4:
-			showPurchasesByMember();
+			showPurchasesByMember(household);
 		}
 		subMenuOptions(household);
 	}
 	
-	public void showPurchasesByMember() {
-			for (Purchase purchase : Household.getPurchasesList()) {
+	public void showPurchasesByMember(Household household) {
+			for (Purchase purchase : household.getPurchasesList()) {
 				System.out.println(purchase.getPurchasedBy().toUpperCase() + " spent " + "$" + purchase.getAmount() + " on " + purchase.getCategory());
 			}
 	}

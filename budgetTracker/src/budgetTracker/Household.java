@@ -37,19 +37,19 @@ public class Household {
 
 	public void addFamilyMembers() {
 		System.out.println("Welcome to Budget Tracker! Follow the prompts to get started on your budget.");
-		System.out.println("You currently have " + Household.getHouseholdMembers().size() + " family members set up for your household.\nHow many family members do you want to add?");
+		System.out.println("You currently have " + getHouseholdMembers().size() + " family members set up for your household.\nHow many family members do you want to add?");
 		Scanner in = new Scanner(System.in);
 		int userInputNum = in.nextInt();
 		int numFamilyMembers = 0;
-		Household.getHouseholdMembers().size();
+		getHouseholdMembers().size();
 		do {
 			System.out.println("Family Member #" + (numFamilyMembers + 1) + " name: ");
 			String name = in.next();
 			System.out.println("Family Member #" + (numFamilyMembers + 1) + " monthly income: ");
 			double salary = in.nextDouble();
 			FamilyMember familyMember = new FamilyMember(name, salary);
-			Household.getHouseholdMembers().add(familyMember);
-			numFamilyMembers = Household.getHouseholdMembers().size();
+			householdMembers.add(familyMember);
+			numFamilyMembers = getHouseholdMembers().size();
 			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
 					+ familyMember.getSalary());
 		} while (userInputNum != numFamilyMembers);
@@ -61,7 +61,7 @@ public class Household {
 		purchasesList.add(purchase);
 		int purchaseNum = purchasesList.size()-1;
 		totalPurchases(purchaseNum);
-		ArrayList<FamilyMember> members = Household.getHouseholdMembers();
+		ArrayList<FamilyMember> members = getHouseholdMembers();
 		for (FamilyMember member : members) {
 			if (purchasedBy == member.getName()) {
 				member.getMemberPurchases().add(purchase);
@@ -97,6 +97,14 @@ public class Household {
 			categoryPurchase = purchase.getAmount() + getMiscSpend();
 			setMiscSpend(categoryPurchase);
 		}
+	}
+	
+	public double calculateHouseholdIncome(Household household) {
+		double totalHouseholdIncome = 0.0;
+		for (FamilyMember member : household.getHouseholdMembers()) {
+			totalHouseholdIncome += member.getSalary();
+		}
+		return totalHouseholdIncome;
 	}
 
 	public double getIncome() {

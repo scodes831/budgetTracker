@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Household {
-	private static ArrayList<FamilyMember> householdMembers = new ArrayList<FamilyMember>();
-	private static ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
+	private ArrayList<FamilyMember> householdMembers = new ArrayList<FamilyMember>();
+	private ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
 
 	private double income;
 	private double expenses;
@@ -243,19 +243,19 @@ public class Household {
 		this.miscSpend = miscSpend;
 	}
 
-	public static ArrayList<FamilyMember> getHouseholdMembers() {
-		return householdMembers;
+	public ArrayList<FamilyMember> getHouseholdMembers() {
+		return this.householdMembers;
 	}
 
-	public static void setHouseholdMembers(ArrayList<FamilyMember> householdMembers) {
-		Household.householdMembers = householdMembers;
+	public void setHouseholdMembers(ArrayList<FamilyMember> householdMembers) {
+		this.householdMembers = householdMembers;
 	}
 
-	public static ArrayList<Purchase> getPurchasesList() {
+	public ArrayList<Purchase> getPurchasesList() {
 		return purchasesList;
 	}
 
-	public static void setPurchasesList(ArrayList<Purchase> purchasesList) {
-		Household.purchasesList = purchasesList;
+	public void setPurchasesList(ArrayList<Purchase> purchasesList) {
+		this.purchasesList = purchasesList;
 	}
 }

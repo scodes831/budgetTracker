@@ -1,10 +1,13 @@
 package budgetTracker;
 
+import java.time.LocalDate;
+
 public class Purchase {
 		
 	String category;
 	double amount;
 	String purchasedBy;
+	LocalDate datePurchased;
 	
 	Purchase(String category, double amount, String purchasedBy) {
 		this.category = category;
@@ -34,5 +37,13 @@ public class Purchase {
 
 	public void setPurchasedBy(String purchasedBy) {
 		this.purchasedBy = purchasedBy;
+	}
+
+	public LocalDate getDatePurchased() {
+		return datePurchased;
+	}
+
+	public void setDatePurchased(LocalDate datePurchased) {
+		this.datePurchased = datePurchased;
 	}
 }

@@ -181,7 +181,7 @@ public class Budget {
 	}
 	
 	public void subMenuOptions(Household household) {
-		System.out.println("Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - Show Purchaes By Family Member");
+		System.out.println("Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - Show Purchases By Family Member");
 		Scanner in = new Scanner(System.in);
 		int userSelection = in.nextInt();
 		switch (userSelection) {

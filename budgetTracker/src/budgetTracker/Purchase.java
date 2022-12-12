@@ -9,10 +9,11 @@ public class Purchase {
 	String purchasedBy;
 	LocalDate datePurchased;
 	
-	Purchase(String category, double amount, String purchasedBy) {
+	Purchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {
 		this.category = category;
 		this.amount = amount;
 		this.purchasedBy = purchasedBy;
+		this.datePurchased = datePurchased;
 	}
 
 	public String getCategory() {

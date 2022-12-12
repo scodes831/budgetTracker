@@ -36,7 +36,8 @@ public class Household {
 	private double miscSpend;
 
 	public void addFamilyMembers() {
-		System.out.println("You currently have " + Household.getHouseholdMembers().size() + " family members in your household.\nHow many family members do you want to add?");
+		System.out.println("Welcome to Budget Tracker! Follow the prompts to get started on your budget.");
+		System.out.println("You currently have " + Household.getHouseholdMembers().size() + " family members set up for your household.\nHow many family members do you want to add?");
 		Scanner in = new Scanner(System.in);
 		int userInputNum = in.nextInt();
 		int numFamilyMembers = 0;

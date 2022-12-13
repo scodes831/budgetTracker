@@ -61,9 +61,8 @@ public class Household {
 		purchasesList.add(purchase);
 		int purchaseNum = purchasesList.size()-1;
 		totalPurchases(purchaseNum);
-		ArrayList<FamilyMember> members = getHouseholdMembers();
-		for (FamilyMember member : members) {
-			if (purchasedBy == member.getName()) {
+		for (FamilyMember member : this.getHouseholdMembers()) {
+			if (purchasedBy.toLowerCase().equals(member.getName().toLowerCase())) {
 				member.getMemberPurchases().add(purchase);
 			}
 		}

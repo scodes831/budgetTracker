@@ -30,14 +30,15 @@ public class Budget {
 				new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
 		return budgetMap;
 	}
-	
+
 	public void addPurchaseMenu(Household household) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
 		String dateInput = in.next();
 		String[] dateInputArr = new String[3];
 		dateInputArr = dateInput.split("-");
-		LocalDate datePurchased = LocalDate.of(Integer.parseInt(dateInputArr[2]), Month.of(Integer.parseInt(dateInputArr[0])), Integer.parseInt(dateInputArr[1]));
+		LocalDate datePurchased = LocalDate.of(Integer.parseInt(dateInputArr[2]),
+				Month.of(Integer.parseInt(dateInputArr[0])), Integer.parseInt(dateInputArr[1]));
 		System.out.println("purchase date was: " + datePurchased);
 		System.out.println("Who made the purchase?");
 		String purchasedBy = in.next();
@@ -80,7 +81,8 @@ public class Budget {
 	public static void setUpBudget(Household household) {
 		Scanner in = new Scanner(System.in);
 
-		System.out.println("Let's create a new budget!\nYour total household income is $" + household.calculateHouseholdIncome(household));
+		System.out.println("Let's create a new budget!\nYour total household income is $"
+				+ household.calculateHouseholdIncome(household));
 		Budget budget = new Budget();
 		System.out.println("Enter budget for housing: ");
 		double housingBudget = in.nextDouble();
@@ -114,7 +116,7 @@ public class Budget {
 		double miscBudget = in.nextDouble();
 		household.setMiscBudget(miscBudget);
 	}
-	
+
 	public void editBudget(Household household, String category, double newAmount) {
 		ArrayList<Double> list = budgetMap.get(category);
 		switch (category) {
@@ -166,7 +168,7 @@ public class Budget {
 		System.out.println(table);
 		return table;
 	}
-	
+
 	public void mainMenuOptions(Household household) {
 		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget\n3 - Add a Purchase");
 		Scanner in = new Scanner(System.in);
@@ -186,15 +188,17 @@ public class Budget {
 		}
 		subMenuOptions(household);
 	}
-	
+
 	public void subMenuOptions(Household household) {
-		System.out.println("Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - Show Purchases By Family Member");
+		System.out.println(
+				"Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - View Household Purchases");
 		Scanner in = new Scanner(System.in);
 		int userSelection = in.nextInt();
 		switch (userSelection) {
 		case 1:
 			System.out.println("Let's edit your budget!");
-			System.out.println("Select a category to edit:\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
+			System.out.println(
+					"Select a category to edit:\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
 			String categorySel = in.next();
 			System.out.println("Enter a new amount:");
 			double amountInput = in.nextDouble();
@@ -234,15 +238,53 @@ public class Budget {
 		case 3:
 			addPurchaseMenu(household);
 		case 4:
-			showPurchasesByMember(household);
+			purchasesSubMenuOptions(household);
 		}
 		subMenuOptions(household);
 	}
-	
-	public void showPurchasesByMember(Household household) {
-			for (Purchase purchase : household.getPurchasesList()) {
-				System.out.println(purchase.getPurchasedBy().toUpperCase() + " spent " + "$" + purchase.getAmount() + " on " + purchase.getCategory());
+
+	public void showAllPurchases(Household household) {
+		for (Purchase purchase : household.getPurchasesList()) {
+			System.out.println("\n\n-----------------------------------");
+			System.out.println("Displaying all purchases...\n");
+			System.out.println(purchase.getPurchasedBy().toUpperCase() + " spent " + "$" + purchase.getAmount() + " on "
+					+ purchase.getCategory());
+			System.out.println("\n\n-----------------------------------\n\n");
+		}
+	}
+
+	public void showPurchasesByFamilyMember(Household household) {
+		System.out.println("Enter family member name to view purchases:");
+		Scanner in = new Scanner(System.in);
+		String nameInput = in.next();
+		System.out.println("\n\n-----------------------------------");
+		for (FamilyMember familyMember : household.getHouseholdMembers()) {
+			if (nameInput.toLowerCase().equals(familyMember.getName().toLowerCase())) {
+				System.out.println("Displaying all purchases for " + familyMember.getName() + "\n");
+				for (Purchase purchase : familyMember.getMemberPurchases()) {
+					System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory() + " Amount: $" + purchase.getAmount());
+				}
 			}
+		}
+		System.out.println("\n\n-----------------------------------\n\n");
+
+	}
+
+	public void purchasesSubMenuOptions(Household household) {
+		System.out.println(
+				"Choose an option:\na - Show All Purchases\nb - Show Purchases By Family Member\nc - Show Purchases By Date");
+		Scanner in = new Scanner(System.in);
+		String selection = in.next();
+		switch (selection) {
+		case "a":
+			showAllPurchases(household);
+			break;
+		case "b":
+			showPurchasesByFamilyMember(household);
+			break;
+		case "c":
+			break;
+		}
 	}
 
 	public static void main(String[] args) {

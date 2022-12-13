@@ -1,7 +1,7 @@
 package budgetTracker;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Household {
@@ -55,9 +55,9 @@ public class Household {
 		} while (userInputNum != numFamilyMembers);
 	}
 
-	public void addPurchase(String category, double amount, String purchasedBy) {
-		Purchase purchase = new Purchase(category, amount, purchasedBy);
-		System.out.println("Your purchase is: " + category + amount);
+	public void addPurchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {
+		Purchase purchase = new Purchase(category, amount, purchasedBy, datePurchased);
+		System.out.println("Added purchase of $" + amount + " spent on " + category + " by " + purchasedBy + " on " + datePurchased);
 		purchasesList.add(purchase);
 		int purchaseNum = purchasesList.size()-1;
 		totalPurchases(purchaseNum);

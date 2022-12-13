@@ -1,10 +1,11 @@
 package budgetTracker;
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -32,6 +33,12 @@ public class Budget {
 	
 	public void addPurchaseMenu(Household household) {
 		Scanner in = new Scanner(System.in);
+		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
+		String dateInput = in.next();
+		String[] dateInputArr = new String[3];
+		dateInputArr = dateInput.split("-");
+		LocalDate datePurchased = LocalDate.of(Integer.parseInt(dateInputArr[2]), Month.of(Integer.parseInt(dateInputArr[0])), Integer.parseInt(dateInputArr[1]));
+		System.out.println("purchase date was: " + datePurchased);
 		System.out.println("Who made the purchase?");
 		String purchasedBy = in.next();
 		System.out.println("Enter purchase amount:");
@@ -41,29 +48,29 @@ public class Budget {
 		String categorySel = in.next();
 		switch (categorySel) {
 		case "a":
-			household.addPurchase("housing", amount, purchasedBy);
+			household.addPurchase("housing", amount, purchasedBy, datePurchased);
 			System.out.println("Your purchase has been added: " + amount + " for housing.");
 			break;
 		case "b":
-			household.addPurchase("utilities", amount, purchasedBy);
+			household.addPurchase("utilities", amount, purchasedBy, datePurchased);
 			break;
 		case "c":
-			household.addPurchase("health", amount, purchasedBy);
+			household.addPurchase("health", amount, purchasedBy, datePurchased);
 			break;
 		case "d":
-			household.addPurchase("car", amount, purchasedBy);
+			household.addPurchase("car", amount, purchasedBy, datePurchased);
 			break;
 		case "e":
-			household.addPurchase("grocery", amount, purchasedBy);
+			household.addPurchase("grocery", amount, purchasedBy, datePurchased);
 			break;
 		case "f":
-			household.addPurchase("dining", amount, purchasedBy);
+			household.addPurchase("dining", amount, purchasedBy, datePurchased);
 			break;
 		case "g":
-			household.addPurchase("fun", amount, purchasedBy);
+			household.addPurchase("fun", amount, purchasedBy, datePurchased);
 			break;
 		case "h":
-			household.addPurchase("miscellaneous", amount, purchasedBy);
+			household.addPurchase("miscellaneous", amount, purchasedBy, datePurchased);
 			break;
 		default:
 			System.out.println("Please enter a valid option a-h");

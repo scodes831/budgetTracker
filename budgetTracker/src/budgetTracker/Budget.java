@@ -32,65 +32,94 @@ public class Budget {
 	}
 
 	public void addPurchaseMenu(Household household) {
-		Scanner in = new Scanner(System.in);
-		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
-		String dateInput = in.next();
-		String[] dateInputArr = new String[3];
-		dateInputArr = dateInput.split("-");
-		LocalDate datePurchased = LocalDate.of(Integer.parseInt(dateInputArr[2]),
-				Month.of(Integer.parseInt(dateInputArr[0])), Integer.parseInt(dateInputArr[1]));
-		System.out.println("purchase date was: " + datePurchased);
-		System.out.println("Who made the purchase?");
-		String purchasedBy = in.next();
-		System.out.println("Enter purchase amount:");
-		double amount = in.nextDouble();
-		System.out.println(
-				"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
-		String categorySel = in.next();
-		boolean isFamilyMemberPresent = checkFamilyMember(household, purchasedBy);
-		if (isFamilyMemberPresent) {
-			switch (categorySel) {
-			case "a":
-				household.addPurchase("housing", amount, purchasedBy, datePurchased);
-				System.out.println("Your purchase has been added: " + amount + " for housing.");
-				break;
-			case "b":
-				household.addPurchase("utilities", amount, purchasedBy, datePurchased);
-				break;
-			case "c":
-				household.addPurchase("health", amount, purchasedBy, datePurchased);
-				break;
-			case "d":
-				household.addPurchase("car", amount, purchasedBy, datePurchased);
-				break;
-			case "e":
-				household.addPurchase("grocery", amount, purchasedBy, datePurchased);
-				break;
-			case "f":
-				household.addPurchase("dining", amount, purchasedBy, datePurchased);
-				break;
-			case "g":
-				household.addPurchase("fun", amount, purchasedBy, datePurchased);
-				break;
-			case "h":
-				household.addPurchase("miscellaneous", amount, purchasedBy, datePurchased);
-				break;
-			default:
-				System.out.println("Please enter a valid option a-h");
+		boolean purchaseAdded = false;
+		do {
+			Scanner in = new Scanner(System.in);
+			LocalDate datePurchased = promptUserDateInput(household);
+			System.out.println("purchase date was: " + datePurchased);
+			System.out.println("Who made the purchase?");
+			String purchasedBy = in.next();
+			System.out.println("Enter purchase amount:");
+			double amount = in.nextDouble();
+			System.out.println(
+					"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
+			String categorySel = in.next();
+			boolean isFamilyMemberPresent = checkFamilyMember(household, purchasedBy);
+			if (isFamilyMemberPresent) {
+				switch (categorySel) {
+				case "a":
+					household.addPurchase("housing", amount, purchasedBy, datePurchased);
+					System.out.println("Your purchase has been added: " + amount + " for housing.");
+					break;
+				case "b":
+					household.addPurchase("utilities", amount, purchasedBy, datePurchased);
+					break;
+				case "c":
+					household.addPurchase("health", amount, purchasedBy, datePurchased);
+					break;
+				case "d":
+					household.addPurchase("car", amount, purchasedBy, datePurchased);
+					break;
+				case "e":
+					household.addPurchase("grocery", amount, purchasedBy, datePurchased);
+					break;
+				case "f":
+					household.addPurchase("dining", amount, purchasedBy, datePurchased);
+					break;
+				case "g":
+					household.addPurchase("fun", amount, purchasedBy, datePurchased);
+					break;
+				case "h":
+					household.addPurchase("miscellaneous", amount, purchasedBy, datePurchased);
+					break;
+				default:
+					System.out.println("Please enter a valid option a-h");
+				}
+				purchaseAdded = true;
+			} else {
+				System.out.println("Purchase cannot be added. You entered " + purchasedBy + " who is not set up in your household.\n1 - Add A Purchase\n2 - Add New Family Member");
+				int selection = in.nextInt();
+				switch (selection) {
+				case 1:
+					addPurchaseMenu(household);
+					break;
+				case 2:
+					household.addFamilyMembers();
+					break;
+				}
 			}
-		} else {
-			System.out.println("Purchase cannot be added. You entered " + purchasedBy + " who is not set up in your household.\n1 - Add A Purchase\n2 - Add New Family Member");
-			int selection = in.nextInt();
-			switch (selection) {
-			case 1:
-				addPurchaseMenu(household);
-				break;
-			case 2:
-				household.addFamilyMembers();
-				break;
+		} while (!purchaseAdded);
+		
+	}
+
+	private LocalDate promptUserDateInput(Household household) {
+		Scanner in = new Scanner(System.in);
+		boolean inputNeeded = true;
+		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
+		while (inputNeeded) {
+			try {
+				String dateInput = in.next();
+				String dateRegex = "(\\d{2}-\\d{2}-\\d{4})";
+				if (!dateInput.toString().matches(dateRegex)) {
+					System.out.println("Invalid date format. You must use MM-DD-YYYY format");
+					addPurchaseMenu(household);
+				} else {
+					String[] dateInputArr = new String[3];
+					dateInputArr = dateInput.toString().split("-");
+					LocalDate datePurchased = LocalDate.of(Integer.parseInt(dateInputArr[2]),
+							Month.of(Integer.parseInt(dateInputArr[0])), Integer.parseInt(dateInputArr[1]));
+					return datePurchased;
+				}
+			} catch (Exception e) {
+				System.out.println("Invalid date format entered. You must use MM-DD-YYYY format");
 			}
 		}
+		return LocalDate.now();
 	}
+	
+//	private String promptUserNameInput(Household household) {
+//		return purchasedBy;
+//	}
 
 	private boolean checkFamilyMember(Household household, String purchasedBy) {
 		for (FamilyMember familyMember : household.getHouseholdMembers()) {

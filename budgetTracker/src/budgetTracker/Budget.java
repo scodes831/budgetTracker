@@ -229,79 +229,79 @@ public class Budget {
 		return table;
 	}
 
-	public void mainMenuOptions(Household household) {
-		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget\n3 - Add a Purchase");
-		Scanner in = new Scanner(System.in);
-		int userSelection = in.nextInt();
-		switch (userSelection) {
-		case 1:
-			setUpBudget(household);
-			Formatter budgetTable = displayBudget(household);
-			budgetTable.close();
-			break;
-		case 2:
-			System.out.println("Let's check your current budget!");
-			displayBudget(household);
-			break;
-		case 3:
-			addPurchaseMenu(household);
-		}
-		subMenuOptions(household);
-	}
+//	public void mainMenuOptions(Household household) {
+//		System.out.println("Choose an option: \n1 - Create a New Budget\n2 - Check Your Budget\n3 - Add a Purchase");
+//		Scanner in = new Scanner(System.in);
+//		int userSelection = in.nextInt();
+//		switch (userSelection) {
+//		case 1:
+//			setUpBudget(household);
+//			Formatter budgetTable = displayBudget(household);
+//			budgetTable.close();
+//			break;
+//		case 2:
+//			System.out.println("Let's check your current budget!");
+//			displayBudget(household);
+//			break;
+//		case 3:
+//			addPurchaseMenu(household);
+//		}
+//		subMenuOptions(household);
+//	}
 
-	public void subMenuOptions(Household household) {
-		System.out.println(
-				"Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - View Household Purchases");
-		Scanner in = new Scanner(System.in);
-		int userSelection = in.nextInt();
-		switch (userSelection) {
-		case 1:
-			System.out.println("Let's edit your budget!");
-			System.out.println(
-					"Select a category to edit:\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
-			String categorySel = in.next();
-			System.out.println("Enter a new amount:");
-			double amountInput = in.nextDouble();
-			switch (categorySel) {
-			case "a":
-				System.out.println("Editing your housing budget with new amount: " + amountInput);
-				editBudget(household, "housing", amountInput);
-				break;
-			case "b":
-				editBudget(household, "utilities", amountInput);
-				break;
-			case "c":
-				editBudget(household, "health", amountInput);
-				break;
-			case "d":
-				editBudget(household, "car", amountInput);
-				break;
-			case "e":
-				editBudget(household, "groceries", amountInput);
-				break;
-			case "f":
-				editBudget(household, "dining", amountInput);
-				break;
-			case "g":
-				editBudget(household, "fun", amountInput);
-				break;
-			case "h":
-				editBudget(household, "miscellaneous", amountInput);
-				break;
-			}
-			break;
-		case 2:
-			System.out.println("Let's check your current budget!");
-			Formatter budgetTable = displayBudget(household);
-			budgetTable.close();
-			break;
-		case 3:
-			addPurchaseMenu(household);
-		case 4:
-			purchasesSubMenuOptions(household);
-		}
-		subMenuOptions(household);
-	}
+//	public void subMenuOptions(Household household) {
+//		System.out.println(
+//				"Choose an option: \n1 - Edit Budget\n2 - Display Budget\n3 - Add a Purchase\n4 - View Household Purchases");
+//		Scanner in = new Scanner(System.in);
+//		int userSelection = in.nextInt();
+//		switch (userSelection) {
+//		case 1:
+//			System.out.println("Let's edit your budget!");
+//			System.out.println(
+//					"Select a category to edit:\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
+//			String categorySel = in.next();
+//			System.out.println("Enter a new amount:");
+//			double amountInput = in.nextDouble();
+//			switch (categorySel) {
+//			case "a":
+//				System.out.println("Editing your housing budget with new amount: " + amountInput);
+//				editBudget(household, "housing", amountInput);
+//				break;
+//			case "b":
+//				editBudget(household, "utilities", amountInput);
+//				break;
+//			case "c":
+//				editBudget(household, "health", amountInput);
+//				break;
+//			case "d":
+//				editBudget(household, "car", amountInput);
+//				break;
+//			case "e":
+//				editBudget(household, "groceries", amountInput);
+//				break;
+//			case "f":
+//				editBudget(household, "dining", amountInput);
+//				break;
+//			case "g":
+//				editBudget(household, "fun", amountInput);
+//				break;
+//			case "h":
+//				editBudget(household, "miscellaneous", amountInput);
+//				break;
+//			}
+//			break;
+//		case 2:
+//			System.out.println("Let's check your current budget!");
+//			Formatter budgetTable = displayBudget(household);
+//			budgetTable.close();
+//			break;
+//		case 3:
+//			addPurchaseMenu(household);
+//		case 4:
+//			purchasesSubMenuOptions(household);
+//		}
+//		subMenuOptions(household);
+//	}
 
 	public void showAllPurchases(Household household) {
 		for (Purchase purchase : household.getPurchasesList()) {
@@ -426,6 +426,6 @@ public class Budget {
 		Household household = new Household();
 		Budget budget = new Budget();
 		household.addFamilyMembers();
-		budget.mainMenuOptions(household);
+		Menu.viewMainMenu(household, budget);
 	}
 }

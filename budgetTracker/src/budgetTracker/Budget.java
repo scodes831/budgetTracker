@@ -47,35 +47,58 @@ public class Budget {
 		System.out.println(
 				"What category was your purchase?\na - Housing\nb - Utilities\nc - Health\nd - Car\ne - Groceries\nf - Dining\ng - Fun\nh - Miscellaneous");
 		String categorySel = in.next();
-		switch (categorySel) {
-		case "a":
-			household.addPurchase("housing", amount, purchasedBy, datePurchased);
-			System.out.println("Your purchase has been added: " + amount + " for housing.");
-			break;
-		case "b":
-			household.addPurchase("utilities", amount, purchasedBy, datePurchased);
-			break;
-		case "c":
-			household.addPurchase("health", amount, purchasedBy, datePurchased);
-			break;
-		case "d":
-			household.addPurchase("car", amount, purchasedBy, datePurchased);
-			break;
-		case "e":
-			household.addPurchase("grocery", amount, purchasedBy, datePurchased);
-			break;
-		case "f":
-			household.addPurchase("dining", amount, purchasedBy, datePurchased);
-			break;
-		case "g":
-			household.addPurchase("fun", amount, purchasedBy, datePurchased);
-			break;
-		case "h":
-			household.addPurchase("miscellaneous", amount, purchasedBy, datePurchased);
-			break;
-		default:
-			System.out.println("Please enter a valid option a-h");
+		boolean isFamilyMemberPresent = checkFamilyMember(household, purchasedBy);
+		if (isFamilyMemberPresent) {
+			switch (categorySel) {
+			case "a":
+				household.addPurchase("housing", amount, purchasedBy, datePurchased);
+				System.out.println("Your purchase has been added: " + amount + " for housing.");
+				break;
+			case "b":
+				household.addPurchase("utilities", amount, purchasedBy, datePurchased);
+				break;
+			case "c":
+				household.addPurchase("health", amount, purchasedBy, datePurchased);
+				break;
+			case "d":
+				household.addPurchase("car", amount, purchasedBy, datePurchased);
+				break;
+			case "e":
+				household.addPurchase("grocery", amount, purchasedBy, datePurchased);
+				break;
+			case "f":
+				household.addPurchase("dining", amount, purchasedBy, datePurchased);
+				break;
+			case "g":
+				household.addPurchase("fun", amount, purchasedBy, datePurchased);
+				break;
+			case "h":
+				household.addPurchase("miscellaneous", amount, purchasedBy, datePurchased);
+				break;
+			default:
+				System.out.println("Please enter a valid option a-h");
+			}
+		} else {
+			System.out.println("Purchase cannot be added. You entered " + purchasedBy + " who is not set up in your household.\n1 - Add A Purchase\n2 - Add New Family Member");
+			int selection = in.nextInt();
+			switch (selection) {
+			case 1:
+				addPurchaseMenu(household);
+				break;
+			case 2:
+				household.addFamilyMembers();
+				break;
+			}
 		}
+	}
+
+	private boolean checkFamilyMember(Household household, String purchasedBy) {
+		for (FamilyMember familyMember : household.getHouseholdMembers()) {
+			if (familyMember.getName().toLowerCase().equals(purchasedBy.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void setUpBudget(Household household) {

@@ -36,7 +36,6 @@ public class Household {
 	private double miscSpend;
 
 	public void addFamilyMembers() {
-		System.out.println("Welcome to Budget Tracker! Follow the prompts to get started on your budget.");
 		int numCurrentFamilyMembers = getHouseholdMembers().size();
 		System.out.println("You currently have " + numCurrentFamilyMembers + " family members set up for your household.\nHow many family members do you want to add?");
 		Scanner in = new Scanner(System.in);
@@ -51,6 +50,23 @@ public class Household {
 			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
 					+ familyMember.getSalary());
 		} while (getHouseholdMembers().size() != (numCurrentFamilyMembers + userInputNum));
+	}
+	
+	public void displayFamilyMembers() {
+		int familyMemberCount = 1;
+		for (FamilyMember familyMember : getHouseholdMembers()) {
+			System.out.println(familyMemberCount + " Name: " + familyMember.getName() + ", Income: $" + familyMember.getSalary());
+			familyMemberCount++;
+		}
+	}
+	
+	public boolean checkFamilyMember(Household household, String purchasedBy) {
+		for (FamilyMember familyMember : household.getHouseholdMembers()) {
+			if (familyMember.getName().toLowerCase().equals(purchasedBy.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addPurchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {

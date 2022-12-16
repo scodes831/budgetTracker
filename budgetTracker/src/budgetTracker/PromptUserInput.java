@@ -116,7 +116,7 @@ public class PromptUserInput {
 		if (isFamilyMemberPresent) {
 			return purchasedBy;
 		} else {
-			System.out.println("Purchase cannot be added. You entered " + purchasedBy
+			System.out.println("You entered " + purchasedBy
 					+ " who is not set up in your household.\nHow would you like to proceed?\n1 - Add A Purchase\n2 - Add New Family Member");
 			int selection = in.nextInt();
 			switch (selection) {
@@ -133,7 +133,7 @@ public class PromptUserInput {
 
 	public static double promptUserAmountInput(Household household) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("Enter purchase amount:");
+		System.out.println("Enter amount:");
 		double amount = in.nextDouble();
 		return amount;
 	}

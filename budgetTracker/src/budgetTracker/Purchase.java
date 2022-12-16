@@ -108,7 +108,6 @@ public class Purchase {
 	public static ArrayList<Purchase> viewPurchasesThisWeek(ArrayList<Purchase> purchasesList, LocalDate todaysDate) {
 		ArrayList<Purchase> purchasesThisWeek = new ArrayList<Purchase>();
 		LocalDate weekRange = todaysDate.minusDays(7);
-		System.out.println("the range is :" + weekRange);
 		for (Purchase purchase : purchasesList) {
 			if (purchase.getDatePurchased().compareTo(weekRange) > -1
 					&& purchase.getDatePurchased().compareTo(todaysDate) < 1) {

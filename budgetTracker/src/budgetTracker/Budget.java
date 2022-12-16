@@ -101,7 +101,7 @@ public class Budget {
 		}
 	}
 
-	public Formatter displayBudget(Household household) {
+	public Formatter displayBudget(Household household, Budget budget) {
 		Formatter table = new Formatter();
 		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household);
 		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");

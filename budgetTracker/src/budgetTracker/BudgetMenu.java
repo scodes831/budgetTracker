@@ -31,12 +31,12 @@ public class BudgetMenu extends Menu {
 		switch (selection) {
 		case 1:
 			budget.setUpBudget(household, budget);
-			Formatter budgetTable = budget.displayBudget(household);
+			Formatter budgetTable = budget.displayBudget(household, budget);
 			budgetTable.close();
 			break;
 		case 2:
-			System.out.println("Displaying current budget:");
-			budget.displayBudget(household);
+			System.out.println("Displaying budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + ":");
+			budget.displayBudget(household, budget);
 			break;
 		case 3:
 			System.out.println("Editing your budget:");

@@ -33,7 +33,6 @@ public class Budget {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Let's create a new budget!\nYour total household income is $"
 				+ household.calculateHouseholdIncome(household));
-//		Budget budget = new Budget();
 		household.setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
 		household.setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
 		household.setHealthBudget(PromptUserInput.promptUserHealthBudget(in));

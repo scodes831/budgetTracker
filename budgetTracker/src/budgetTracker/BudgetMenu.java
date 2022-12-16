@@ -6,9 +6,28 @@ import java.util.Scanner;
 public class BudgetMenu extends Menu {
 
 	public void show(Household household, Budget budget, Menu mainMenu) {
-		System.out.println("Budget Menu Options:\n1 - Add Budget\n2 - Display Budget\n3 - Edit Budget\n4 - Back to Main Menu");
+		boolean selectionError;
+		do {
+			try {
+				int selection = showBudgetOptions();
+				selectionError = false;
+				processBudgetSelection(household, budget, mainMenu, selection);
+			} catch (Exception e) {
+				selectionError = true;
+				System.out.println("Please enter a valid selection.");
+			}
+		} while (selectionError);
+	}
+
+	private int showBudgetOptions() {
+		System.out.println(
+				"Budget Menu Options:\n1 - Add Budget\n2 - Display Budget\n3 - Edit Budget\n4 - Back to Main Menu");
 		Scanner in = new Scanner(System.in);
 		int selection = in.nextInt();
+		return selection;
+	}
+
+	private void processBudgetSelection(Household household, Budget budget, Menu mainMenu, int selection) {
 		switch (selection) {
 		case 1:
 			System.out.println("Setting up a new budget:");
@@ -30,4 +49,5 @@ public class BudgetMenu extends Menu {
 		}
 		show(household, budget, mainMenu);
 	}
+
 }

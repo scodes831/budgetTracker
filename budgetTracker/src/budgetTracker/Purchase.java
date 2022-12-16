@@ -19,13 +19,14 @@ public class Purchase {
 	}
 
 	public static void showAllPurchases(Household household) {
+		System.out.println("\n\n-----------------------------------");
+		System.out.println("Displaying all purchases...\n");
 		for (Purchase purchase : household.getPurchasesList()) {
-			System.out.println("\n\n-----------------------------------");
-			System.out.println("Displaying all purchases...\n");
 			System.out.println(purchase.getPurchasedBy().toUpperCase() + " spent " + "$" + purchase.getAmount() + " on "
-					+ purchase.getCategory());
-			System.out.println("\n\n-----------------------------------\n\n");
+					+ purchase.getCategory() + " on " + purchase.getDatePurchased());
 		}
+		System.out.println("\n\n-----------------------------------\n\n");
+
 	}
 
 	public static void showPurchasesByFamilyMember(Household household) {
@@ -34,8 +35,8 @@ public class Purchase {
 		String nameInput = in.next();
 		System.out.println("\n\n-----------------------------------");
 		for (FamilyMember familyMember : household.getHouseholdMembers()) {
+			System.out.println("Displaying all purchases for " + familyMember.getName() + "\n");
 			if (nameInput.toLowerCase().equals(familyMember.getName().toLowerCase())) {
-				System.out.println("Displaying all purchases for " + familyMember.getName() + "\n");
 				for (Purchase purchase : familyMember.getMemberPurchases()) {
 					System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
 							+ " Amount: $" + purchase.getAmount());
@@ -54,9 +55,7 @@ public class Purchase {
 		LocalDate todaysDate = LocalDate.now();
 		switch (selection) {
 		case "a":
-			System.out.println("You selected a - purchases today");
 			ArrayList<Purchase> purchasesToday = viewPurchasesToday(purchasesList, todaysDate);
-			System.out.println("generated purchasesToday array list");
 			displayPurchases(purchasesToday);
 			break;
 		case "b":
@@ -72,7 +71,6 @@ public class Purchase {
 
 	public static void displayPurchases(ArrayList<Purchase> purchasesList) {
 		int purchasesCount = 1;
-		System.out.println("inside displayPurchases method.");
 		for (Purchase purchase : purchasesList) {
 			System.out.println(
 					purchasesCount + " Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
@@ -82,11 +80,18 @@ public class Purchase {
 
 	}
 
-	public static void editPurchases(ArrayList<Purchase> purchasesList) {
-		displayPurchases(purchasesList);
+	public static void editPurchases(Household household, Budget budget) {
+		displayPurchases(household.getPurchasesList());
 		System.out.println("Enter the line number of the purchase you want to edit: ");
 		Scanner in = new Scanner(System.in);
-		// finish tomorrow
+		int purchaseIndex = in.nextInt()-1;
+		String newCategory = PromptUserInput.promptUserCategoryInput(household);
+		double newAmount = PromptUserInput.promptUserAmountInput(household);
+		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, budget);
+		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, budget);
+		Purchase purchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
+		household.getPurchasesList().set(purchaseIndex, purchase);
+		
 	}
 
 	public static ArrayList<Purchase> viewPurchasesToday(ArrayList<Purchase> purchasesList, LocalDate todaysDate) {

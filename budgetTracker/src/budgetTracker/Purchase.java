@@ -34,8 +34,8 @@ public class Purchase {
 		Scanner in = new Scanner(System.in);
 		String nameInput = in.next();
 		System.out.println("\n\n-----------------------------------");
+		System.out.println("Displaying all purchases for " + nameInput + "\n");
 		for (FamilyMember familyMember : household.getHouseholdMembers()) {
-			System.out.println("Displaying all purchases for " + familyMember.getName() + "\n");
 			if (nameInput.toLowerCase().equals(familyMember.getName().toLowerCase())) {
 				for (Purchase purchase : familyMember.getMemberPurchases()) {
 					System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()

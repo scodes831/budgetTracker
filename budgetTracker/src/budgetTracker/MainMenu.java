@@ -5,10 +5,28 @@ import java.util.Scanner;
 public class MainMenu extends Menu {
 
 	public void show(Household household, Budget budget, Menu mainMenu) {
-		Menu.getActiveMenuList().add("main");
-		System.out.println("Select a menu to view options:\n1 - Budget Menu\n2 - HouseholdMenu\n3 - Purchase Menu\n4 - Go Back to Previous Menu");
+		boolean selectionError;
+		do {
+			try {
+				int selection = showOptions();
+				selectionError = false;
+				processSelection(household, budget, mainMenu, selection);
+			} catch (Exception e) {
+				selectionError = true;
+				System.out.println("Please enter a valid selection.");
+			}
+		} while (selectionError);
+	}
+
+	public int showOptions() {
+		System.out.println(
+				"Select a menu to view options:\n1 - Budget Menu\n2 - HouseholdMenu\n3 - Purchase Menu\n4 - Go Back to Previous Menu");
 		Scanner in = new Scanner(System.in);
 		int selection = in.nextInt();
+		return selection;
+	}
+
+	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection) {
 		switch (selection) {
 		case 1:
 			BudgetMenu budgetMenu = new BudgetMenu();

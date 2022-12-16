@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Household {
+
 	private ArrayList<FamilyMember> householdMembers = new ArrayList<FamilyMember>();
 	private ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
 
@@ -37,7 +38,8 @@ public class Household {
 
 	public void addFamilyMembers() {
 		int numCurrentFamilyMembers = getHouseholdMembers().size();
-		System.out.println("You currently have " + numCurrentFamilyMembers + " family members set up for your household.\nHow many family members do you want to add?");
+		System.out.println("You currently have " + numCurrentFamilyMembers
+				+ " family members set up for your household.\nHow many family members do you want to add?");
 		Scanner in = new Scanner(System.in);
 		int userInputNum = in.nextInt();
 		do {
@@ -48,18 +50,46 @@ public class Household {
 			FamilyMember familyMember = new FamilyMember(name, salary);
 			householdMembers.add(familyMember);
 			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
-					+ familyMember.getSalary());
+					+ familyMember.getSalary() + "\n");
 		} while (getHouseholdMembers().size() != (numCurrentFamilyMembers + userInputNum));
 	}
-	
+
 	public void displayFamilyMembers() {
 		int familyMemberCount = 1;
 		for (FamilyMember familyMember : getHouseholdMembers()) {
-			System.out.println(familyMemberCount + " Name: " + familyMember.getName() + ", Income: $" + familyMember.getSalary());
+			System.out.println(
+					familyMemberCount + " Name: " + familyMember.getName() + ", Income: $" + familyMember.getSalary());
 			familyMemberCount++;
 		}
+		System.out.println("\n");
 	}
-	
+
+	public void editFamilyMembers() {
+		System.out.println("Enter the name of the family member you want to edit:");
+		Scanner in = new Scanner(System.in);
+		String editName = in.next();
+		for (FamilyMember familyMember : getHouseholdMembers()) {
+			if (familyMember.getName().toLowerCase().equals(editName.toLowerCase())) {
+				System.out.println("Name is currently set up as: " + familyMember.getName()
+						+ ". Would you like to edit the name?\ny - Yes\nn - No");
+				String selection = in.next();
+				if (selection.toLowerCase() == "y") {
+					System.out.println("Please enter a new name:");
+					String newName = in.next();
+					familyMember.setName(newName);
+					System.out.println("Name has been updated to " + familyMember.getName());
+				} else {
+					System.out.println("Salary is currently set up as: " + familyMember.getSalary()
+							+ ". Please enter new salary amount:");
+					double newSalary = in.nextDouble();
+					familyMember.setSalary(newSalary);
+					System.out.println("Salary for " + familyMember.getName() + " has been updated to $"
+							+ familyMember.getSalary());
+				}
+			}
+		}
+	}
+
 	public boolean checkFamilyMember(Household household, String purchasedBy) {
 		for (FamilyMember familyMember : household.getHouseholdMembers()) {
 			if (familyMember.getName().toLowerCase().equals(purchasedBy.toLowerCase())) {
@@ -71,9 +101,10 @@ public class Household {
 
 	public void addPurchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {
 		Purchase purchase = new Purchase(category, amount, purchasedBy, datePurchased);
-		System.out.println("Added purchase of $" + amount + " spent on " + category + " by " + purchasedBy + " on " + datePurchased);
+		System.out.println("Added purchase of $" + amount + " spent on " + category + " by " + purchasedBy + " on "
+				+ datePurchased);
 		purchasesList.add(purchase);
-		int purchaseNum = purchasesList.size()-1;
+		int purchaseNum = purchasesList.size() - 1;
 		totalPurchases(purchaseNum);
 		for (FamilyMember member : this.getHouseholdMembers()) {
 			if (purchasedBy.toLowerCase().equals(member.getName().toLowerCase())) {
@@ -111,7 +142,7 @@ public class Household {
 			setMiscSpend(categoryPurchase);
 		}
 	}
-	
+
 	public double calculateHouseholdIncome(Household household) {
 		double totalHouseholdIncome = 0.0;
 		for (FamilyMember member : household.getHouseholdMembers()) {

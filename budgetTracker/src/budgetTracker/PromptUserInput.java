@@ -6,6 +6,19 @@ import java.util.Scanner;
 
 public class PromptUserInput {
 
+	public static int promptUserBudgetYear(Scanner in) {
+		System.out.println("Enter the year for your budget:");
+		int budgetYear = in.nextInt();
+		return budgetYear;
+	}
+
+	public static int promptUserBudgetMonth(Scanner in) {
+		System.out.println(
+				"Enter the month for your budget:\n1 - January\n2 - February\n3 - March\n4 - April\n5 - May\n6 - June\n7 - July\n8 - August\n9 - September\n10 - October\n11 - November\n12 - December");
+		int budgetMonth = in.nextInt();
+		return budgetMonth;
+	}
+
 	public static double promptUserHousingBudget(Scanner in) {
 		System.out.println("Enter budget for housing: ");
 		double housingBudget = in.nextDouble();

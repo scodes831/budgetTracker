@@ -1,5 +1,6 @@
 package budgetTracker;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -9,7 +10,15 @@ import java.util.Scanner;
 
 public class Budget {
 
+	private int budgetMonth;
+	private int budgetYear;
+	
 	Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
+	
+	Budget(int budgetMonth, int budgetYear) {
+		this.budgetMonth = budgetMonth;
+		this.budgetYear = budgetYear;
+	}
 
 	private Map<String, ArrayList<Double>> makeBudgetMap(Household household) {
 		budgetMap.put("housing",
@@ -27,6 +36,14 @@ public class Budget {
 		budgetMap.put("miscellaneous",
 				new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
 		return budgetMap;
+	}
+	
+	public static int[] generateBudgetName() {
+		Scanner in = new Scanner(System.in);
+		int[] budgetName = new int[2];
+		budgetName[0] = PromptUserInput.promptUserBudgetMonth(in);
+		budgetName[1] = PromptUserInput.promptUserBudgetYear(in);
+		return budgetName;
 	}
 
 	public void setUpBudget(Household household) {
@@ -96,13 +113,32 @@ public class Budget {
 		System.out.println(table);
 		return table;
 	}
+	
+	public int getBudgetMonth() {
+		return budgetMonth;
+	}
+
+	public void setBudgetMonth(int budgetMonth) {
+		this.budgetMonth = budgetMonth;
+	}
+
+	public int getBudgetYear() {
+		return budgetYear;
+	}
+
+	public void setBudgetYear(int budgetYear) {
+		this.budgetYear = budgetYear;
+	}
 
 	public static void main(String[] args) {
-		Household household = new Household();
-		Budget budget = new Budget();
 		Menu.welcomeUser();
+		Household household = new Household();
+		int[] budgetName = generateBudgetName();
+		Budget budget = new Budget(budgetName[0], budgetName[1]);
 		household.addFamilyMembers();
 		MainMenu mainMenu = new MainMenu();
 		mainMenu.show(household, budget, mainMenu);
 	}
+
+	
 }

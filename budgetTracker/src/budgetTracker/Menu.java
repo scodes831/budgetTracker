@@ -7,6 +7,8 @@ public abstract class Menu {
 	private static ArrayList<String> activeMenuList = new ArrayList<String>();
 	
 	public abstract void show(Household household, Budget budget, Menu mainMenu);
+	public abstract void showOptions();
+	public abstract void processSelection(Household household, Budget budget, Menu mainMenu, int selection);
 	
 	public static void getNextMenu() {
 		int length = Menu.getActiveMenuList().size();

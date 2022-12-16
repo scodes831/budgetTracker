@@ -9,6 +9,9 @@ public abstract class Menu {
 	public abstract void show(Household household, Budget budget, Menu mainMenu);
 	public abstract int showOptions();
 	public abstract void processSelection(Household household, Budget budget, Menu mainMenu, int selection);
+	public static void welcomeUser() {
+		System.out.println("Welcome to Budget Tracker! Follow the prompts to get started.\n");
+	}
 	
 	public static void getNextMenu() {
 		int length = Menu.getActiveMenuList().size();

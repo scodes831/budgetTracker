@@ -100,6 +100,7 @@ public class Budget {
 	public static void main(String[] args) {
 		Household household = new Household();
 		Budget budget = new Budget();
+		Menu.welcomeUser();
 		household.addFamilyMembers();
 		MainMenu mainMenu = new MainMenu();
 		mainMenu.show(household, budget, mainMenu);

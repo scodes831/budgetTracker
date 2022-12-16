@@ -46,9 +46,9 @@ public class Budget {
 		return budgetName;
 	}
 
-	public void setUpBudget(Household household) {
+	public void setUpBudget(Household household, Budget budget) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("Let's create a new budget!\nYour total household income is $"
+		System.out.println("Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $"
 				+ household.calculateHouseholdIncome(household));
 		household.setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
 		household.setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
@@ -112,6 +112,37 @@ public class Budget {
 		System.out.println("Total amount remaining: \n");
 		System.out.println(table);
 		return table;
+	}
+	
+	public String budgetMonthString(Budget budget) {
+		int monthInt = budget.getBudgetMonth();
+		switch (monthInt) {
+		case 1:
+			return "January";
+		case 2:
+			return "February";
+		case 3:
+			return "March";
+		case 4: 
+			return "April";
+		case 5:
+			return "May";
+		case 6:
+			return "June";
+		case 7:
+			return "July";
+		case 8:
+			return "August";
+		case 9: 
+			return "September";
+		case 10: 
+			return "October";
+		case 11:
+			return "November";
+		case 12:
+			return "December";
+		}
+		return null;
 	}
 	
 	public int getBudgetMonth() {

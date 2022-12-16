@@ -30,8 +30,7 @@ public class BudgetMenu extends Menu {
 	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection) {
 		switch (selection) {
 		case 1:
-			System.out.println("Setting up a new budget:");
-			budget.setUpBudget(household);
+			budget.setUpBudget(household, budget);
 			Formatter budgetTable = budget.displayBudget(household);
 			budgetTable.close();
 			break;

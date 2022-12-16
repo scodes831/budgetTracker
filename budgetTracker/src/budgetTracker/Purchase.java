@@ -82,7 +82,7 @@ public class Purchase {
 
 	public static void editPurchases(Household household, Budget budget) {
 		displayPurchases(household.getPurchasesList());
-		System.out.println("Enter the line number of the purchase you want to edit: ");
+		System.out.println("\nEnter the line number of the purchase you want to edit: ");
 		Scanner in = new Scanner(System.in);
 		int purchaseIndex = in.nextInt()-1;
 		String newCategory = PromptUserInput.promptUserCategoryInput(household);

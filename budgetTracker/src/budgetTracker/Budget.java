@@ -1,6 +1,7 @@
 package budgetTracker;
 
-import java.lang.reflect.Array;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -108,10 +109,43 @@ public class Budget {
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0) - v.get(1));
 		});
-		System.out.println("\nTotal amount budgeted: ");
-		System.out.println("Total amount remaining: \n");
+		double totalBudget = calculateTotalBudget(budgetMap);
+		double totalSpend = calculateTotalSpend(household, budget);
+		System.out.println("\nTotal amount budgeted: $" + totalBudget);
+		System.out.println("Total amount spent: $" + totalSpend);
+		System.out.println("Total amount remaining: $" + calculateTotalRemaining(totalBudget, totalSpend) + "\n");
 		System.out.println(table);
 		return table;
+	}
+	
+	private double calculateTotalBudget(Map<String, ArrayList<Double>> budgetMap) {
+		double totalBudget = 0.0;
+		for (Map.Entry<String, ArrayList<Double>> entry : budgetMap.entrySet()) {
+			totalBudget += entry.getValue().get(0);
+		}
+		return totalBudget;
+	}
+	
+	private double calculateTotalSpend(Household household, Budget budget) {
+		double totalSpend = 0.0;
+		int budgetMonth = budget.getBudgetMonth();
+		int budgetYear = budget.getBudgetYear();
+		System.out.println("the budget is for " + budgetMonth + budgetYear);
+		for (Purchase purchase : household.getPurchasesList()) {
+			LocalDate datePurchased = purchase.getDatePurchased();
+			int monthPurchased = datePurchased.getMonthValue();
+			int yearPurchased = datePurchased.getYear();
+			System.out.println("the purchase was made in " + monthPurchased + yearPurchased);
+			if (budgetMonth == monthPurchased && budgetYear == yearPurchased) {
+				totalSpend += purchase.getAmount();
+			}
+		}
+		return totalSpend;
+		
+	}
+	
+	private double calculateTotalRemaining(double totalBudget, double totalSpend) {
+		return totalBudget - totalSpend;
 	}
 	
 	public String budgetMonthString(Budget budget) {

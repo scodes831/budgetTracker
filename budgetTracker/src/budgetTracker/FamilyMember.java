@@ -5,7 +5,6 @@ import java.util.List;
 
 public class FamilyMember {
 
-	private ArrayList<Purchase> memberPurchases = new ArrayList<Purchase>();
 	private String name;
 	private double salary;
 
@@ -28,13 +27,5 @@ public class FamilyMember {
 
 	public void setSalary(double salary) {
 		this.salary = salary;
-	}
-
-	public ArrayList<Purchase> getMemberPurchases() {
-		return memberPurchases;
-	}
-
-	public void setPurchases(ArrayList<Purchase> memberPurchases) {
-		this.memberPurchases = memberPurchases;
 	}
 }

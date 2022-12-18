@@ -105,42 +105,61 @@ public class Household {
 				+ datePurchased);
 		purchasesList.add(purchase);
 		int purchaseNum = purchasesList.size() - 1;
-		totalPurchases(purchaseNum);
-		for (FamilyMember member : this.getHouseholdMembers()) {
-			if (purchasedBy.toLowerCase().equals(member.getName().toLowerCase())) {
-				member.getMemberPurchases().add(purchase);
+	}
+	
+	public void calculateCategorySpend(Budget budget) {
+		double housingTotal = 0.0;
+		double utilitiesTotal = 0.0;
+		double healthTotal = 0.0;
+		double carTotal = 0.0;
+		double groceryTotal = 0.0;
+		double diningTotal = 0.0;
+		double funTotal = 0.0;
+		double miscTotal = 0.0;
+
+		for (Purchase purchase : purchasesList) {
+			LocalDate purchaseDate = purchase.getDatePurchased();
+			int purchaseMonth = purchaseDate.getMonthValue();
+			int purchaseYear = purchaseDate.getYear();
+			if (budget.getBudgetMonth() == purchaseMonth && budget.getBudgetYear() == purchaseYear) {
+				switch (purchase.getCategory()) {
+				case "housing":
+					housingTotal += purchase.getAmount();
+					break;
+				case "utilities":
+					utilitiesTotal += purchase.getAmount();
+					break;
+				case "health":
+					healthTotal += purchase.getAmount();
+					break;
+				case "car":
+					carTotal += purchase.getAmount();
+					break;
+				case "grocery":
+					groceryTotal += purchase.getAmount();
+					break;
+				case "dining":
+					diningTotal += purchase.getAmount();
+					break;
+				case "fun":
+					funTotal += purchase.getAmount();
+					break;
+				case "miscellaneous":
+					miscTotal += purchase.getAmount();
+					break;
+				}
 			}
 		}
-	}
-
-	public void totalPurchases(int purchaseNum) {
-		double categoryPurchase = 0.0;
-		Purchase purchase = purchasesList.get(purchaseNum);
-		if (purchase.getCategory() == "housing") {
-			categoryPurchase = purchase.getAmount() + getHousingSpend();
-			setHousingSpend(categoryPurchase);
-		} else if (purchase.getCategory() == "utilities") {
-			categoryPurchase = purchase.getAmount() + getUtilitiesSpend();
-			setUtilitiesSpend(categoryPurchase);
-		} else if (purchase.getCategory() == "health") {
-			categoryPurchase = purchase.getAmount() + getHealthSpend();
-			setHealthSpend(categoryPurchase);
-		} else if (purchase.getCategory() == "car") {
-			categoryPurchase = purchase.getAmount() + getCarSpend();
-			setCarSpend(categoryPurchase);
-		} else if (purchase.getCategory() == "grocery") {
-			categoryPurchase = purchase.getAmount() + getGrocerySpend();
-			setGrocerySpend(categoryPurchase);
-		} else if (purchase.getCategory() == "dining") {
-			categoryPurchase = purchase.getAmount() + getDiningSpend();
-			setDiningSpend(categoryPurchase);
-		} else if (purchase.getCategory() == "fun") {
-			categoryPurchase = purchase.getAmount() + getFunSpend();
-			setFunSpend(categoryPurchase);
-		} else if (purchase.getCategory() == "miscellaneous") {
-			categoryPurchase = purchase.getAmount() + getMiscSpend();
-			setMiscSpend(categoryPurchase);
-		}
+		
+		setHousingSpend(housingTotal);
+		setUtilitiesSpend(utilitiesTotal);
+		setHealthSpend(healthTotal);
+		setCarSpend(carTotal);
+		setGrocerySpend(groceryTotal);
+		setDiningSpend(diningTotal);
+		setFunSpend(funTotal);
+		setMiscSpend(miscTotal);
+		
 	}
 
 	public double calculateHouseholdIncome(Household household) {

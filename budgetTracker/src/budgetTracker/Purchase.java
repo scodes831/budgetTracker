@@ -29,18 +29,34 @@ public class Purchase {
 
 	}
 
+//	public static void showPurchasesByFamilyMember(Household household) {
+//		System.out.println("Enter family member name to view purchases:");
+//		Scanner in = new Scanner(System.in);
+//		String nameInput = in.next();
+//		System.out.println("\n\n-----------------------------------");
+//		System.out.println("Displaying all purchases for " + nameInput + "\n");
+//		for (FamilyMember familyMember : household.getHouseholdMembers()) {
+//			if (nameInput.toLowerCase().equals(familyMember.getName().toLowerCase())) {
+//				for (Purchase purchase : familyMember.getMemberPurchases()) {
+//					System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
+//							+ " Amount: $" + purchase.getAmount());
+//				}
+//			}
+//		}
+//		System.out.println("\n\n-----------------------------------\n\n");
+//
+//	}
+
 	public static void showPurchasesByFamilyMember(Household household) {
 		System.out.println("Enter family member name to view purchases:");
 		Scanner in = new Scanner(System.in);
 		String nameInput = in.next();
 		System.out.println("\n\n-----------------------------------");
 		System.out.println("Displaying all purchases for " + nameInput + "\n");
-		for (FamilyMember familyMember : household.getHouseholdMembers()) {
-			if (nameInput.toLowerCase().equals(familyMember.getName().toLowerCase())) {
-				for (Purchase purchase : familyMember.getMemberPurchases()) {
-					System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
-							+ " Amount: $" + purchase.getAmount());
-				}
+		for (Purchase purchase : household.getPurchasesList()) {
+			if (purchase.getPurchasedBy().toLowerCase().equals(nameInput.toLowerCase())) {
+				System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
+						+ " Amount: $" + purchase.getAmount());
 			}
 		}
 		System.out.println("\n\n-----------------------------------\n\n");
@@ -84,14 +100,16 @@ public class Purchase {
 		displayPurchases(household.getPurchasesList());
 		System.out.println("\nEnter the line number of the purchase you want to edit: ");
 		Scanner in = new Scanner(System.in);
-		int purchaseIndex = in.nextInt()-1;
+		int purchaseIndex = in.nextInt() - 1;
 		String newCategory = PromptUserInput.promptUserCategoryInput(household);
 		double newAmount = PromptUserInput.promptUserAmountInput(household);
 		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, budget);
 		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, budget);
-		Purchase purchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
-		household.getPurchasesList().set(purchaseIndex, purchase);
+		Purchase oldPurchase = household.getPurchasesList().get(purchaseIndex);
+		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
+		household.getPurchasesList().set(purchaseIndex, newPurchase);
 		
+
 	}
 
 	public static ArrayList<Purchase> viewPurchasesToday(ArrayList<Purchase> purchasesList, LocalDate todaysDate) {

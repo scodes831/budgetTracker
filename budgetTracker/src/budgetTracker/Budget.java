@@ -21,9 +21,11 @@ public class Budget {
 		this.budgetYear = budgetYear;
 	}
 
-	private Map<String, ArrayList<Double>> makeBudgetMap(Household household) {
+	private Map<String, ArrayList<Double>> makeBudgetMap(Household household, Budget budget) {
+		household.calculateCategorySpend(budget);
 		budgetMap.put("housing",
 				new ArrayList<>(Arrays.asList(household.getHousingBudget(), household.getHousingSpend())));
+		System.out.println("The housing budget part of budgetMap: " + household.getHousingBudget() + " is budget, and " + household.getHousingSpend() + " is spend");
 		budgetMap.put("utilities",
 				new ArrayList<>(Arrays.asList(household.getUtilitiesBudget(), household.getUtilitiesSpend())));
 		budgetMap.put("health",
@@ -104,7 +106,7 @@ public class Budget {
 
 	public Formatter displayBudget(Household household, Budget budget) {
 		Formatter table = new Formatter();
-		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household);
+		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, budget);
 		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0) - v.get(1));

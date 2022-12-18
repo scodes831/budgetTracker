@@ -20,7 +20,7 @@ public class MainMenu extends Menu {
 
 	public int showOptions() {
 		System.out.println(
-				"Select a menu to view options:\n1 - Budget Menu\n2 - HouseholdMenu\n3 - Purchase Menu\n4 - Go Back to Previous Menu");
+				"Select a menu to view options:\n1 - Budget Menu\n2 - Household Menu\n3 - Purchase Menu\n4 - Go Back to Previous Menu");
 		Scanner in = new Scanner(System.in);
 		int selection = in.nextInt();
 		return selection;

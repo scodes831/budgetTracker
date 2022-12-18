@@ -1,8 +1,5 @@
 package budgetTracker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FamilyMember {
 
 	private String name;

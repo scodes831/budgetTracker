@@ -1,7 +1,6 @@
 package budgetTracker;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Formatter;
@@ -131,12 +130,10 @@ public class Budget {
 		double totalSpend = 0.0;
 		int budgetMonth = budget.getBudgetMonth();
 		int budgetYear = budget.getBudgetYear();
-		System.out.println("the budget is for " + budgetMonth + budgetYear);
 		for (Purchase purchase : household.getPurchasesList()) {
 			LocalDate datePurchased = purchase.getDatePurchased();
 			int monthPurchased = datePurchased.getMonthValue();
 			int yearPurchased = datePurchased.getYear();
-			System.out.println("the purchase was made in " + monthPurchased + yearPurchased);
 			if (budgetMonth == monthPurchased && budgetYear == yearPurchased) {
 				totalSpend += purchase.getAmount();
 			}

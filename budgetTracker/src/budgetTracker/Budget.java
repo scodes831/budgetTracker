@@ -192,16 +192,5 @@ public class Budget {
 	public void setBudgetYear(int budgetYear) {
 		this.budgetYear = budgetYear;
 	}
-
-	public static void main(String[] args) {
-		Menu.welcomeUser();
-		Household household = new Household();
-		int[] budgetName = generateBudgetName();
-		Budget budget = new Budget(budgetName[0], budgetName[1]);
-		household.addFamilyMembers();
-		MainMenu mainMenu = new MainMenu();
-		mainMenu.show(household, budget, mainMenu);
-	}
-
 	
 }

@@ -64,7 +64,7 @@ public class Household {
 		System.out.println("\n");
 	}
 
-	public void editFamilyMembers() {
+	public void editFamilyMembers(Household household) {
 		System.out.println("Enter the name of the family member you want to edit:");
 		Scanner in = new Scanner(System.in);
 		String editName = in.next();
@@ -73,11 +73,12 @@ public class Household {
 				System.out.println("Name is currently set up as: " + familyMember.getName()
 						+ ". Would you like to edit the name?\ny - Yes\nn - No");
 				String selection = in.next();
-				if (selection.toLowerCase() == "y") {
+				if (selection.toLowerCase().equals("y")) {
 					System.out.println("Please enter a new name:");
 					String newName = in.next();
 					familyMember.setName(newName);
 					System.out.println("Name has been updated to " + familyMember.getName());
+					Purchase.updatePurchasedBy(household, editName, newName);
 				} else {
 					System.out.println("Salary is currently set up as: " + familyMember.getSalary()
 							+ ". Please enter new salary amount:");

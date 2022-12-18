@@ -73,7 +73,6 @@ public class Purchase {
 							+ " Amount: $" + purchase.getAmount() + " Purchased By: " + purchase.getPurchasedBy());
 			purchasesCount++;
 		}
-
 	}
 
 	public static void editPurchases(Household household, Budget budget) {
@@ -88,8 +87,14 @@ public class Purchase {
 		Purchase oldPurchase = household.getPurchasesList().get(purchaseIndex);
 		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
 		household.getPurchasesList().set(purchaseIndex, newPurchase);
-		
-
+	}
+	
+	public static void updatePurchasedBy(Household household, String oldName, String newName) {
+		for (Purchase purchase : household.getPurchasesList()) {
+			if (purchase.getPurchasedBy().toLowerCase().equals(oldName.toLowerCase())) {
+				purchase.setPurchasedBy(newName);
+			}
+		}
 	}
 
 	public static ArrayList<Purchase> viewPurchasesToday(ArrayList<Purchase> purchasesList, LocalDate todaysDate) {

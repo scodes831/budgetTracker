@@ -38,7 +38,7 @@ public class HouseholdMenu extends Menu {
 			break;
 		case 3:
 			System.out.println("Editing family members: \n");
-			household.editFamilyMembers();
+			household.editFamilyMembers(household);
 			break;
 		case 4:
 			mainMenu.show(household, budget, mainMenu);

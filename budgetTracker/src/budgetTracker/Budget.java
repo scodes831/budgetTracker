@@ -25,7 +25,6 @@ public class Budget {
 		household.calculateCategorySpend(budget);
 		budgetMap.put("housing",
 				new ArrayList<>(Arrays.asList(household.getHousingBudget(), household.getHousingSpend())));
-		System.out.println("The housing budget part of budgetMap: " + household.getHousingBudget() + " is budget, and " + household.getHousingSpend() + " is spend");
 		budgetMap.put("utilities",
 				new ArrayList<>(Arrays.asList(household.getUtilitiesBudget(), household.getUtilitiesSpend())));
 		budgetMap.put("health",

@@ -27,8 +27,6 @@ public class PurchaseMenu extends Menu {
 			double amount = PromptUserInput.promptUserAmountInput(household);
 			String category = PromptUserInput.promptUserCategoryInput(household);
 			household.addPurchase(category, amount, purchasedBy, datePurchased);
-			System.out.println(
-					"this is the purchase:\n" + datePurchased + " " + purchasedBy + " " + +amount + " " + category);
 			purchaseAdded = true;
 		} while (!purchaseAdded);
 

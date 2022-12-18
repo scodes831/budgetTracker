@@ -26,26 +26,7 @@ public class Purchase {
 					+ purchase.getCategory() + " on " + purchase.getDatePurchased());
 		}
 		System.out.println("\n\n-----------------------------------\n\n");
-
 	}
-
-//	public static void showPurchasesByFamilyMember(Household household) {
-//		System.out.println("Enter family member name to view purchases:");
-//		Scanner in = new Scanner(System.in);
-//		String nameInput = in.next();
-//		System.out.println("\n\n-----------------------------------");
-//		System.out.println("Displaying all purchases for " + nameInput + "\n");
-//		for (FamilyMember familyMember : household.getHouseholdMembers()) {
-//			if (nameInput.toLowerCase().equals(familyMember.getName().toLowerCase())) {
-//				for (Purchase purchase : familyMember.getMemberPurchases()) {
-//					System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
-//							+ " Amount: $" + purchase.getAmount());
-//				}
-//			}
-//		}
-//		System.out.println("\n\n-----------------------------------\n\n");
-//
-//	}
 
 	public static void showPurchasesByFamilyMember(Household household) {
 		System.out.println("Enter family member name to view purchases:");
@@ -60,7 +41,6 @@ public class Purchase {
 			}
 		}
 		System.out.println("\n\n-----------------------------------\n\n");
-
 	}
 
 	public static void showPurchasesByDate(ArrayList<Purchase> purchasesList) {
@@ -147,7 +127,6 @@ public class Purchase {
 			}
 		}
 		return purchasesThisMonth;
-
 	}
 
 	public String getCategory() {

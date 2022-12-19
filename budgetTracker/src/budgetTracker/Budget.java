@@ -13,6 +13,26 @@ public class Budget {
 	private int budgetMonth;
 	private int budgetYear;
 	
+	private double totalBudgeted;
+	private double totalSpent;
+	
+	private double housingBudget;
+	private double housingSpend;
+	private double utilitiesBudget;
+	private double utilitiesSpend;
+	private double healthBudget;
+	private double healthSpend;
+	private double carBudget;
+	private double carSpend;
+	private double groceryBudget;
+	private double grocerySpend;
+	private double diningBudget;
+	private double diningSpend;
+	private double funBudget;
+	private double funSpend;
+	private double miscBudget;
+	private double miscSpend;
+	
 	Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
 	
 	Budget(int budgetMonth, int budgetYear) {
@@ -23,19 +43,19 @@ public class Budget {
 	private Map<String, ArrayList<Double>> makeBudgetMap(Household household, Budget budget) {
 		household.calculateCategorySpend(budget);
 		budgetMap.put("housing",
-				new ArrayList<>(Arrays.asList(household.getHousingBudget(), household.getHousingSpend())));
+				new ArrayList<>(Arrays.asList(getHousingBudget(), getHousingSpend())));
 		budgetMap.put("utilities",
-				new ArrayList<>(Arrays.asList(household.getUtilitiesBudget(), household.getUtilitiesSpend())));
+				new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend())));
 		budgetMap.put("health",
-				new ArrayList<>(Arrays.asList(household.getHealthBudget(), household.getHealthSpend())));
-		budgetMap.put("car", new ArrayList<>(Arrays.asList(household.getCarBudget(), household.getCarSpend())));
+				new ArrayList<>(Arrays.asList(getHealthBudget(), getHealthSpend())));
+		budgetMap.put("car", new ArrayList<>(Arrays.asList(getCarBudget(), getCarSpend())));
 		budgetMap.put("groceries",
-				new ArrayList<>(Arrays.asList(household.getGroceryBudget(), household.getGrocerySpend())));
+				new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend())));
 		budgetMap.put("dining",
-				new ArrayList<>(Arrays.asList(household.getDiningBudget(), household.getDiningSpend())));
-		budgetMap.put("fun", new ArrayList<>(Arrays.asList(household.getFunBudget(), household.getFunSpend())));
+				new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
+		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend())));
 		budgetMap.put("miscellaneous",
-				new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
+				new ArrayList<>(Arrays.asList(miscBudget, miscSpend)));
 		return budgetMap;
 	}
 
@@ -44,14 +64,14 @@ public class Budget {
 		
 		System.out.println("Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $"
 				+ household.calculateHouseholdIncome(household));
-		household.setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
-		household.setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
-		household.setHealthBudget(PromptUserInput.promptUserHealthBudget(in));
-		household.setCarBudget(PromptUserInput.promptUserCarBudget(in));
-		household.setGroceryBudget(PromptUserInput.promptUserGroceryBudget(in));
-		household.setDiningBudget(PromptUserInput.promptUserDiningBudget(in));
-		household.setFunBudget(PromptUserInput.promptUserFunBudget(in));
-		household.setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
+		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
+		setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
+		setHealthBudget(PromptUserInput.promptUserHealthBudget(in));
+		setCarBudget(PromptUserInput.promptUserCarBudget(in));
+		setGroceryBudget(PromptUserInput.promptUserGroceryBudget(in));
+		setDiningBudget(PromptUserInput.promptUserDiningBudget(in));
+		setFunBudget(PromptUserInput.promptUserFunBudget(in));
+		setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
 	}
 
 	public void editBudget(Household household) {
@@ -60,37 +80,37 @@ public class Budget {
 		ArrayList<Double> list = budgetMap.get(category);
 		switch (category) {
 		case "housing":
-			household.setHousingBudget(newAmount);
-			list.set(0, household.getHousingBudget());
-			System.out.println("The new budget for housing is $" + household.getHousingBudget());
+			setHousingBudget(newAmount);
+			list.set(0, getHousingBudget());
+			System.out.println("The new budget for housing is $" + getHousingBudget());
 			break;
 		case "utilities":
-			household.setUtilitiesBudget(newAmount);
-			list.set(0, household.getUtilitiesBudget());
+			setUtilitiesBudget(newAmount);
+			list.set(0, getUtilitiesBudget());
 			break;
 		case "health":
-			household.setHealthBudget(newAmount);
-			list.set(0, household.getHealthBudget());
+			setHealthBudget(newAmount);
+			list.set(0, getHealthBudget());
 			break;
 		case "car":
-			household.setCarBudget(newAmount);
-			list.set(0, household.getCarBudget());
+			setCarBudget(newAmount);
+			list.set(0, getCarBudget());
 			break;
 		case "grocery":
-			household.setGroceryBudget(newAmount);
-			list.set(0, household.getGroceryBudget());
+			setGroceryBudget(newAmount);
+			list.set(0, getGroceryBudget());
 			break;
 		case "dining":
-			household.setDiningBudget(newAmount);
-			list.set(0, household.getDiningBudget());
+			setDiningBudget(newAmount);
+			list.set(0, getDiningBudget());
 			break;
 		case "fun":
-			household.setFunBudget(newAmount);
-			list.set(0, household.getFunBudget());
+			setFunBudget(newAmount);
+			list.set(0, getFunBudget());
 			break;
 		case "miscellaneous":
-			household.setMiscBudget(newAmount);
-			list.set(0, household.getMiscBudget());
+			setMiscBudget(newAmount);
+			list.set(0, getMiscBudget());
 			break;
 		}
 	}
@@ -184,6 +204,150 @@ public class Budget {
 
 	public void setBudgetYear(int budgetYear) {
 		this.budgetYear = budgetYear;
+	}
+
+	public double getTotalBudgeted() {
+		return totalBudgeted;
+	}
+
+	public void setTotalBudgeted(double totalBudgeted) {
+		this.totalBudgeted = totalBudgeted;
+	}
+
+	public double getTotalSpent() {
+		return totalSpent;
+	}
+
+	public void setTotalSpent(double totalSpent) {
+		this.totalSpent = totalSpent;
+	}
+
+	public double getHousingBudget() {
+		return housingBudget;
+	}
+
+	public void setHousingBudget(double housingBudget) {
+		this.housingBudget = housingBudget;
+	}
+
+	public double getHousingSpend() {
+		return housingSpend;
+	}
+
+	public void setHousingSpend(double housingSpend) {
+		this.housingSpend = housingSpend;
+	}
+
+	public double getUtilitiesBudget() {
+		return utilitiesBudget;
+	}
+
+	public void setUtilitiesBudget(double utilitiesBudget) {
+		this.utilitiesBudget = utilitiesBudget;
+	}
+
+	public double getUtilitiesSpend() {
+		return utilitiesSpend;
+	}
+
+	public void setUtilitiesSpend(double utilitiesSpend) {
+		this.utilitiesSpend = utilitiesSpend;
+	}
+
+	public double getHealthBudget() {
+		return healthBudget;
+	}
+
+	public void setHealthBudget(double healthBudget) {
+		this.healthBudget = healthBudget;
+	}
+
+	public double getHealthSpend() {
+		return healthSpend;
+	}
+
+	public void setHealthSpend(double healthSpend) {
+		this.healthSpend = healthSpend;
+	}
+
+	public double getCarBudget() {
+		return carBudget;
+	}
+
+	public void setCarBudget(double carBudget) {
+		this.carBudget = carBudget;
+	}
+
+	public double getCarSpend() {
+		return carSpend;
+	}
+
+	public void setCarSpend(double carSpend) {
+		this.carSpend = carSpend;
+	}
+
+	public double getGroceryBudget() {
+		return groceryBudget;
+	}
+
+	public void setGroceryBudget(double groceryBudget) {
+		this.groceryBudget = groceryBudget;
+	}
+
+	public double getGrocerySpend() {
+		return grocerySpend;
+	}
+
+	public void setGrocerySpend(double grocerySpend) {
+		this.grocerySpend = grocerySpend;
+	}
+
+	public double getDiningBudget() {
+		return diningBudget;
+	}
+
+	public void setDiningBudget(double diningBudget) {
+		this.diningBudget = diningBudget;
+	}
+
+	public double getDiningSpend() {
+		return diningSpend;
+	}
+
+	public void setDiningSpend(double diningSpend) {
+		this.diningSpend = diningSpend;
+	}
+
+	public double getFunBudget() {
+		return funBudget;
+	}
+
+	public void setFunBudget(double funBudget) {
+		this.funBudget = funBudget;
+	}
+
+	public double getFunSpend() {
+		return funSpend;
+	}
+
+	public void setFunSpend(double funSpend) {
+		this.funSpend = funSpend;
+	}
+
+	public double getMiscBudget() {
+		return miscBudget;
+	}
+
+	public void setMiscBudget(double miscBudget) {
+		this.miscBudget = miscBudget;
+	}
+
+	public double getMiscSpend() {
+		return miscSpend;
+	}
+
+	public void setMiscSpend(double miscSpend) {
+		this.miscSpend = miscSpend;
 	}
 	
 }

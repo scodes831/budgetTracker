@@ -30,17 +30,20 @@ public class BudgetMenu extends Menu {
 	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection) {
 		switch (selection) {
 		case 1:
-			budget.setUpBudget(household, budget);
-			Formatter budgetTable = budget.displayBudget(household, budget);
+			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
+			newBudget.setUpBudget(household, newBudget);
+			Formatter budgetTable = budget.displayBudget(household, newBudget);
 			budgetTable.close();
 			break;
 		case 2:
-			System.out.println("Displaying budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + ":");
-			budget.displayBudget(household, budget);
+			Budget selectedBudgetDisplay = budget.selectABudget(household);
+			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay) + " " + selectedBudgetDisplay.getBudgetYear() + ":");
+			budget.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
-			System.out.println("Editing your budget:");
-			budget.editBudget(household);
+			Budget selectedBudgetEdit = budget.selectABudget(household);
+			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + selectedBudgetEdit.getBudgetYear() + " budget:");
+			budget.editBudget(household, selectedBudgetEdit);
 			break;
 		case 4:
 			mainMenu.show(household, budget, mainMenu);

@@ -58,10 +58,15 @@ public class Budget {
 				new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));
 		return budgetMap;
 	}
+	
+	public static Budget initializeBudget(Household household, int[] budgetName) {
+		Budget budget = new Budget(budgetName[0], budgetName[1]);
+		household.getBudgets().add(budget);
+		return budget;
+	}
 
 	public void setUpBudget(Household household, Budget budget) {
 		Scanner in = new Scanner(System.in);
-		
 		System.out.println("Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $"
 				+ household.calculateHouseholdIncome(household));
 		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
@@ -74,7 +79,7 @@ public class Budget {
 		setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
 	}
 
-	public void editBudget(Household household) {
+	public void editBudget(Household household, Budget budget) {
 		String category = PromptUserInput.promptUserCategoryInput(household);
 		double newAmount = PromptUserInput.promptUserAmountInput(household);
 		ArrayList<Double> list = budgetMap.get(category);
@@ -113,6 +118,18 @@ public class Budget {
 			list.set(0, getMiscBudget());
 			break;
 		}
+	}
+	
+	public Budget selectABudget(Household household) {
+		int budgetCount = 1;
+		for (Budget budget : household.getBudgets()) {
+			System.out.println(budgetCount + ": " + budget.budgetMonthString(budget)+ budget.getBudgetYear());
+			budgetCount++;
+		}
+		System.out.println("Enter the line number of the budget:");
+		Scanner in = new Scanner(System.in);
+		Budget selectedBudget = household.getBudgets().get(household.getBudgets().size()-1);
+		return selectedBudget;
 	}
 
 	public Formatter displayBudget(Household household, Budget budget) {

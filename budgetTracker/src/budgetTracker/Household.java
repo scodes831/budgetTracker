@@ -99,6 +99,14 @@ public class Household {
 		}
 		return false;
 	}
+	
+	public static int[] generateBudgetName() {
+		Scanner in = new Scanner(System.in);
+		int[] budgetName = new int[2];
+		budgetName[0] = PromptUserInput.promptUserBudgetMonth(in);
+		budgetName[1] = PromptUserInput.promptUserBudgetYear(in);
+		return budgetName;
+	}
 
 	public void addPurchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {
 		Purchase purchase = new Purchase(category, amount, purchasedBy, datePurchased);

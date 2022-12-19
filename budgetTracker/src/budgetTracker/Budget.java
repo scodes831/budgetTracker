@@ -38,17 +38,10 @@ public class Budget {
 				new ArrayList<>(Arrays.asList(household.getMiscBudget(), household.getMiscSpend())));
 		return budgetMap;
 	}
-	
-	public static int[] generateBudgetName() {
-		Scanner in = new Scanner(System.in);
-		int[] budgetName = new int[2];
-		budgetName[0] = PromptUserInput.promptUserBudgetMonth(in);
-		budgetName[1] = PromptUserInput.promptUserBudgetYear(in);
-		return budgetName;
-	}
 
 	public void setUpBudget(Household household, Budget budget) {
 		Scanner in = new Scanner(System.in);
+		
 		System.out.println("Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $"
 				+ household.calculateHouseholdIncome(household));
 		household.setHousingBudget(PromptUserInput.promptUserHousingBudget(in));

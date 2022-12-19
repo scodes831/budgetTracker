@@ -5,7 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 		Menu.welcomeUser();
 		Household household = new Household();
-		int[] budgetName = generateBudgetName();
+		int[] budgetName = Household.generateBudgetName();
 		Budget budget = new Budget(budgetName[0], budgetName[1]);
 		household.addFamilyMembers();
 		MainMenu mainMenu = new MainMenu();

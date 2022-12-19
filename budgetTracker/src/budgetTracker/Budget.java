@@ -60,9 +60,14 @@ public class Budget {
 	}
 	
 	public static Budget initializeBudget(Household household, int[] budgetName) {
-		Budget budget = new Budget(budgetName[0], budgetName[1]);
-		household.getBudgets().add(budget);
-		return budget;
+		if (!isBudgetADuplicate(household, budgetName)) {
+			Budget budget = new Budget(budgetName[0], budgetName[1]);
+			household.getBudgets().add(budget);
+			return budget;
+		} else {
+			System.out.println("A budget already exists for " + budgetName[0] + " " + budgetName[1] + ".");
+		}
+		return null;
 	}
 
 	public void setUpBudget(Household household, Budget budget) {
@@ -118,6 +123,15 @@ public class Budget {
 			list.set(0, getMiscBudget());
 			break;
 		}
+	}
+	
+	public static boolean isBudgetADuplicate(Household household, int[] budgetName) {
+		for (Budget budget : household.getBudgets()) {
+			if (budget.getBudgetMonth() == budgetName[0] && budget.getBudgetYear() == budgetName[1]) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public Budget selectABudget(Household household) {

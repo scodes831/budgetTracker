@@ -55,7 +55,7 @@ public class Budget {
 				new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
 		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend())));
 		budgetMap.put("miscellaneous",
-				new ArrayList<>(Arrays.asList(miscBudget, miscSpend)));
+				new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));
 		return budgetMap;
 	}
 

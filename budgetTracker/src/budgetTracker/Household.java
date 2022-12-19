@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Household {
 
+	private ArrayList<Budget> budgets = new ArrayList<Budget>();
 	private ArrayList<FamilyMember> householdMembers = new ArrayList<FamilyMember>();
 	private ArrayList<Purchase> purchasesList = new ArrayList<Purchase>();
 
@@ -176,5 +177,13 @@ public class Household {
 
 	public void setPurchasesList(ArrayList<Purchase> purchasesList) {
 		this.purchasesList = purchasesList;
+	}
+
+	public ArrayList<Budget> getBudgets() {
+		return budgets;
+	}
+
+	public void setBudgets(ArrayList<Budget> budgets) {
+		this.budgets = budgets;
 	}
 }

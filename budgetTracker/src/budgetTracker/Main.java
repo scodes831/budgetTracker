@@ -7,6 +7,7 @@ public class Main {
 		Household household = new Household();
 		int[] budgetName = Household.generateBudgetName();
 		Budget budget = new Budget(budgetName[0], budgetName[1]);
+		household.getBudgets().add(budget);
 		household.addFamilyMembers();
 		MainMenu mainMenu = new MainMenu();
 		mainMenu.show(household, budget, mainMenu);

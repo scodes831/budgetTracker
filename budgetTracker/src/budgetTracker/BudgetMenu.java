@@ -42,7 +42,7 @@ public class BudgetMenu extends Menu {
 			break;
 		case 3:
 			Budget selectedBudgetEdit = budget.selectABudget(household);
-			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + selectedBudgetEdit.getBudgetYear() + " budget:");
+			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " " + selectedBudgetEdit.getBudgetYear() + " budget:");
 			budget.editBudget(household, selectedBudgetEdit);
 			break;
 		case 4:

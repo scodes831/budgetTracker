@@ -88,7 +88,7 @@ public class Purchase {
 		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
 		household.getPurchasesList().set(purchaseIndex, newPurchase);
 	}
-	
+
 	public static void updatePurchasedBy(Household household, String oldName, String newName) {
 		for (Purchase purchase : household.getPurchasesList()) {
 			if (purchase.getPurchasedBy().toLowerCase().equals(oldName.toLowerCase())) {
@@ -123,11 +123,9 @@ public class Purchase {
 
 	public static ArrayList<Purchase> viewPurchasesThisMonth(ArrayList<Purchase> purchasesList, LocalDate todaysDate) {
 		ArrayList<Purchase> purchasesThisMonth = new ArrayList<Purchase>();
-		LocalDate monthRange = todaysDate.minusMonths(1);
-		System.out.println("the range is :" + monthRange);
 		for (Purchase purchase : purchasesList) {
-			if (purchase.getDatePurchased().compareTo(monthRange) > -1
-					&& purchase.getDatePurchased().compareTo(todaysDate) < 1) {
+			if (todaysDate.getMonthValue() == purchase.getDatePurchased().getMonthValue()
+					&& todaysDate.getYear() == purchase.getDatePurchased().getYear()) {
 				purchasesThisMonth.add(purchase);
 			}
 		}

@@ -6,4 +6,5 @@
  *
  */
 module budgetTracker {
+	requires java.sql;
 }

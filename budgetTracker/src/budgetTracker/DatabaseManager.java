@@ -2,6 +2,7 @@ package budgetTracker;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Statement;
 
 public class DatabaseManager {
 	
@@ -18,5 +19,15 @@ public class DatabaseManager {
 		}
 		return connection;
 	}
-
+	
+	public void createUsersTable(Connection connection) {
+		Statement statement;
+		try {
+			String query = "CREATE TABLE IF NOT EXISTS users (userId SERIAL PRIMARY KEY, userName VARCHAR(30))";
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }

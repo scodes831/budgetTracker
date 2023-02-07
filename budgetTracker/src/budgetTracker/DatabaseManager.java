@@ -58,4 +58,17 @@ public class DatabaseManager {
 			System.out.println(e);
 		}
 	}
+	
+	public void insertUsersRow(Connection connection, String username) {
+		Statement statement;
+		try {
+			String query = String.format("insert into users (username) values ('%s');", username);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			System.out.println("users row inserted");
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }

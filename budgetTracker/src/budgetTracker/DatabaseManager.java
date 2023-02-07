@@ -23,7 +23,8 @@ public class DatabaseManager {
 	public void createUsersTable(Connection connection) {
 		Statement statement;
 		try {
-			String query = "CREATE TABLE IF NOT EXISTS users (userId SERIAL PRIMARY KEY, userName VARCHAR(30))";
+			String query = "CREATE TABLE IF NOT EXISTS users (userId SERIAL PRIMARY KEY, userName VARCHAR(30), "
+					+ "UNIQUE(username))";
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 		} catch (Exception e) {

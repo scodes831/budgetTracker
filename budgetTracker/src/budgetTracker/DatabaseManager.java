@@ -44,4 +44,17 @@ public class DatabaseManager {
 			System.out.println(e);
 		}
 	}
+	
+	public void createBudgetVsActualTable(Connection connection) {
+		Statement statement;
+		try {
+			String query = "CREATE TABLE IF NOT EXISTS budgetVsActual (rowId SERIAL PRIMARY KEY, budgetName DATE, "
+					+ "category VARCHAR(20), budgetAmount NUMERIC(10,2), "
+					+ "spendAmount NUMERIC (10,2), remainingAmount NUMERIC(10,2))";
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }

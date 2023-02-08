@@ -1,8 +1,10 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class DatabaseManager {
 
@@ -66,9 +68,21 @@ public class DatabaseManager {
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 			System.out.println("users row inserted");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy, BigDecimal purchaseAmount) {
+		Statement statement;
+		try {
+			String query = String.format("insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s'", java.sql.Date.valueOf(purchaseDate), category, purchasedBy, purchaseAmount);
 			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
+	
 }
+
+

@@ -77,7 +77,10 @@ public class DatabaseManager {
 	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy, BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
-			String query = String.format("insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s'", java.sql.Date.valueOf(purchaseDate), category, getUserIdByUsername(connection, purchasedBy), purchaseAmount);
+			String query = String.format("insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');", java.sql.Date.valueOf(purchaseDate), category, getUserIdByUsername(connection, purchasedBy), purchaseAmount);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			System.out.println("purchase row inserted");
 			
 		} catch (Exception e) {
 			System.out.println(e);

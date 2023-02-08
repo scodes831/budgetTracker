@@ -48,7 +48,7 @@ public class DatabaseManager {
 			System.out.println(e);
 		}
 	}
-	
+
 	public void createBudgetVsActualTable(Connection connection) {
 		Statement statement;
 		try {
@@ -61,7 +61,7 @@ public class DatabaseManager {
 			System.out.println(e);
 		}
 	}
-	
+
 	public void insertUsersRow(Connection connection, String username) {
 		Statement statement;
 		try {
@@ -74,39 +74,55 @@ public class DatabaseManager {
 		}
 	}
 
-	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy, BigDecimal purchaseAmount) {
+	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy,
+			BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
-			String query = String.format("insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');", java.sql.Date.valueOf(purchaseDate), category, getUserIdByUsername(connection, purchasedBy), purchaseAmount);
+			String query = String.format(
+					"insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');",
+					java.sql.Date.valueOf(purchaseDate), category, getUserIdByUsername(connection, purchasedBy),
+					purchaseAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 			System.out.println("purchase row inserted");
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
+	public void insertBudgetRow(Connection connection, LocalDate budgetName, String category, BigDecimal budgetAmount,
+			BigDecimal spendAmount, BigDecimal remainingAmount) {
+		Statement statement;
+		try {
+			String query = String.format("insert into budgetvsactual (budgetname, category, budgetamount, spendamount, remainingamount) values ('%s','%s','%s','%s','%s');", budgetName, category, budgetAmount, spendAmount, remainingAmount);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			System.out.println("budget row inserted");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+	}
+
 	public int getUserIdByUsername(Connection connection, String username) {
 		Statement statement;
 		ResultSet result = null;
 		int id = 0;
-		
+
 		try {
-			String query = String.format("select userid from users where username = '%s'",username);
+			String query = String.format("select userid from users where username = '%s'", username);
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
 			while (result.next()) {
 				id = Integer.valueOf(result.getString("userid"));
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
+
 		return id;
 	}
-	
+
 }
-
-

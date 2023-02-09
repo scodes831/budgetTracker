@@ -1,5 +1,7 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ public class Household {
 
 	private double income;
 
-	public void addFamilyMembers() {
+	public void addFamilyMembers(Connection connection, UsersTable usersTable) {
 		int numCurrentFamilyMembers = getHouseholdMembers().size();
 		System.out.println("You currently have " + numCurrentFamilyMembers
 				+ " family members set up for your household.\nHow many family members do you want to add?");
@@ -25,6 +27,7 @@ public class Household {
 			double salary = in.nextDouble();
 			FamilyMember familyMember = new FamilyMember(name, salary);
 			householdMembers.add(familyMember);
+			usersTable.insertUsersRow(connection, name, new BigDecimal(salary));
 			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
 					+ familyMember.getSalary() + "\n");
 		} while (getHouseholdMembers().size() != (numCurrentFamilyMembers + userInputNum));

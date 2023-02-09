@@ -1,5 +1,7 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,10 +14,10 @@ public class Budget {
 
 	private int budgetMonth;
 	private int budgetYear;
-	
+
 	private double totalBudgeted;
 	private double totalSpent;
-	
+
 	private double housingBudget;
 	private double housingSpend;
 	private double utilitiesBudget;
@@ -32,9 +34,9 @@ public class Budget {
 	private double funSpend;
 	private double miscBudget;
 	private double miscSpend;
-	
+
 	Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
-	
+
 	Budget(int budgetMonth, int budgetYear) {
 		this.budgetMonth = budgetMonth;
 		this.budgetYear = budgetYear;
@@ -42,23 +44,17 @@ public class Budget {
 
 	private Map<String, ArrayList<Double>> makeBudgetMap(Household household, Budget budget) {
 		household.calculateCategorySpend(budget);
-		budgetMap.put("housing",
-				new ArrayList<>(Arrays.asList(getHousingBudget(), getHousingSpend())));
-		budgetMap.put("utilities",
-				new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend())));
-		budgetMap.put("health",
-				new ArrayList<>(Arrays.asList(getHealthBudget(), getHealthSpend())));
+		budgetMap.put("housing", new ArrayList<>(Arrays.asList(getHousingBudget(), getHousingSpend())));
+		budgetMap.put("utilities", new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend())));
+		budgetMap.put("health", new ArrayList<>(Arrays.asList(getHealthBudget(), getHealthSpend())));
 		budgetMap.put("car", new ArrayList<>(Arrays.asList(getCarBudget(), getCarSpend())));
-		budgetMap.put("groceries",
-				new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend())));
-		budgetMap.put("dining",
-				new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
+		budgetMap.put("groceries", new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend())));
+		budgetMap.put("dining", new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
 		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend())));
-		budgetMap.put("miscellaneous",
-				new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));
+		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));
 		return budgetMap;
 	}
-	
+
 	public static Budget initializeBudget(Household household, int[] budgetName) {
 		if (!isBudgetADuplicate(household, budgetName)) {
 			Budget budget = new Budget(budgetName[0], budgetName[1]);
@@ -70,18 +66,36 @@ public class Budget {
 		return null;
 	}
 
-	public void setUpBudget(Household household, Budget budget) {
+	public void setUpBudget(Household household, Budget budget, Connection connection,
+			BudgetActualTable budgetActualTable) {
 		Scanner in = new Scanner(System.in);
-		System.out.println("Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $"
-				+ household.calculateHouseholdIncome(household));
+		System.out.println(
+				"Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear()
+						+ "!\nYour total household income is $" + household.calculateHouseholdIncome(household));
 		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Housing", new BigDecimal(getHousingBudget()), new BigDecimal(0), new BigDecimal(0));
 		setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Utilities", new BigDecimal(getUtilitiesBudget()), new BigDecimal(0), new BigDecimal(0));
 		setHealthBudget(PromptUserInput.promptUserHealthBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Health", new BigDecimal(getHealthBudget()), new BigDecimal(0), new BigDecimal(0));
 		setCarBudget(PromptUserInput.promptUserCarBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Car", new BigDecimal(getCarBudget()), new BigDecimal(0), new BigDecimal(0));
 		setGroceryBudget(PromptUserInput.promptUserGroceryBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Grocery", new BigDecimal(getGroceryBudget()), new BigDecimal(0), new BigDecimal(0));
 		setDiningBudget(PromptUserInput.promptUserDiningBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Dining", new BigDecimal(getDiningBudget()), new BigDecimal(0), new BigDecimal(0));
 		setFunBudget(PromptUserInput.promptUserFunBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Fun", new BigDecimal(getFunBudget()), new BigDecimal(0), new BigDecimal(0));
 		setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				"Miscellaneous", new BigDecimal(getMiscBudget()), new BigDecimal(0), new BigDecimal(0));
 	}
 
 	public void editBudget(Household household, Budget budget) {
@@ -124,7 +138,7 @@ public class Budget {
 			break;
 		}
 	}
-	
+
 	public static boolean isBudgetADuplicate(Household household, int[] budgetName) {
 		for (Budget budget : household.getBudgets()) {
 			if (budget.getBudgetMonth() == budgetName[0] && budget.getBudgetYear() == budgetName[1]) {
@@ -133,16 +147,16 @@ public class Budget {
 		}
 		return false;
 	}
-	
+
 	public Budget selectABudget(Household household) {
 		int budgetCount = 1;
 		for (Budget budget : household.getBudgets()) {
-			System.out.println(budgetCount + ": " + budget.budgetMonthString(budget)+ budget.getBudgetYear());
+			System.out.println(budgetCount + ": " + budget.budgetMonthString(budget) + budget.getBudgetYear());
 			budgetCount++;
 		}
 		System.out.println("Enter the line number of the budget:");
 		Scanner in = new Scanner(System.in);
-		Budget selectedBudget = household.getBudgets().get(household.getBudgets().size()-1);
+		Budget selectedBudget = household.getBudgets().get(household.getBudgets().size() - 1);
 		return selectedBudget;
 	}
 
@@ -161,7 +175,7 @@ public class Budget {
 		System.out.println(table);
 		return table;
 	}
-	
+
 	private double calculateTotalBudget(Map<String, ArrayList<Double>> budgetMap) {
 		double totalBudget = 0.0;
 		for (Map.Entry<String, ArrayList<Double>> entry : budgetMap.entrySet()) {
@@ -169,7 +183,7 @@ public class Budget {
 		}
 		return totalBudget;
 	}
-	
+
 	private double calculateTotalSpend(Household household, Budget budget) {
 		double totalSpend = 0.0;
 		int budgetMonth = budget.getBudgetMonth();
@@ -183,13 +197,13 @@ public class Budget {
 			}
 		}
 		return totalSpend;
-		
+
 	}
-	
+
 	private double calculateTotalRemaining(double totalBudget, double totalSpend) {
 		return totalBudget - totalSpend;
 	}
-	
+
 	public String budgetMonthString(Budget budget) {
 		int monthInt = budget.getBudgetMonth();
 		switch (monthInt) {
@@ -199,7 +213,7 @@ public class Budget {
 			return "February";
 		case 3:
 			return "March";
-		case 4: 
+		case 4:
 			return "April";
 		case 5:
 			return "May";
@@ -209,9 +223,9 @@ public class Budget {
 			return "July";
 		case 8:
 			return "August";
-		case 9: 
+		case 9:
 			return "September";
-		case 10: 
+		case 10:
 			return "October";
 		case 11:
 			return "November";
@@ -220,7 +234,7 @@ public class Budget {
 		}
 		return null;
 	}
-	
+
 	public int getBudgetMonth() {
 		return budgetMonth;
 	}
@@ -380,5 +394,5 @@ public class Budget {
 	public void setMiscSpend(double miscSpend) {
 		this.miscSpend = miscSpend;
 	}
-	
+
 }

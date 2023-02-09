@@ -11,11 +11,13 @@ public class Main {
 		Connection connection = dbManager.connectDatabase("budgettracker", null, null);
 		UsersTable usersTable = new UsersTable();
 		usersTable.createUsersTable(connection);
+		BudgetActualTable budgetActualTable = new BudgetActualTable();
+		budgetActualTable.createBudgetVsActualTable(connection);
 		
 		Menu.welcomeUser();
 		Household household = new Household();
 		Budget budget = Budget.initializeBudget(household, Household.generateBudgetName());
-		budget.setUpBudget(household, budget);
+		budget.setUpBudget(household, budget, connection, budgetActualTable);
 		household.addFamilyMembers(connection, usersTable);
 		MainMenu mainMenu = new MainMenu();
 		mainMenu.show(household, budget, mainMenu);

@@ -12,7 +12,8 @@ public abstract class Menu {
 
 	public abstract int showOptions();
 
-	public abstract void processSelection(Household household, Budget budget, Menu mainMenu, int selection);
+	public abstract void processSelection(Household household, Budget budget, Menu mainMenu, int selection, Connection connection,
+			UsersTable usersTable, BudgetActualTable budgetActualTable, PurchasesTable purchasesTable);
 
 	public static void welcomeUser() {
 		System.out.println("Welcome to Budget Tracker! Follow the prompts to get started.\n");

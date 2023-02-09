@@ -1,11 +1,13 @@
 package budgetTracker;
 
+import java.sql.Connection;
 import java.util.Formatter;
 import java.util.Scanner;
 
 public class BudgetMenu extends Menu {
 
-	public void show(Household household, Budget budget, Menu mainMenu) {
+	public void show(Household household, Budget budget, Menu mainMenu, Connection connection, UsersTable usersTable,
+			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		boolean selectionError;
 		do {
 			try {
@@ -37,12 +39,14 @@ public class BudgetMenu extends Menu {
 			break;
 		case 2:
 			Budget selectedBudgetDisplay = budget.selectABudget(household);
-			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay) + " " + selectedBudgetDisplay.getBudgetYear() + ":");
+			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay)
+					+ " " + selectedBudgetDisplay.getBudgetYear() + ":");
 			budget.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
 			Budget selectedBudgetEdit = budget.selectABudget(household);
-			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " " + selectedBudgetEdit.getBudgetYear() + " budget:");
+			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " "
+					+ selectedBudgetEdit.getBudgetYear() + " budget:");
 			budget.editBudget(household, selectedBudgetEdit);
 			break;
 		case 4:

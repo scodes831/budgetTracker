@@ -1,10 +1,12 @@
 package budgetTracker;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class HouseholdMenu extends Menu {
 
-	public void show(Household household, Budget budget, Menu mainMenu) {
+	public void show(Household household, Budget budget, Menu mainMenu, Connection connection, UsersTable usersTable,
+			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		boolean selectionError;
 		do {
 			try {

@@ -42,6 +42,6 @@ public class MainMenu extends Menu {
 			PurchaseMenu purchaseMenu = new PurchaseMenu();
 			purchaseMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 		}
-		show(household, budget, mainMenu);
+		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 }

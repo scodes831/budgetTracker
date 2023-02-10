@@ -13,6 +13,8 @@ public class Main {
 		usersTable.createUsersTable(connection);
 		BudgetActualTable budgetActualTable = new BudgetActualTable();
 		budgetActualTable.createBudgetVsActualTable(connection);
+		PurchasesTable purchasesTable = new PurchasesTable();
+		purchasesTable.createPurchasesTable(connection);
 		
 		Menu.welcomeUser();
 		Household household = new Household();
@@ -20,6 +22,10 @@ public class Main {
 		budget.setUpBudget(household, budget, connection, budgetActualTable);
 		household.addFamilyMembers(connection, usersTable);
 		MainMenu mainMenu = new MainMenu();
-		mainMenu.show(household, budget, mainMenu);
+		mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 }
+
+//need to fix:
+//1. budgetname and category cannot be unique in budget table but can only have one combo of same budgetname and category
+//2.

@@ -87,11 +87,12 @@ public class Household {
 		return budgetName;
 	}
 
-	public void addPurchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {
+	public void addPurchase(String category, double amount, String purchasedBy, LocalDate datePurchased, Connection connection, PurchasesTable purchasesTable) {
 		Purchase purchase = new Purchase(category, amount, purchasedBy, datePurchased);
 		System.out.println("Added purchase of $" + amount + " spent on " + category + " by " + purchasedBy + " on "
 				+ datePurchased);
 		purchasesList.add(purchase);
+		purchasesTable.insertPurchasesRow(connection, datePurchased, category, purchasedBy, new BigDecimal(amount));
 		int purchaseNum = purchasesList.size() - 1;
 	}
 	

@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DatabaseManager {
 
-	public Connection connectDatabase(String database, String user, String pw) {
+	public static Connection connectDatabase(String database, String user, String pw) {
 		Connection connection = null;
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -21,7 +21,7 @@ public class DatabaseManager {
 		return connection;
 	}
 
-	public int getUserIdByUsername(Connection connection, String username) {
+	public static int getUserIdByUsername(Connection connection, String username) {
 		Statement statement;
 		ResultSet result = null;
 		int id = 0;

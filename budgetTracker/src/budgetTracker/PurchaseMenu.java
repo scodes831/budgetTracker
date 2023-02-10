@@ -21,11 +21,11 @@ public class PurchaseMenu extends Menu {
 		} while (selectionError);
 	}
 
-	public static void addPurchaseMenu(Household household, Budget budget, Connection connection, PurchasesTable purchasesTable) {
+	public static void addPurchaseMenu(Household household, Budget budget, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
 		boolean purchaseAdded = false;
 		do {
-			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, budget);
-			String purchasedBy = PromptUserInput.promptUserNameInput(household, budget);
+			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, budget, connection, usersTable, purchasesTable);
+			String purchasedBy = PromptUserInput.promptUserNameInput(household, budget, connection, usersTable, purchasesTable);
 			double amount = PromptUserInput.promptUserAmountInput(household);
 			String category = PromptUserInput.promptUserCategoryInput(household);
 			household.addPurchase(category, amount, purchasedBy, datePurchased, connection, purchasesTable);
@@ -46,7 +46,7 @@ public class PurchaseMenu extends Menu {
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
-			addPurchaseMenu(household, budget, connection, purchasesTable);
+			addPurchaseMenu(household, budget, connection, usersTable, purchasesTable);
 			break;
 		case 2:
 			SubPurchaseMenu subPurchaseMenu = new SubPurchaseMenu();

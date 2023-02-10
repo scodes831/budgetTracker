@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class PurchasesTable {
 
-	public static void createPurchasesTable(Connection connection) {
+	public void createPurchasesTable(Connection connection) {
 		Statement statement;
 		try {
 			String query = "CREATE TABLE IF NOT EXISTS purchases (purchaseId SERIAL PRIMARY KEY, "
@@ -21,13 +21,13 @@ public class PurchasesTable {
 		}
 	}
 	
-	public static void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy,
+	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy,
 			BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
 			String query = String.format(
 					"insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');",
-					java.sql.Date.valueOf(purchaseDate), category, getUserIdByUsername(connection, purchasedBy),
+					java.sql.Date.valueOf(purchaseDate), category, DatabaseManager.getUserIdByUsername(connection, purchasedBy),
 					purchaseAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);

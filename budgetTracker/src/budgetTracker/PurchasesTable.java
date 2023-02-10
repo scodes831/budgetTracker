@@ -20,15 +20,15 @@ public class PurchasesTable {
 			System.out.println(e);
 		}
 	}
-	
+
 	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy,
 			BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
 			String query = String.format(
 					"insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');",
-					java.sql.Date.valueOf(purchaseDate), category, DatabaseManager.getUserIdByUsername(connection, purchasedBy),
-					purchaseAmount);
+					java.sql.Date.valueOf(purchaseDate), category,
+					DatabaseManager.getUserIdByUsername(connection, purchasedBy), purchaseAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 			System.out.println("purchase row inserted");
@@ -36,5 +36,21 @@ public class PurchasesTable {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+	}
+
+	public void updatePurchase(Connection connection, int purchaseId, LocalDate newPurchaseDate, String newCategory,
+			String newPurchasedBy, BigDecimal newPurchaseAmount) {
+		Statement statement;
+		try {
+			String query = String.format(
+					"update purchases set purchasedate = '%s', category = '%s', purchasedby = '%s', purchaseamount = '%s';",
+					java.sql.Date.valueOf(newPurchaseDate), newCategory, DatabaseManager.getUserIdByUsername(connection, newPurchasedBy), newPurchaseAmount);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			System.out.println("purchase row updated");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
 	}
 }

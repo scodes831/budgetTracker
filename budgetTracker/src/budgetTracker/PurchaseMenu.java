@@ -13,7 +13,7 @@ public class PurchaseMenu extends Menu {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, mainMenu, selection);
+				processSelection(household, budget, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -21,14 +21,14 @@ public class PurchaseMenu extends Menu {
 		} while (selectionError);
 	}
 
-	public static void addPurchaseMenu(Household household, Budget budget) {
+	public static void addPurchaseMenu(Household household, Budget budget, Connection connection, PurchasesTable purchasesTable) {
 		boolean purchaseAdded = false;
 		do {
 			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, budget);
 			String purchasedBy = PromptUserInput.promptUserNameInput(household, budget);
 			double amount = PromptUserInput.promptUserAmountInput(household);
 			String category = PromptUserInput.promptUserCategoryInput(household);
-			household.addPurchase(category, amount, purchasedBy, datePurchased);
+			household.addPurchase(category, amount, purchasedBy, datePurchased, connection, purchasesTable);
 			purchaseAdded = true;
 		} while (!purchaseAdded);
 
@@ -42,10 +42,11 @@ public class PurchaseMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection) {
+	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
+			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
-			addPurchaseMenu(household, budget);
+			addPurchaseMenu(household, budget, connection, purchasesTable);
 			break;
 		case 2:
 			SubPurchaseMenu subPurchaseMenu = new SubPurchaseMenu();
@@ -56,10 +57,10 @@ public class PurchaseMenu extends Menu {
 			Purchase.editPurchases(household, budget);
 			break;
 		case 4:
-			mainMenu.show(household, budget, mainMenu);
+			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}
-		show(household, budget, mainMenu);
+		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 
 }

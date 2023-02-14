@@ -30,11 +30,11 @@ public class UsersTable {
 		}
 	}
 
-	public void updateUsername(Connection connection, String newUsername, String oldUsername) {
+	public void updateUser(Connection connection, String newUsername, String oldUsername, BigDecimal newSalary) {
 		Statement statement;
 		try {
-			String query = String.format("update users set username = '%s' WHERE userid = '%s');", newUsername,
-					DatabaseManager.getUserIdByUsername(connection, oldUsername));
+			String query = String.format("update users set username = '%s', set salary = '%s' where userid = '%s';", newUsername,
+					DatabaseManager.getUserIdByUsername(connection, oldUsername), newSalary);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 			System.out.println("users row updated");

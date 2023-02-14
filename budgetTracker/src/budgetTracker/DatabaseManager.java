@@ -1,9 +1,12 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 public class DatabaseManager {
 
@@ -33,6 +36,31 @@ public class DatabaseManager {
 			while (result.next()) {
 				id = Integer.valueOf(result.getString("userid"));
 			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+		return id;
+	}
+
+	public static int getPurchaseIdByPurchase(Connection connection, LocalDate purchaseDate, String category, String purchasedBy, BigDecimal purchaseAmount) {
+		Statement statement;
+		ResultSet result = null;
+		int id = 0;
+		try {
+			String query = String.format(
+					"select purchaseid from purchases where purchasedate = '%s' and category = '%s' and purchasedby = '%s' and purchaseamount = '%s';",
+					java.sql.Date.valueOf(purchaseDate), category,
+					DatabaseManager.getUserIdByUsername(connection, purchasedBy),
+					purchaseAmount.setScale(2, RoundingMode.HALF_UP));
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			while (result.next()) {
+				System.out.println("inside while loop");
+				id = Integer.valueOf(result.getString("purchaseid"));
+			}
+			System.out.println("reading purchase id...");
 
 		} catch (Exception e) {
 			System.out.println(e);

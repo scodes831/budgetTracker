@@ -43,8 +43,8 @@ public class PurchasesTable {
 		Statement statement;
 		try {
 			String query = String.format(
-					"update purchases set purchasedate = '%s', category = '%s', purchasedby = '%s', purchaseamount = '%s';",
-					java.sql.Date.valueOf(newPurchaseDate), newCategory, DatabaseManager.getUserIdByUsername(connection, newPurchasedBy), newPurchaseAmount);
+					"update purchases set purchasedate = '%s', category = '%s', purchasedby = '%s', purchaseamount = '%s' where purchaseid = '%s';",
+					java.sql.Date.valueOf(newPurchaseDate), newCategory, DatabaseManager.getUserIdByUsername(connection, newPurchasedBy), newPurchaseAmount, purchaseId);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 			System.out.println("purchase row updated");

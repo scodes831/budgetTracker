@@ -1,12 +1,13 @@
 package budgetTracker;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.time.LocalDate;
 
 public class BudgetActualTable {
-	
+
 	public void createBudgetVsActualTable(Connection connection) {
 		Statement statement;
 		try {
@@ -24,7 +25,9 @@ public class BudgetActualTable {
 			BigDecimal spendAmount, BigDecimal remainingAmount) {
 		Statement statement;
 		try {
-			String query = String.format("insert into budgetvsactual (budgetname, category, budgetamount, spendamount, remainingamount) values ('%s','%s','%s','%s','%s');", budgetName, category, budgetAmount, spendAmount, remainingAmount);
+			String query = String.format(
+					"insert into budgetvsactual (budgetname, category, budgetamount, spendamount, remainingamount) values ('%s','%s','%s','%s','%s');",
+					budgetName, category, budgetAmount, spendAmount, remainingAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 			System.out.println("budget row inserted");
@@ -34,5 +37,22 @@ public class BudgetActualTable {
 
 	}
 
+	public void updateBudget(Connection connection, int rowId, LocalDate newBudgetName, String category,
+			BigDecimal newBudgetAmount, BigDecimal newSpendAmount, BigDecimal newRemainingAmount) {
+		Statement statement;
+		try {
+			String query = String.format(
+					"update budgetvsactual set budgetname = '%s', category = '%s', budgetamount = '%s', spendamount = '%s', remainingamount = '%s' where rowid = '%s';",
+					newBudgetName, category, newBudgetAmount.setScale(2, RoundingMode.HALF_UP),
+					newSpendAmount.setScale(2, RoundingMode.HALF_UP),
+					newRemainingAmount.setScale(2, RoundingMode.HALF_UP), rowId);
+			statement = connection.createStatement();
+			statement.executeUpdate(query);
+			System.out.println("budget row updated");
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 
 }

@@ -43,29 +43,25 @@ public class Household {
 		System.out.println("\n");
 	}
 
-	public void editFamilyMembers(Household household) {
+	public void editFamilyMembers(Household household, Connection connection, UsersTable usersTable) {
 		System.out.println("Enter the name of the family member you want to edit:");
 		Scanner in = new Scanner(System.in);
 		String editName = in.next();
 		for (FamilyMember familyMember : getHouseholdMembers()) {
 			if (familyMember.getName().toLowerCase().equals(editName.toLowerCase())) {
 				System.out.println("Name is currently set up as: " + familyMember.getName()
-						+ ". Would you like to edit the name?\ny - Yes\nn - No");
-				String selection = in.next();
-				if (selection.toLowerCase().equals("y")) {
-					System.out.println("Please enter a new name:");
-					String newName = in.next();
-					familyMember.setName(newName);
-					System.out.println("Name has been updated to " + familyMember.getName());
-					Purchase.updatePurchasedBy(household, editName, newName);
-				} else {
-					System.out.println("Salary is currently set up as: " + familyMember.getSalary()
-							+ ". Please enter new salary amount:");
-					double newSalary = in.nextDouble();
-					familyMember.setSalary(newSalary);
-					System.out.println("Salary for " + familyMember.getName() + " has been updated to $"
+						+ " with a salary of $" + familyMember.getSalary() + ". Enter new name:");
+				String oldName = familyMember.getName();
+				String newName = in.next();
+				familyMember.setName(newName);
+				Purchase.updatePurchasedBy(household, editName, newName);
+				System.out.println("Enter new salary: ");
+				double newSalary = in.nextDouble();
+				familyMember.setSalary(newSalary);
+				usersTable.updateUser(connection, newName, oldName, new BigDecimal(newSalary));
+				System.out.println("Name has been updated to " + familyMember.getName());
+				System.out.println("Salary for " + familyMember.getName() + " has been updated to $"
 							+ familyMember.getSalary());
-				}
 			}
 		}
 	}

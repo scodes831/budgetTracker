@@ -1,5 +1,7 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -75,18 +77,25 @@ public class Purchase {
 		}
 	}
 
-	public static void editPurchases(Household household, Budget budget) {
+	public static void editPurchases(Household household, Budget budget, Connection connection, UsersTable usersTable,
+			PurchasesTable purchasesTable) {
 		displayPurchases(household.getPurchasesList());
 		System.out.println("\nEnter the line number of the purchase you want to edit: ");
 		Scanner in = new Scanner(System.in);
 		int purchaseIndex = in.nextInt() - 1;
 		String newCategory = PromptUserInput.promptUserCategoryInput(household);
 		double newAmount = PromptUserInput.promptUserAmountInput(household);
-		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, budget);
-		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, budget);
+		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, budget, connection, usersTable,
+				purchasesTable);
+		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, budget, connection, usersTable,
+				purchasesTable);
 		Purchase oldPurchase = household.getPurchasesList().get(purchaseIndex);
 		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
 		household.getPurchasesList().set(purchaseIndex, newPurchase);
+		int purchaseId = DatabaseManager.getPurchaseIdByPurchase(connection, oldPurchase.getDatePurchased(),
+				oldPurchase.getCategory(), oldPurchase.getPurchasedBy(), new BigDecimal(oldPurchase.getAmount()));
+		purchasesTable.updatePurchase(connection, purchaseId, newDatePurchased, newCategory, newPurchasedBy,
+				new BigDecimal(newAmount));
 	}
 
 	public static void updatePurchasedBy(Household household, String oldName, String newName) {

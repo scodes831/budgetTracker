@@ -12,7 +12,7 @@ public class HouseholdMenu extends Menu {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, mainMenu, selection);
+				processSelection(household, budget, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -29,10 +29,11 @@ public class HouseholdMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection) {
+	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection, Connection connection,
+			UsersTable usersTable, BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
-			household.addFamilyMembers();
+			household.addFamilyMembers(connection, usersTable);
 			break;
 		case 2:
 			System.out.println("Displaying family members: \n");
@@ -40,12 +41,12 @@ public class HouseholdMenu extends Menu {
 			break;
 		case 3:
 			System.out.println("Editing family members: \n");
-			household.editFamilyMembers(household);
+			household.editFamilyMembers(household, connection, usersTable);
 			break;
 		case 4:
-			mainMenu.show(household, budget, mainMenu);
+			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}
-		show(household, budget, mainMenu);
+		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 }

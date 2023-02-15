@@ -50,11 +50,11 @@ public class PurchaseMenu extends Menu {
 			break;
 		case 2:
 			SubPurchaseMenu subPurchaseMenu = new SubPurchaseMenu();
-			subPurchaseMenu.show(household, budget, new PurchaseMenu(), mainMenu);
+			subPurchaseMenu.show(household, budget, new PurchaseMenu(), mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		case 3:
 			System.out.println("Edit a purchase");
-			Purchase.editPurchases(household, budget);
+			Purchase.editPurchases(household, budget, connection, usersTable, purchasesTable);
 			break;
 		case 4:
 			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);

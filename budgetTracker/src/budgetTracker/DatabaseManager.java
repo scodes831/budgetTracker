@@ -44,7 +44,8 @@ public class DatabaseManager {
 		return id;
 	}
 
-	public static int getPurchaseIdByPurchase(Connection connection, LocalDate purchaseDate, String category, String purchasedBy, BigDecimal purchaseAmount) {
+	public static int getPurchaseIdByPurchase(Connection connection, LocalDate purchaseDate, String category,
+			String purchasedBy, BigDecimal purchaseAmount) {
 		Statement statement;
 		ResultSet result = null;
 		int id = 0;
@@ -66,6 +67,25 @@ public class DatabaseManager {
 			System.out.println(e);
 		}
 
+		return id;
+	}
+
+	public static int getBudgetRowIdByBudget(Connection connection, LocalDate budgetName, String category, BigDecimal budgetAmount) {
+		Statement statement;
+		ResultSet result = null;
+		int id = 0;
+		try {
+			String query = String.format(
+					"select rowid from budgetvsactual where budgetname = '%s' and category = '%s' and budgetamount = '%s';",
+					java.sql.Date.valueOf(budgetName), category, budgetAmount.setScale(2, RoundingMode.HALF_UP));
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			while (result.next()) {
+				id = Integer.valueOf(result.getString("rowid"));
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return id;
 	}
 

@@ -70,14 +70,14 @@ public class DatabaseManager {
 		return id;
 	}
 
-	public static int getBudgetRowIdByBudget(Connection connection, LocalDate budgetName, String category, BigDecimal budgetAmount) {
+	public static int getBudgetRowIdByBudget(Connection connection, LocalDate budgetName, String category) {
 		Statement statement;
 		ResultSet result = null;
 		int id = 0;
 		try {
 			String query = String.format(
 					"select rowid from budgetvsactual where budgetname = '%s' and category = '%s' and budgetamount = '%s';",
-					java.sql.Date.valueOf(budgetName), category, budgetAmount.setScale(2, RoundingMode.HALF_UP));
+					java.sql.Date.valueOf(budgetName), category);
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
 			while (result.next()) {

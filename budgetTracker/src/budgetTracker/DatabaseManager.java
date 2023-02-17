@@ -76,7 +76,7 @@ public class DatabaseManager {
 		int id = 0;
 		try {
 			String query = String.format(
-					"select rowid from budgetvsactual where budgetname = '%s' and category = '%s' and budgetamount = '%s';",
+					"select rowid from budgetvsactual where budgetname = '%s' and category = '%s';",
 					java.sql.Date.valueOf(budgetName), category);
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);

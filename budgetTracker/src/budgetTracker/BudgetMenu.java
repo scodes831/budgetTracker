@@ -13,7 +13,7 @@ public class BudgetMenu extends Menu {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, mainMenu, selection);
+				processSelection(household, budget, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -29,11 +29,12 @@ public class BudgetMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection) {
+	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
+			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
 			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
-			newBudget.setUpBudget(household, newBudget);
+			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
 			Formatter budgetTable = budget.displayBudget(household, newBudget);
 			budgetTable.close();
 			break;
@@ -47,13 +48,13 @@ public class BudgetMenu extends Menu {
 			Budget selectedBudgetEdit = budget.selectABudget(household);
 			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " "
 					+ selectedBudgetEdit.getBudgetYear() + " budget:");
-			budget.editBudget(household, selectedBudgetEdit);
+			budget.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
 			break;
 		case 4:
-			mainMenu.show(household, budget, mainMenu);
+			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}
-		show(household, budget, mainMenu);
+		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 
 }

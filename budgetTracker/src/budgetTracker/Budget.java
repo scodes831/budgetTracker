@@ -1,6 +1,7 @@
 package budgetTracker;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.Formatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
+
+import org.apache.commons.lang3.StringUtils;
 
 public class Budget {
 
@@ -73,32 +76,33 @@ public class Budget {
 				"Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear()
 						+ "!\nYour total household income is $" + household.calculateHouseholdIncome(household));
 		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Housing", new BigDecimal(getHousingBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Housing",
+				new BigDecimal(getHousingBudget()), new BigDecimal(0), new BigDecimal(0));
 		setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Utilities", new BigDecimal(getUtilitiesBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Utilities",
+				new BigDecimal(getUtilitiesBudget()), new BigDecimal(0), new BigDecimal(0));
 		setHealthBudget(PromptUserInput.promptUserHealthBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Health", new BigDecimal(getHealthBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Health",
+				new BigDecimal(getHealthBudget()), new BigDecimal(0), new BigDecimal(0));
 		setCarBudget(PromptUserInput.promptUserCarBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Car", new BigDecimal(getCarBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Car",
+				new BigDecimal(getCarBudget()), new BigDecimal(0), new BigDecimal(0));
 		setGroceryBudget(PromptUserInput.promptUserGroceryBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Grocery", new BigDecimal(getGroceryBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Grocery",
+				new BigDecimal(getGroceryBudget()), new BigDecimal(0), new BigDecimal(0));
 		setDiningBudget(PromptUserInput.promptUserDiningBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Dining", new BigDecimal(getDiningBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Dining",
+				new BigDecimal(getDiningBudget()), new BigDecimal(0), new BigDecimal(0));
 		setFunBudget(PromptUserInput.promptUserFunBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Fun", new BigDecimal(getFunBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Fun",
+				new BigDecimal(getFunBudget()), new BigDecimal(0), new BigDecimal(0));
 		setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
-				"Miscellaneous", new BigDecimal(getMiscBudget()), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Miscellaneous",
+				new BigDecimal(getMiscBudget()), new BigDecimal(0), new BigDecimal(0));
 	}
 
-	public void editBudget(Household household, Budget budget) {
+	public void editBudget(Household household, Budget budget, Connection connection,
+			BudgetActualTable budgetActualTable) {
 		String category = PromptUserInput.promptUserCategoryInput(household);
 		double newAmount = PromptUserInput.promptUserAmountInput(household);
 		ArrayList<Double> list = budgetMap.get(category);
@@ -106,7 +110,6 @@ public class Budget {
 		case "housing":
 			setHousingBudget(newAmount);
 			list.set(0, getHousingBudget());
-			System.out.println("The new budget for housing is $" + getHousingBudget());
 			break;
 		case "utilities":
 			setUtilitiesBudget(newAmount);
@@ -137,6 +140,11 @@ public class Budget {
 			list.set(0, getMiscBudget());
 			break;
 		}
+		int rowId = DatabaseManager.getBudgetRowIdByBudget(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+				StringUtils.capitalize(category));
+		budgetActualTable.updateBudget(connection, rowId, LocalDate.of(budgetYear, budgetMonth, 1), StringUtils.capitalize(category),
+				new BigDecimal(newAmount).setScale(2, RoundingMode.HALF_UP), new BigDecimal(0), new BigDecimal(0));
+
 	}
 
 	public static boolean isBudgetADuplicate(Household household, int[] budgetName) {

@@ -158,6 +158,7 @@ public class PromptUserInput {
 		System.out.println("Please enter the line number of the budget to display:");
 		for (Budget budget : household.getBudgets()) {
 			System.out.println(lineNum + ": " + budget.getBudgetMonth() + " " + budget.getBudgetYear());
+			lineNum++;
 		}
 		int budgetIndex = in.nextInt()-1;
 		return budgetIndex;

@@ -30,7 +30,6 @@ public class BudgetActualTable {
 					budgetName, category, budgetAmount, spendAmount, remainingAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("budget row inserted");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -48,7 +47,6 @@ public class BudgetActualTable {
 					newRemainingAmount.setScale(2, RoundingMode.HALF_UP), rowId);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("budget row updated");
 
 		} catch (Exception e) {
 			System.out.println(e);

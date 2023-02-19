@@ -35,7 +35,7 @@ public class BudgetMenu extends Menu {
 		case 1:
 			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
-			System.out.println("displaying budget for " + newBudget.getBudgetMonth() + " " + newBudget.getBudgetYear());
+			System.out.println("displaying budget for " + newBudget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
 			Formatter budgetTable = newBudget.displayBudget(household, newBudget);
 			budgetTable.close();
 			break;

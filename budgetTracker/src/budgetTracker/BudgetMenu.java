@@ -35,14 +35,15 @@ public class BudgetMenu extends Menu {
 		case 1:
 			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
-			Formatter budgetTable = budget.displayBudget(household, newBudget);
+			System.out.println("displaying budget for " + newBudget.getBudgetMonth() + " " + newBudget.getBudgetYear());
+			Formatter budgetTable = newBudget.displayBudget(household, newBudget);
 			budgetTable.close();
 			break;
 		case 2:
 			Budget selectedBudgetDisplay = budget.selectABudget(household);
 			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay)
 					+ " " + selectedBudgetDisplay.getBudgetYear() + ":");
-			budget.displayBudget(household, selectedBudgetDisplay);
+			selectedBudgetDisplay.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
 			Budget selectedBudgetEdit = budget.selectABudget(household);

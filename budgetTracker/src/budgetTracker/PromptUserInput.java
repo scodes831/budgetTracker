@@ -151,4 +151,15 @@ public class PromptUserInput {
 		double amount = in.nextDouble();
 		return amount;
 	}
+	
+	public static int promptUserBudgetSelection(Household household) {
+		int lineNum = 1;
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please enter the line number of the budget to display:");
+		for (Budget budget : household.getBudgets()) {
+			System.out.println(lineNum + ": " + budget.getBudgetMonth() + " " + budget.getBudgetYear());
+		}
+		int budgetIndex = in.nextInt()-1;
+		return budgetIndex;
+	}
 }

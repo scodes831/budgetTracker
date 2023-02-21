@@ -157,23 +157,17 @@ public class Budget {
 	}
 
 	public Budget selectABudget(Household household) {
-		int budgetCount = 1;
-		for (Budget budget : household.getBudgets()) {
-			System.out.println(budgetCount + ": " + budget.budgetMonthString(budget) + budget.getBudgetYear());
-			budgetCount++;
-		}
-		System.out.println("Enter the line number of the budget:");
-		Scanner in = new Scanner(System.in);
-		Budget selectedBudget = household.getBudgets().get(household.getBudgets().size() - 1);
+		int budgetIndex = PromptUserInput.promptUserBudgetSelection(household);
+		Budget selectedBudget = household.getBudgets().get(budgetIndex);
 		return selectedBudget;
 	}
 
 	public Formatter displayBudget(Household household, Budget budget) {
 		Formatter table = new Formatter();
 		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, budget);
-		table.format("%15s %15s %15s\n", "Category", "Budget", "Remaining");
+		table.format("%15s %15s %15s %15s\n", "Category", "Budget", "Actual", "Remaining");
 		budgetMap.forEach((k, v) -> {
-			table.format("%15s %15s %15s\n", k, v.get(0), v.get(0) - v.get(1));
+			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0) - v.get(1));
 		});
 		double totalBudget = calculateTotalBudget(budgetMap);
 		double totalSpend = calculateTotalSpend(household, budget);

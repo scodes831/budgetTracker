@@ -73,9 +73,10 @@ public class BudgetActualTable {
 		}
 	}
 	
-	public void readMonthlyBudget(Connection connection, Household household, LocalDate budgetName) {
+	public void readMonthlyBudget(Connection connection, Household household, Budget currentBudget) {
 		Statement statement;
 		ResultSet result = null;
+		LocalDate budgetName = LocalDate.of(currentBudget.getBudgetYear(), currentBudget.getBudgetMonth(), 1);
 		try {
 			String query = String.format("select * from budgetvsactual where budgetname = '%s';", budgetName);
 			statement = connection.createStatement();
@@ -84,8 +85,6 @@ public class BudgetActualTable {
 				int rowId = Integer.valueOf(result.getString("rowid"));
 				String[] date = result.getString("budgetname").split("-");
 				int[] name = {Integer.valueOf(date[0]), Integer.valueOf(date[1])};
-				Budget currentBudget = Budget.initializeBudget(household, name);
-				household.getBudgets().add(currentBudget);
 				double budgetAmount = Double.valueOf(result.getString("budgetamount"));
 				double spendAmount = Double.valueOf(result.getString("spendamount"));
 				double remainingAmount = Double.valueOf(result.getString("remainingamount"));

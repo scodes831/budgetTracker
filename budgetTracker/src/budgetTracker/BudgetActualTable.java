@@ -53,6 +53,27 @@ public class BudgetActualTable {
 		}
 	}
 	
+	public void readAllBudgetNames(Connection connection, Household household) {
+		//display list of budget names for user to select from
+		Statement statement;
+		ResultSet result = null;
+		try {
+			String query = "select distinct budgetname from budgetvsactual;";
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			while (result.next()) {
+				String[] date = result.getString("budgetname").split("-");
+				int year = Integer.valueOf(date[0]);
+				int month = Integer.valueOf(date[1]);
+				Budget currBudget = new Budget(month, year);
+				household.getBudgets().add(currBudget);
+			}
+			
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
 	public void readMonthlyBudget(Connection connection, Household household, LocalDate budgetName) {
 		Statement statement;
 		ResultSet result = null;

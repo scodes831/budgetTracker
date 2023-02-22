@@ -23,20 +23,28 @@ public class Budget {
 
 	private double housingBudget;
 	private double housingSpend;
+	private double housingRemaining;
 	private double utilitiesBudget;
 	private double utilitiesSpend;
+	private double utilitiesRemaining;
 	private double healthBudget;
 	private double healthSpend;
+	private double healthRemaining;
 	private double carBudget;
 	private double carSpend;
+	private double carRemaining;
 	private double groceryBudget;
 	private double grocerySpend;
+	private double groceryRemaining;
 	private double diningBudget;
 	private double diningSpend;
+	private double diningRemaining;
 	private double funBudget;
 	private double funSpend;
+	private double funRemaining;
 	private double miscBudget;
 	private double miscSpend;
+	private double miscRemaining;
 
 	Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
 
@@ -162,9 +170,9 @@ public class Budget {
 		return selectedBudget;
 	}
 
-	public Formatter displayBudget(Household household, Budget budget) {
+	public Formatter displayBudget(Map<String, ArrayList<Double>> budgetMap, Household household, Budget budget) {
 		Formatter table = new Formatter();
-		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, budget);
+		//Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, budget);
 		table.format("%15s %15s %15s %15s\n", "Category", "Budget", "Actual", "Remaining");
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0) - v.get(1));
@@ -395,6 +403,70 @@ public class Budget {
 
 	public void setMiscSpend(double miscSpend) {
 		this.miscSpend = miscSpend;
+	}
+
+	public double getHousingRemaining() {
+		return housingRemaining;
+	}
+
+	public void setHousingRemaining(double housingRemaining) {
+		this.housingRemaining = housingRemaining;
+	}
+
+	public double getUtilitiesRemaining() {
+		return utilitiesRemaining;
+	}
+
+	public void setUtilitiesRemaining(double utilitiesRemaining) {
+		this.utilitiesRemaining = utilitiesRemaining;
+	}
+
+	public double getHealthRemaining() {
+		return healthRemaining;
+	}
+
+	public void setHealthRemaining(double healthRemaining) {
+		this.healthRemaining = healthRemaining;
+	}
+
+	public double getCarRemaining() {
+		return carRemaining;
+	}
+
+	public void setCarRemaining(double carRemaining) {
+		this.carRemaining = carRemaining;
+	}
+
+	public double getGroceryRemaining() {
+		return groceryRemaining;
+	}
+
+	public void setGroceryRemaining(double groceryRemaining) {
+		this.groceryRemaining = groceryRemaining;
+	}
+
+	public double getDiningRemaining() {
+		return diningRemaining;
+	}
+
+	public void setDiningRemaining(double diningRemaining) {
+		this.diningRemaining = diningRemaining;
+	}
+
+	public double getFunRemaining() {
+		return funRemaining;
+	}
+
+	public void setFunRemaining(double funRemaining) {
+		this.funRemaining = funRemaining;
+	}
+
+	public double getMiscRemaining() {
+		return miscRemaining;
+	}
+
+	public void setMiscRemaining(double miscRemaining) {
+		this.miscRemaining = miscRemaining;
 	}
 
 }

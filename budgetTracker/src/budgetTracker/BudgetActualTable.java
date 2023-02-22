@@ -34,7 +34,6 @@ public class BudgetActualTable {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-
 	}
 
 	public void updateBudget(Connection connection, int rowId, LocalDate newBudgetName, String category,
@@ -54,7 +53,7 @@ public class BudgetActualTable {
 		}
 	}
 	
-	public void readMonthlyBudget(Connection connection, LocalDate budgetName) {
+	public void readMonthlyBudget(Connection connection, Household household, LocalDate budgetName) {
 		Statement statement;
 		ResultSet result = null;
 		try {
@@ -62,12 +61,55 @@ public class BudgetActualTable {
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
 			while (result.next()) {
-				System.out.print(result.getString("rowid") + " ");
-				System.out.print(result.getString("budgetname") + " ");
-				System.out.print(result.getString("category") + " ");
-				System.out.print(result.getString("budgetamount") + " ");
-				System.out.print(result.getString("spendamount") + " ");
-				System.out.println(result.getString("remainingamount") + " ");
+				int rowId = Integer.valueOf(result.getString("rowid"));
+				String[] date = result.getString("budgetname").split("-");
+				int[] name = {Integer.valueOf(date[0]), Integer.valueOf(date[1])};
+				Budget currentBudget = Budget.initializeBudget(household, name);
+				double budgetAmount = Double.valueOf(result.getString("budgetamount"));
+				double spendAmount = Double.valueOf(result.getString("spendamount"));
+				double remainingAmount = Double.valueOf(result.getString("remainingamount"));
+				String category = result.getString("category");
+				switch (category.toLowerCase()) {
+				case "housing":
+					currentBudget.setHousingBudget(budgetAmount);
+					currentBudget.setHousingSpend(spendAmount);
+					currentBudget.setHousingRemaining(remainingAmount);
+					break;
+				case "utilities":
+					currentBudget.setUtilitiesBudget(budgetAmount);
+					currentBudget.setUtilitiesSpend(spendAmount);
+					currentBudget.setUtilitiesRemaining(remainingAmount);
+					break;
+				case "health":
+					currentBudget.setHealthBudget(budgetAmount);
+					currentBudget.setHealthSpend(spendAmount);
+					currentBudget.setHealthRemaining(remainingAmount);
+				case "car":
+					currentBudget.setCarBudget(budgetAmount);
+					currentBudget.setCarSpend(spendAmount);
+					currentBudget.setCarRemaining(remainingAmount);
+					break;
+				case "grocery":
+					currentBudget.setGroceryBudget(budgetAmount);
+					currentBudget.setGrocerySpend(spendAmount);
+					currentBudget.setGroceryRemaining(remainingAmount);
+					break;
+				case "dining":
+					currentBudget.setDiningBudget(budgetAmount);
+					currentBudget.setDiningSpend(spendAmount);
+					currentBudget.setDiningRemaining(remainingAmount);
+					break;
+				case "fun":
+					currentBudget.setFunBudget(budgetAmount);
+					currentBudget.setFunSpend(spendAmount);
+					currentBudget.setFunRemaining(remainingAmount);
+					break;
+				case "miscellaneous":
+					currentBudget.setMiscBudget(budgetAmount);
+					currentBudget.setMiscSpend(spendAmount);
+					currentBudget.setMiscRemaining(remainingAmount);
+					break;
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);

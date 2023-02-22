@@ -65,6 +65,7 @@ public class BudgetActualTable {
 				String[] date = result.getString("budgetname").split("-");
 				int[] name = {Integer.valueOf(date[0]), Integer.valueOf(date[1])};
 				Budget currentBudget = Budget.initializeBudget(household, name);
+				household.getBudgets().add(currentBudget);
 				double budgetAmount = Double.valueOf(result.getString("budgetamount"));
 				double spendAmount = Double.valueOf(result.getString("spendamount"));
 				double remainingAmount = Double.valueOf(result.getString("remainingamount"));

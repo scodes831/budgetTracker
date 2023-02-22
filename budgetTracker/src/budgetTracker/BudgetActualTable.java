@@ -3,6 +3,7 @@ package budgetTracker;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 
@@ -52,5 +53,24 @@ public class BudgetActualTable {
 			System.out.println(e);
 		}
 	}
-
+	
+	public void readMonthlyBudget(Connection connection, LocalDate budgetName) {
+		Statement statement;
+		ResultSet result = null;
+		try {
+			String query = String.format("select * from budgetvsactual where budgetname = '%s';", budgetName);
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			while (result.next()) {
+				System.out.print(result.getString("rowid") + " ");
+				System.out.print(result.getString("budgetname") + " ");
+				System.out.print(result.getString("category") + " ");
+				System.out.print(result.getString("budgetamount") + " ");
+				System.out.print(result.getString("spendamount") + " ");
+				System.out.println(result.getString("remainingamount") + " ");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
 }

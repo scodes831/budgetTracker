@@ -54,11 +54,10 @@ public class BudgetActualTable {
 	}
 	
 	public void readAllBudgetNames(Connection connection, Household household) {
-		//display list of budget names for user to select from
 		Statement statement;
 		ResultSet result = null;
 		try {
-			String query = "select distinct budgetname from budgetvsactual;";
+			String query = "select distinct budgetname from budgetvsactual order by budgetname;";
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
 			while (result.next()) {

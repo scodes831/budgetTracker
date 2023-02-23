@@ -52,7 +52,7 @@ public class BudgetActualTable {
 			System.out.println(e);
 		}
 	}
-	
+
 	public void readAllBudgetNames(Connection connection, Household household) {
 		Statement statement;
 		ResultSet result = null;
@@ -67,12 +67,11 @@ public class BudgetActualTable {
 				Budget currBudget = new Budget(month, year);
 				household.getBudgets().add(currBudget);
 			}
-			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
-	
+
 	public void readMonthlyBudget(Connection connection, Household household, Budget currentBudget) {
 		Statement statement;
 		ResultSet result = null;
@@ -84,7 +83,7 @@ public class BudgetActualTable {
 			while (result.next()) {
 				int rowId = Integer.valueOf(result.getString("rowid"));
 				String[] date = result.getString("budgetname").split("-");
-				int[] name = {Integer.valueOf(date[0]), Integer.valueOf(date[1])};
+				int[] name = { Integer.valueOf(date[0]), Integer.valueOf(date[1]) };
 				double budgetAmount = Double.valueOf(result.getString("budgetamount"));
 				double spendAmount = Double.valueOf(result.getString("spendamount"));
 				double remainingAmount = Double.valueOf(result.getString("remainingamount"));

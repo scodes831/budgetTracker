@@ -40,7 +40,9 @@ public class BudgetMenu extends Menu {
 			budgetTable.close();
 			break;
 		case 2:
+			budgetActualTable.readAllBudgetNames(connection, household);
 			Budget selectedBudgetDisplay = budget.selectABudget(household);
+			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
 			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay)
 					+ " " + selectedBudgetDisplay.getBudgetYear() + ":");
 			selectedBudgetDisplay.displayBudget(household, selectedBudgetDisplay);

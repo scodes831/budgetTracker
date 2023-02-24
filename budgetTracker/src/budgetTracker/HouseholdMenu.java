@@ -36,6 +36,7 @@ public class HouseholdMenu extends Menu {
 			household.addFamilyMembers(connection, usersTable);
 			break;
 		case 2:
+			usersTable.readAllUsers(connection, household);
 			System.out.println("Displaying family members: \n");
 			household.displayFamilyMembers();
 			break;

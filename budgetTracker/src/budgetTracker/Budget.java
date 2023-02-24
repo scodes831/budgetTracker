@@ -170,15 +170,15 @@ public class Budget {
 		return selectedBudget;
 	}
 
-	public Formatter displayBudget(Map<String, ArrayList<Double>> budgetMap, Household household, Budget budget) {
+	public Formatter displayBudget(Household household, Budget selectedBudget) {
 		Formatter table = new Formatter();
-		//Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, budget);
+		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, selectedBudget);
 		table.format("%15s %15s %15s %15s\n", "Category", "Budget", "Actual", "Remaining");
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0) - v.get(1));
 		});
 		double totalBudget = calculateTotalBudget(budgetMap);
-		double totalSpend = calculateTotalSpend(household, budget);
+		double totalSpend = calculateTotalSpend(household, selectedBudget);
 		System.out.println("\nTotal amount budgeted: $" + totalBudget);
 		System.out.println("Total amount spent: $" + totalSpend);
 		System.out.println("Total amount remaining: $" + calculateTotalRemaining(totalBudget, totalSpend) + "\n");

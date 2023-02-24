@@ -61,11 +61,19 @@ public class BudgetActualTable {
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
 			while (result.next()) {
+				boolean alreadyExists = false;
 				String[] date = result.getString("budgetname").split("-");
 				int year = Integer.valueOf(date[0]);
 				int month = Integer.valueOf(date[1]);
-				Budget currBudget = new Budget(month, year);
-				household.getBudgets().add(currBudget);
+				for (int   i = 0; i < household.getBudgets().size(); i++) {
+					if (household.getBudgets().get(i).getBudgetMonth() == month && household.getBudgets().get(i).getBudgetYear() == year) {
+						alreadyExists = true;
+					} 
+				}
+				if (!alreadyExists) {
+					Budget currBudget = new Budget(month, year);
+					household.getBudgets().add(currBudget);
+				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);

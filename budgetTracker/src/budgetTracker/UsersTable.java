@@ -2,6 +2,7 @@ package budgetTracker;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class UsersTable {
@@ -39,6 +40,30 @@ public class UsersTable {
 			statement.executeUpdate(query);
 			System.out.println("users row updated");
 
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public void readAllUsers(Connection connection, Household household) {
+		Statement statement;
+		ResultSet result;
+		try {
+			String query = "select * from users;";
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			while (result.next()) {
+				boolean alreadyExists = false;
+				String username = result.getString("username");
+				double salary = Double.valueOf(result.getString("salary"));
+				for (int i = 0; i < household.getHouseholdMembers().size(); i++) {
+					alreadyExists = household.getHouseholdMembers().get(i).getName() == username ? true : false;
+				}
+				if (!alreadyExists) {
+					FamilyMember newUser = new FamilyMember(username, salary);
+					household.getHouseholdMembers().add(newUser);
+				}
+			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}

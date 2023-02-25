@@ -31,8 +31,6 @@ public class PurchasesTable {
 					DatabaseManager.getUserIdByUsername(connection, purchasedBy), purchaseAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("purchase row inserted");
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -47,7 +45,6 @@ public class PurchasesTable {
 					java.sql.Date.valueOf(newPurchaseDate), newCategory, DatabaseManager.getUserIdByUsername(connection, newPurchasedBy), newPurchaseAmount, purchaseId);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("purchase row updated");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

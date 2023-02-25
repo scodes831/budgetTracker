@@ -51,7 +51,7 @@ public class BudgetMenu extends Menu {
 			Budget selectedBudgetEdit = budget.selectABudget(household);
 			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " "
 					+ selectedBudgetEdit.getBudgetYear() + " budget:");
-			budget.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
+			selectedBudgetEdit.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
 			break;
 		case 4:
 			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);

@@ -57,7 +57,9 @@ public class UsersTable {
 				String username = result.getString("username");
 				double salary = Double.valueOf(result.getString("salary"));
 				for (int i = 0; i < household.getHouseholdMembers().size(); i++) {
-					alreadyExists = household.getHouseholdMembers().get(i).getName() == username ? true : false;
+					if (household.getHouseholdMembers().get(i).getName().toLowerCase().equals(username.toLowerCase())) {
+						alreadyExists = true;
+					}
 				}
 				if (!alreadyExists) {
 					FamilyMember newUser = new FamilyMember(username, salary);

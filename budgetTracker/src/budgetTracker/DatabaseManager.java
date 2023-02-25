@@ -36,7 +36,6 @@ public class DatabaseManager {
 			while (result.next()) {
 				id = Integer.valueOf(result.getString("userid"));
 			}
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -58,11 +57,8 @@ public class DatabaseManager {
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
 			while (result.next()) {
-				System.out.println("inside while loop");
 				id = Integer.valueOf(result.getString("purchaseid"));
 			}
-			System.out.println("reading purchase id...");
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}

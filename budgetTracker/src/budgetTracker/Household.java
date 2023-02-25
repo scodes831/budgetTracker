@@ -20,17 +20,21 @@ public class Household {
 				+ " family members set up for your household.\nHow many family members do you want to add?");
 		Scanner in = new Scanner(System.in);
 		int userInputNum = in.nextInt();
-		do {
-			System.out.println("Family Member #" + (getHouseholdMembers().size() + 1) + " name: ");
-			String name = in.next();
-			System.out.println("Family Member #" + (getHouseholdMembers().size() + 1) + " monthly income: ");
-			double salary = in.nextDouble();
-			FamilyMember familyMember = new FamilyMember(name, salary);
-			householdMembers.add(familyMember);
-			usersTable.insertUsersRow(connection, name, new BigDecimal(salary));
-			System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
-					+ familyMember.getSalary() + "\n");
-		} while (getHouseholdMembers().size() != (numCurrentFamilyMembers + userInputNum));
+		if (userInputNum == 0) {
+			System.out.println("No new family members have been added.");
+		} else {
+			do {
+				System.out.println("Family Member #" + (getHouseholdMembers().size() + 1) + " name: ");
+				String name = in.next();
+				System.out.println("Family Member #" + (getHouseholdMembers().size() + 1) + " monthly income: ");
+				double salary = in.nextDouble();
+				FamilyMember familyMember = new FamilyMember(name, salary);
+				householdMembers.add(familyMember);
+				usersTable.insertUsersRow(connection, name, new BigDecimal(salary));
+				System.out.println("You have added " + familyMember.getName() + " who has a monthly income of $"
+						+ familyMember.getSalary() + "\n");
+			} while (getHouseholdMembers().size() != (numCurrentFamilyMembers + userInputNum));
+		}
 	}
 
 	public void displayFamilyMembers() {

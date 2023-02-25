@@ -25,7 +25,6 @@ public class UsersTable {
 			String query = String.format("insert into users (username, salary) values ('%s','%s');", username, salary);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("users row inserted");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -38,8 +37,6 @@ public class UsersTable {
 					DatabaseManager.getUserIdByUsername(connection, oldUsername));
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
-			System.out.println("users row updated");
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}

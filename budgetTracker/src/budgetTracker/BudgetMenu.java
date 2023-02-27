@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 public class BudgetMenu extends Menu {
 
-	public void show(Household household, Budget budget, Menu mainMenu, Connection connection, UsersTable usersTable,
+	public void show(Household household, Menu mainMenu, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		boolean selectionError;
 		do {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
+				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -29,7 +29,7 @@ public class BudgetMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
+	public void processSelection(Household household, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
@@ -41,23 +41,23 @@ public class BudgetMenu extends Menu {
 			break;
 		case 2:
 			budgetActualTable.readAllBudgetNames(connection, household);
-			Budget selectedBudgetDisplay = budget.selectABudget(household);
+			Budget selectedBudgetDisplay = Budget.selectABudget(household);
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
 			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay)
 					+ " " + selectedBudgetDisplay.getBudgetYear() + ":");
 			selectedBudgetDisplay.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
-			Budget selectedBudgetEdit = budget.selectABudget(household);
+			Budget selectedBudgetEdit = Budget.selectABudget(household);
 			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " "
 					+ selectedBudgetEdit.getBudgetYear() + " budget:");
 			selectedBudgetEdit.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
 			break;
 		case 4:
-			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}
-		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+		show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 
 }

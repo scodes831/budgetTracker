@@ -6,14 +6,14 @@ import java.util.Scanner;
 
 public class PurchaseMenu extends Menu {
 
-	public void show(Household household, Budget budget, Menu mainMenu, Connection connection, UsersTable usersTable,
+	public void show(Household household, Menu mainMenu, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		boolean selectionError;
 		do {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
+				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -21,11 +21,11 @@ public class PurchaseMenu extends Menu {
 		} while (selectionError);
 	}
 
-	public static void addPurchaseMenu(Household household, Budget budget, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
+	public static void addPurchaseMenu(Household household, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
 		boolean purchaseAdded = false;
 		do {
-			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, budget, connection, usersTable, purchasesTable);
-			String purchasedBy = PromptUserInput.promptUserNameInput(household, budget, connection, usersTable, purchasesTable);
+			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable, purchasesTable);
+			String purchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable, purchasesTable);
 			double amount = PromptUserInput.promptUserAmountInput(household);
 			String category = PromptUserInput.promptUserCategoryInput(household);
 			household.addPurchase(category, amount, purchasedBy, datePurchased, connection, purchasesTable);
@@ -42,25 +42,25 @@ public class PurchaseMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
+	public void processSelection(Household household, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
-			addPurchaseMenu(household, budget, connection, usersTable, purchasesTable);
+			addPurchaseMenu(household, connection, usersTable, purchasesTable);
 			break;
 		case 2:
 			SubPurchaseMenu subPurchaseMenu = new SubPurchaseMenu();
-			subPurchaseMenu.show(household, budget, new PurchaseMenu(), mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			subPurchaseMenu.show(household, new PurchaseMenu(), mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		case 3:
 			System.out.println("Edit a purchase");
-			Purchase.editPurchases(household, budget, connection, usersTable, purchasesTable);
+			Purchase.editPurchases(household, connection, usersTable, purchasesTable);
 			break;
 		case 4:
-			mainMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}
-		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+		show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 
 }

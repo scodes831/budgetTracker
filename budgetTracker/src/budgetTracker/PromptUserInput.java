@@ -97,7 +97,7 @@ public class PromptUserInput {
 		return null;
 	}
 
-	public static LocalDate promptUserDateInput(Household household, Budget budget, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
+	public static LocalDate promptUserDateInput(Household household, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
 		Scanner in = new Scanner(System.in);
 		boolean inputNeeded = true;
 		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
@@ -107,7 +107,7 @@ public class PromptUserInput {
 				String dateRegex = "(\\d{2}-\\d{2}-\\d{4})";
 				if (!dateInput.toString().matches(dateRegex)) {
 					System.out.println("Invalid date format. You must use MM-DD-YYYY format");
-					PurchaseMenu.addPurchaseMenu(household, budget, connection, usersTable, purchasesTable);
+					PurchaseMenu.addPurchaseMenu(household, connection, usersTable, purchasesTable);
 				} else {
 					String[] dateInputArr = new String[3];
 					dateInputArr = dateInput.toString().split("-");
@@ -122,7 +122,7 @@ public class PromptUserInput {
 		return null;
 	}
 
-	public static String promptUserNameInput(Household household, Budget budget, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
+	public static String promptUserNameInput(Household household, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
 		System.out.println("Who made the purchase?");
 		Scanner in = new Scanner(System.in);
 		String purchasedBy = in.next();
@@ -135,7 +135,7 @@ public class PromptUserInput {
 			int selection = in.nextInt();
 			switch (selection) {
 			case 1:
-				PurchaseMenu.addPurchaseMenu(household, budget, connection, usersTable, purchasesTable);
+				PurchaseMenu.addPurchaseMenu(household, connection, usersTable, purchasesTable);
 				break;
 			case 2:
 				household.addFamilyMembers(connection, usersTable);

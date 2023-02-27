@@ -5,14 +5,14 @@ import java.util.Scanner;
 
 public class SubPurchaseMenu implements SubMenu {
 
-	public void show(Household household, Budget budget, Menu purchaseMenu, Menu mainMenu, Connection connection, UsersTable usersTable,
+	public void show(Household household, Menu purchaseMenu, Menu mainMenu, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable ) {
 		boolean selectionError;
 		do {
 			try {
 				String selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, purchaseMenu, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
+				processSelection(household, purchaseMenu, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -29,7 +29,7 @@ public class SubPurchaseMenu implements SubMenu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu parentMenu, Menu mainMenu, String selection, Connection connection, UsersTable usersTable,
+	public void processSelection(Household household, Menu parentMenu, Menu mainMenu, String selection, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case "a":
@@ -42,8 +42,8 @@ public class SubPurchaseMenu implements SubMenu {
 			Purchase.showPurchasesByDate(household.getPurchasesList());
 			break;
 		case "d":
-			parentMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			parentMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 		}
-		show(household, budget, parentMenu, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+		show(household, parentMenu, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 }

@@ -5,14 +5,14 @@ import java.util.Scanner;
 
 public class MainMenu extends Menu {
 
-	public void show(Household household, Budget budget, Menu mainMenu, Connection connection, UsersTable usersTable,
+	public void show(Household household, Menu mainMenu, Connection connection, UsersTable usersTable,
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		boolean selectionError;
 		do {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, budget, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
+				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -28,20 +28,20 @@ public class MainMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Budget budget, Menu mainMenu, int selection,
+	public void processSelection(Household household, Menu mainMenu, int selection,
 			Connection connection, UsersTable usersTable, BudgetActualTable budgetActualTable,
 			PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
 			BudgetMenu budgetMenu = new BudgetMenu();
-			budgetMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			budgetMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 		case 2:
 			HouseholdMenu householdMenu = new HouseholdMenu();
-			householdMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			householdMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 		case 3:
 			PurchaseMenu purchaseMenu = new PurchaseMenu();
-			purchaseMenu.show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			purchaseMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 		}
-		show(household, budget, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+		show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}
 }

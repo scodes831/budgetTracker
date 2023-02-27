@@ -77,7 +77,7 @@ public class Purchase {
 		}
 	}
 
-	public static void editPurchases(Household household, Budget budget, Connection connection, UsersTable usersTable,
+	public static void editPurchases(Household household, Connection connection, UsersTable usersTable,
 			PurchasesTable purchasesTable) {
 		displayPurchases(household.getPurchasesList());
 		System.out.println("\nEnter the line number of the purchase you want to edit: ");
@@ -85,9 +85,9 @@ public class Purchase {
 		int purchaseIndex = in.nextInt() - 1;
 		String newCategory = PromptUserInput.promptUserCategoryInput(household);
 		double newAmount = PromptUserInput.promptUserAmountInput(household);
-		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, budget, connection, usersTable,
+		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable,
 				purchasesTable);
-		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, budget, connection, usersTable,
+		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable,
 				purchasesTable);
 		Purchase oldPurchase = household.getPurchasesList().get(purchaseIndex);
 		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);

@@ -164,7 +164,7 @@ public class Budget {
 		return false;
 	}
 
-	public Budget selectABudget(Household household) {
+	public static Budget selectABudget(Household household) {
 		int budgetIndex = PromptUserInput.promptUserBudgetSelection(household);
 		Budget selectedBudget = household.getBudgets().get(budgetIndex);
 		return selectedBudget;

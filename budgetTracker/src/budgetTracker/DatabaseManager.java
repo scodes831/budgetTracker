@@ -15,9 +15,6 @@ public class DatabaseManager {
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database, user, pw);
-			if (connection != null) {
-				System.out.println("connected");
-			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}

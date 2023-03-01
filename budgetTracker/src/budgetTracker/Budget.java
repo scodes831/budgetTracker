@@ -67,12 +67,13 @@ public class Budget {
 	}
 
 	public static Budget initializeBudget(Household household, int[] budgetName) {
-		if (!isBudgetADuplicate(household, budgetName)) {
+		int isDuplicate = isBudgetADuplicate(household, budgetName);
+		if (isDuplicate == -1) {
 			Budget budget = new Budget(budgetName[0], budgetName[1]);
 			household.getBudgets().add(budget);
 			return budget;
 		} else {
-			System.out.println("A budget already exists for " + budgetName[0] + " " + budgetName[1] + ".");
+			System.out.println("A budget already exists for " + budgetMonthString(household.getBudgets().get(isDuplicate)) + " " + budgetName[1] + ".");
 		}
 		return null;
 	}
@@ -81,7 +82,7 @@ public class Budget {
 			BudgetActualTable budgetActualTable) {
 		Scanner in = new Scanner(System.in);
 		System.out.println(
-				"Let's set up your budget for " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear()
+				"Let's set up your budget for " + budgetMonthString(budget) + " " + budget.getBudgetYear()
 						+ "!\nYour total household income is $" + household.calculateHouseholdIncome(household));
 		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
 		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Housing",
@@ -150,18 +151,20 @@ public class Budget {
 		}
 		int rowId = DatabaseManager.getBudgetRowIdByBudget(connection, LocalDate.of(budgetYear, budgetMonth, 1),
 				StringUtils.capitalize(category));
-		budgetActualTable.updateBudget(connection, rowId, LocalDate.of(budgetYear, budgetMonth, 1), StringUtils.capitalize(category),
-				new BigDecimal(newAmount).setScale(2, RoundingMode.HALF_UP), new BigDecimal(0), new BigDecimal(0));
+		budgetActualTable.updateBudget(connection, rowId, LocalDate.of(budgetYear, budgetMonth, 1),
+				StringUtils.capitalize(category), new BigDecimal(newAmount).setScale(2, RoundingMode.HALF_UP),
+				new BigDecimal(0), new BigDecimal(0));
 
 	}
 
-	public static boolean isBudgetADuplicate(Household household, int[] budgetName) {
-		for (Budget budget : household.getBudgets()) {
-			if (budget.getBudgetMonth() == budgetName[0] && budget.getBudgetYear() == budgetName[1]) {
-				return true;
+	public static int isBudgetADuplicate(Household household, int[] budgetName) {
+		for (int i = 0; i < household.getBudgets().size(); i++) {
+			if (household.getBudgets().get(i).getBudgetMonth() == budgetName[0]
+					&& household.getBudgets().get(i).getBudgetYear() == budgetName[1]) {
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 
 	public static Budget selectABudget(Household household) {
@@ -214,7 +217,7 @@ public class Budget {
 		return totalBudget - totalSpend;
 	}
 
-	public String budgetMonthString(Budget budget) {
+	public static String budgetMonthString(Budget budget) {
 		int monthInt = budget.getBudgetMonth();
 		switch (monthInt) {
 		case 1:

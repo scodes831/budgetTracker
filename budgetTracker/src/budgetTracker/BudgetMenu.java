@@ -33,9 +33,10 @@ public class BudgetMenu extends Menu {
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
+			budgetActualTable.readAllBudgetNames(connection, household);
 			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
-			System.out.println("displaying budget for " + newBudget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
+			System.out.println("displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
 			Formatter budgetTable = newBudget.displayBudget(household, newBudget);
 			budgetTable.close();
 			break;
@@ -43,13 +44,13 @@ public class BudgetMenu extends Menu {
 			budgetActualTable.readAllBudgetNames(connection, household);
 			Budget selectedBudgetDisplay = Budget.selectABudget(household);
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
-			System.out.println("Displaying budget for " + selectedBudgetDisplay.budgetMonthString(selectedBudgetDisplay)
+			System.out.println("Displaying budget for " + Budget.budgetMonthString(selectedBudgetDisplay)
 					+ " " + selectedBudgetDisplay.getBudgetYear() + ":");
 			selectedBudgetDisplay.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
 			Budget selectedBudgetEdit = Budget.selectABudget(household);
-			System.out.println("Editing your " + selectedBudgetEdit.budgetMonthString(selectedBudgetEdit) + " "
+			System.out.println("Editing your " + Budget.budgetMonthString(selectedBudgetEdit) + " "
 					+ selectedBudgetEdit.getBudgetYear() + " budget:");
 			selectedBudgetEdit.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
 			break;

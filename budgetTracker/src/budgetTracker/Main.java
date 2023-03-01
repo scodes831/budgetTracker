@@ -14,9 +14,6 @@ public class Main {
 		purchasesTable.createPurchasesTable(connection);
 		Menu.welcomeUser();
 		Household household = new Household();
-		//Budget budget = Budget.initializeBudget(household, Household.generateBudgetName());
-		//budget.setUpBudget(household, budget, connection, budgetActualTable);
-		//household.addFamilyMembers(connection, usersTable);
 		MainMenu mainMenu = new MainMenu();
 		mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 	}

@@ -97,7 +97,8 @@ public class PromptUserInput {
 		return null;
 	}
 
-	public static LocalDate promptUserDateInput(Household household, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
+	public static LocalDate promptUserDateInput(Household household, Connection connection, UsersTable usersTable,
+			PurchasesTable purchasesTable) {
 		Scanner in = new Scanner(System.in);
 		boolean inputNeeded = true;
 		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
@@ -122,7 +123,8 @@ public class PromptUserInput {
 		return null;
 	}
 
-	public static String promptUserNameInput(Household household, Connection connection, UsersTable usersTable, PurchasesTable purchasesTable) {
+	public static String promptUserNameInput(Household household, Connection connection, UsersTable usersTable,
+			PurchasesTable purchasesTable) {
 		System.out.println("Who made the purchase?");
 		Scanner in = new Scanner(System.in);
 		String purchasedBy = in.next();
@@ -130,19 +132,10 @@ public class PromptUserInput {
 		if (isFamilyMemberPresent) {
 			return purchasedBy;
 		} else {
-			System.out.println("You entered " + purchasedBy
-					+ " who is not set up in your household.\nHow would you like to proceed?\n1 - Add A Purchase\n2 - Add New Family Member");
-			int selection = in.nextInt();
-			switch (selection) {
-			case 1:
-				PurchaseMenu.addPurchaseMenu(household, connection, usersTable, purchasesTable);
-				break;
-			case 2:
-				household.addFamilyMembers(connection, usersTable);
-				break;
-			}
+			System.out.println("You entered " + purchasedBy + " who is not set up in your household.");
+			household.addFamilyMembers(connection, usersTable);
+			return household.getHouseholdMembers().get(household.getHouseholdMembers().size()-1).getName();
 		}
-		return null;
 	}
 
 	public static double promptUserAmountInput(Household household) {
@@ -151,16 +144,16 @@ public class PromptUserInput {
 		double amount = in.nextDouble();
 		return amount;
 	}
-	
+
 	public static int promptUserBudgetSelection(Household household) {
 		int lineNum = 1;
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please enter the line number of the budget to display:");
 		for (Budget budget : household.getBudgets()) {
-			System.out.println(lineNum + ": " + budget.budgetMonthString(budget) + " " + budget.getBudgetYear());
+			System.out.println(lineNum + ": " + Budget.budgetMonthString(budget) + " " + budget.getBudgetYear());
 			lineNum++;
 		}
-		int budgetIndex = in.nextInt()-1;
+		int budgetIndex = in.nextInt() - 1;
 		return budgetIndex;
 	}
 }

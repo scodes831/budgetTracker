@@ -28,7 +28,7 @@ public class PurchasesTable {
 			String query = String.format(
 					"insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');",
 					java.sql.Date.valueOf(purchaseDate), category,
-					DatabaseManager.getUserIdByUsername(connection, purchasedBy), purchaseAmount);
+					DatabaseManager.getUserIdByUsername(connection, FamilyMember.capitalizeName(purchasedBy)), purchaseAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);
 		} catch (Exception e) {

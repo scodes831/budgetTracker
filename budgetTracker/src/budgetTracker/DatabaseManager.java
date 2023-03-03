@@ -39,6 +39,24 @@ public class DatabaseManager {
 
 		return id;
 	}
+	
+	public static String getUsernameByUserId(Connection connection, int userId) {
+		Statement statement;
+		ResultSet result = null;
+		
+		try {
+			String query = String.format("select username from users where userid = '%s'", userId);
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			while (result.next()) {
+				return result.getString("username");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
+		return "Username not found";
+	}
 
 	public static int getPurchaseIdByPurchase(Connection connection, LocalDate purchaseDate, String category,
 			String purchasedBy, BigDecimal purchaseAmount) {

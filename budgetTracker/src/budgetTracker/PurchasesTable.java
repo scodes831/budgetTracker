@@ -85,8 +85,6 @@ public class PurchasesTable {
 
 				if (!alreadyExists) {
 					Purchase currPurchase = new Purchase(purchCategory, purchAmount, purchBy, purchDate);
-					System.out.println("category is " + purchCategory + ", purchAmount is " + purchAmount
-							+ ", purchBy is " + purchBy + ", purchDate is " + purchDate);
 					household.getPurchasesList().add(currPurchase);
 				}
 			}

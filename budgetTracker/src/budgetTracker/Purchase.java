@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Purchase {
@@ -21,27 +22,21 @@ public class Purchase {
 	}
 
 	public static void showAllPurchases(Household household) {
-		System.out.println("\n\n-----------------------------------");
-		System.out.println("Displaying all purchases...\n");
-		for (Purchase purchase : household.getPurchasesList()) {
-			System.out.println(purchase.getPurchasedBy().toUpperCase() + " spent " + "$" + purchase.getAmount() + " on "
-					+ purchase.getCategory() + " on " + purchase.getDatePurchased());
-		}
-		System.out.println("\n\n-----------------------------------\n\n");
+		Purchase.displayPurchases(household.getPurchasesList());
 	}
 
 	public static void showPurchasesByFamilyMember(Household household) {
 		System.out.println("Enter family member name to view purchases:");
 		Scanner in = new Scanner(System.in);
 		String nameInput = in.next();
-		System.out.println("\n\n-----------------------------------");
+		ArrayList<Purchase> newList = new ArrayList<Purchase>();
 		System.out.println("Displaying all purchases for " + FamilyMember.capitalizeName(nameInput) + "\n");
 		for (Purchase purchase : household.getPurchasesList()) {
 			if (purchase.getPurchasedBy().toLowerCase().equals(nameInput.toLowerCase())) {
-				System.out.println("Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
-						+ " Amount: $" + purchase.getAmount());
+				newList.add(purchase);
 			}
 		}
+		Purchase.displayPurchases(newList);
 		System.out.println("\n\n-----------------------------------\n\n");
 	}
 
@@ -68,13 +63,13 @@ public class Purchase {
 	}
 
 	public static void displayPurchases(ArrayList<Purchase> purchasesList) {
-		int purchasesCount = 1;
+		Formatter table = new Formatter();
+		table.format("%15s %15s %15s %15s\n", "Purchased By", "Amount", "Category", "Date");
 		for (Purchase purchase : purchasesList) {
-			System.out.println(
-					purchasesCount + " Date: " + purchase.getDatePurchased() + " Category: " + purchase.getCategory()
-							+ " Amount: $" + purchase.getAmount() + " Purchased By: " + purchase.getPurchasedBy());
-			purchasesCount++;
+			table.format("%15s %15s %15s %15s\n", FamilyMember.capitalizeName(purchase.getPurchasedBy()),
+					purchase.getAmount(), purchase.getCategory(), purchase.getDatePurchased());
 		}
+		System.out.println(table);
 	}
 
 	public static void editPurchases(Household household, Connection connection, UsersTable usersTable,
@@ -85,8 +80,7 @@ public class Purchase {
 		int purchaseIndex = in.nextInt() - 1;
 		String newCategory = PromptUserInput.promptUserCategoryInput(household);
 		double newAmount = PromptUserInput.promptUserAmountInput(household);
-		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable,
-				purchasesTable);
+		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable, purchasesTable);
 		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable,
 				purchasesTable);
 		Purchase oldPurchase = household.getPurchasesList().get(purchaseIndex);

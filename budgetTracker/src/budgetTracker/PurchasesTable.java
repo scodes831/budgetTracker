@@ -73,16 +73,20 @@ public class PurchasesTable {
 				String purchBy = DatabaseManager.getUsernameByUserId(connection,
 						Integer.valueOf(result.getString("purchasedby")));
 				for (int i = 0; i < household.getPurchasesList().size(); i++) {
-					if (household.getPurchasesList().get(i).getCategory().equals(purchCategory)
+					if (household.getPurchasesList().get(i).getCategory().toLowerCase()
+							.equals(purchCategory.toLowerCase())
 							&& household.getPurchasesList().get(i).getAmount() == purchAmount
-							&& household.getPurchasesList().get(i).getPurchasedBy().equals(purchBy)
-							&& household.getPurchasesList().get(i).getDatePurchased() == purchDate) {
+							&& household.getPurchasesList().get(i).getPurchasedBy().toLowerCase()
+									.equals(purchBy.toLowerCase())
+							&& household.getPurchasesList().get(i).getDatePurchased().equals(purchDate)) {
 						alreadyExists = true;
 					}
 				}
 
 				if (!alreadyExists) {
 					Purchase currPurchase = new Purchase(purchCategory, purchAmount, purchBy, purchDate);
+					System.out.println("category is " + purchCategory + ", purchAmount is " + purchAmount
+							+ ", purchBy is " + purchBy + ", purchDate is " + purchDate);
 					household.getPurchasesList().add(currPurchase);
 				}
 			}

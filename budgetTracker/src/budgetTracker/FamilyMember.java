@@ -13,7 +13,6 @@ public class FamilyMember {
 	public static String capitalizeName(String name) {
 		String firstL = name.substring(0,1).toUpperCase();
 		String remainder = name.substring(1);
-		System.out.println("the capitalized name is: " + firstL + remainder);
 		return firstL + remainder;
 	}
 

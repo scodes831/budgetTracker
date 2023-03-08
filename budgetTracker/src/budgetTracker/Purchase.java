@@ -88,7 +88,7 @@ public class Purchase {
 		household.getPurchasesList().set(purchaseIndex, newPurchase);
 		int purchaseId = DatabaseManager.getPurchaseIdByPurchase(connection, oldPurchase.getDatePurchased(),
 				oldPurchase.getCategory(), oldPurchase.getPurchasedBy(), new BigDecimal(oldPurchase.getAmount()));
-		purchasesTable.updatePurchase(connection, purchaseId, newDatePurchased, newCategory, newPurchasedBy,
+		purchasesTable.updatePurchase(connection, purchaseId, newDatePurchased, newCategory, FamilyMember.capitalizeName(newPurchasedBy),
 				new BigDecimal(newAmount));
 	}
 

@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Formatter;
 
 public class Household {
 
@@ -37,17 +38,18 @@ public class Household {
 		}
 	}
 
-	public void displayFamilyMembers() {
-		int familyMemberCount = 1;
+	public Formatter displayFamilyMembers() {
+		Formatter table = new Formatter();
+		table.format("%15s %15s\n", "Name", "Income");
 		for (FamilyMember familyMember : getHouseholdMembers()) {
-			System.out.println(
-					familyMemberCount + " Name: " + familyMember.getName() + ", Income: $" + familyMember.getSalary());
-			familyMemberCount++;
+			table.format("%15s %15s\n", familyMember.getName(), familyMember.getSalary());
 		}
-		System.out.println("\n");
+		System.out.println(table);
+		return table;
 	}
 
 	public void editFamilyMembers(Household household, Connection connection, UsersTable usersTable) {
+		displayFamilyMembers();
 		System.out.println("Enter the name of the family member you want to edit:");
 		Scanner in = new Scanner(System.in);
 		String editName = in.next();

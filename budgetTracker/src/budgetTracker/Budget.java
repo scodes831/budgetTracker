@@ -59,7 +59,7 @@ public class Budget {
 		budgetMap.put("utilities", new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend())));
 		budgetMap.put("health", new ArrayList<>(Arrays.asList(getHealthBudget(), getHealthSpend())));
 		budgetMap.put("car", new ArrayList<>(Arrays.asList(getCarBudget(), getCarSpend())));
-		budgetMap.put("groceries", new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend())));
+		budgetMap.put("grocery", new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend())));
 		budgetMap.put("dining", new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
 		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend())));
 		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));

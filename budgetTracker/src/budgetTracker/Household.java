@@ -153,12 +153,12 @@ public class Household {
 		
 	}
 
-	public double calculateHouseholdIncome(Household household) {
+	public void calculateHouseholdIncome(Household household) {
 		double totalHouseholdIncome = 0.0;
 		for (FamilyMember member : household.getHouseholdMembers()) {
 			totalHouseholdIncome += member.getSalary();
 		}
-		return totalHouseholdIncome;
+		household.setIncome(totalHouseholdIncome);
 	}
 
 	public double getIncome() {

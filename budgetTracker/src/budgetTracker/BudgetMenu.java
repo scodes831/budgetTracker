@@ -33,6 +33,8 @@ public class BudgetMenu extends Menu {
 			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
+			usersTable.readAllUsers(connection, household);
+			household.calculateHouseholdIncome(household);
 			budgetActualTable.readAllBudgetNames(connection, household);
 			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);

@@ -34,6 +34,7 @@ public class HouseholdMenu extends Menu {
 		switch (selection) {
 		case 1:
 			household.addFamilyMembers(connection, usersTable);
+			household.calculateHouseholdIncome(household);
 			break;
 		case 2:
 			usersTable.readAllUsers(connection, household);
@@ -43,6 +44,7 @@ public class HouseholdMenu extends Menu {
 		case 3:
 			System.out.println("Editing family members: \n");
 			household.editFamilyMembers(household, connection, usersTable);
+			household.calculateHouseholdIncome(household);
 			break;
 		case 4:
 			mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);

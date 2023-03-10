@@ -73,7 +73,8 @@ public class Budget {
 			household.getBudgets().add(budget);
 			return budget;
 		} else {
-			System.out.println("A budget already exists for " + budgetMonthString(household.getBudgets().get(isDuplicate)) + " " + budgetName[1] + ".");
+			System.out.println("A budget already exists for "
+					+ budgetMonthString(household.getBudgets().get(isDuplicate)) + " " + budgetName[1] + ".");
 		}
 		return null;
 	}
@@ -81,9 +82,7 @@ public class Budget {
 	public void setUpBudget(Household household, Budget budget, Connection connection,
 			BudgetActualTable budgetActualTable) {
 		Scanner in = new Scanner(System.in);
-		System.out.println(
-				"Let's set up your budget for " + budgetMonthString(budget) + " " + budget.getBudgetYear()
-						+ "!\nYour total household income is $" + household.calculateHouseholdIncome(household));
+		System.out.println("Let's set up your budget for " + budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $" + household.getIncome());
 		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
 		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Housing",
 				new BigDecimal(getHousingBudget()), new BigDecimal(0), new BigDecimal(0));
@@ -108,6 +107,10 @@ public class Budget {
 		setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
 		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Miscellaneous",
 				new BigDecimal(getMiscBudget()), new BigDecimal(0), new BigDecimal(0));
+	}
+	
+	public boolean isAllIncomeBudgeted(Household household, Budget budget) {
+		return false;
 	}
 
 	public void editBudget(Household household, Budget budget, Connection connection,

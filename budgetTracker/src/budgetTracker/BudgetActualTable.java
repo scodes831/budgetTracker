@@ -92,9 +92,9 @@ public class BudgetActualTable {
 				int rowId = Integer.valueOf(result.getString("rowid"));
 				String[] date = result.getString("budgetname").split("-");
 				int[] name = { Integer.valueOf(date[0]), Integer.valueOf(date[1]) };
-				double budgetAmount = Double.valueOf(result.getString("budgetamount"));
-				double spendAmount = Double.valueOf(result.getString("spendamount"));
-				double remainingAmount = Double.valueOf(result.getString("remainingamount"));
+				BigDecimal budgetAmount = new BigDecimal(result.getString("budgetamount"));
+				BigDecimal spendAmount = new BigDecimal(result.getString("spendamount"));
+				BigDecimal remainingAmount = new BigDecimal(result.getString("remainingamount"));
 				String category = result.getString("category");
 				switch (category.toLowerCase()) {
 				case "housing":

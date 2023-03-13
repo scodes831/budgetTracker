@@ -19,53 +19,11 @@ public class PromptUserInput {
 		int budgetMonth = in.nextInt();
 		return budgetMonth;
 	}
-
-	public static double promptUserHousingBudget(Scanner in) {
-		System.out.println("Enter budget for housing: ");
-		double housingBudget = in.nextDouble();
-		return housingBudget;
-	}
-
-	public static double promptUserUtilitiesBudget(Scanner in) {
-		System.out.println("Enter budget for utilities: ");
-		double utilitiesBudget = in.nextDouble();
-		return utilitiesBudget;
-	}
-
-	public static double promptUserHealthBudget(Scanner in) {
-		System.out.println("Enter budget for health: ");
-		double healthBudget = in.nextDouble();
-		return healthBudget;
-	}
-
-	public static double promptUserCarBudget(Scanner in) {
-		System.out.println("Enter budget for car: ");
-		double carBudget = in.nextDouble();
-		return carBudget;
-	}
-
-	public static double promptUserGroceryBudget(Scanner in) {
-		System.out.println("Enter budget for grocery: ");
-		double groceryBudget = in.nextDouble();
-		return groceryBudget;
-	}
-
-	public static double promptUserDiningBudget(Scanner in) {
-		System.out.println("Enter budget for dining: ");
-		double diningBudget = in.nextDouble();
-		return diningBudget;
-	}
-
-	public static double promptUserFunBudget(Scanner in) {
-		System.out.println("Enter budget for fun: ");
-		double funBudget = in.nextDouble();
-		return funBudget;
-	}
-
-	public static double promptUserMiscBudget(Scanner in) {
-		System.out.println("Enter budget for miscellaneous: ");
-		double miscBudget = in.nextDouble();
-		return miscBudget;
+	
+	public static double promptUserBudgetAmount(Scanner in, String category) {
+		System.out.println("Enter budget for " + category.toLowerCase());
+		double amountEntered = in.nextDouble();
+		return amountEntered;
 	}
 
 	public static String promptUserCategoryInput(Household household) {

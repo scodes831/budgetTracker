@@ -1,5 +1,6 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -26,7 +27,7 @@ public class PurchaseMenu extends Menu {
 		do {
 			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable, purchasesTable);
 			String purchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable, purchasesTable);
-			double amount = PromptUserInput.promptUserAmountInput(household);
+			BigDecimal amount = new BigDecimal(PromptUserInput.promptUserAmountInput(household));
 			String category = PromptUserInput.promptUserCategoryInput(household);
 			household.addPurchase(category, amount, purchasedBy, datePurchased, connection, purchasesTable);
 			purchaseAdded = true;

@@ -69,7 +69,7 @@ public class PurchasesTable {
 				int purchDay = Integer.valueOf(purchaseDate[2]);
 				LocalDate purchDate = LocalDate.of(purchYear, purchMonth, purchDay);
 				String purchCategory = result.getString("category");
-				double purchAmount = Double.valueOf(result.getString("purchaseamount"));
+				BigDecimal purchAmount = new BigDecimal(result.getString("purchaseamount"));
 				String purchBy = DatabaseManager.getUsernameByUserId(connection,
 						Integer.valueOf(result.getString("purchasedby")));
 				for (int i = 0; i < household.getPurchasesList().size(); i++) {

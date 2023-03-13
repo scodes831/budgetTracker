@@ -10,11 +10,11 @@ import java.util.Scanner;
 public class Purchase {
 
 	String category;
-	double amount;
+	BigDecimal amount;
 	String purchasedBy;
 	LocalDate datePurchased;
 
-	Purchase(String category, double amount, String purchasedBy, LocalDate datePurchased) {
+	Purchase(String category, BigDecimal amount, String purchasedBy, LocalDate datePurchased) {
 		this.category = category;
 		this.amount = amount;
 		this.purchasedBy = purchasedBy;
@@ -79,7 +79,7 @@ public class Purchase {
 		Scanner in = new Scanner(System.in);
 		int purchaseIndex = in.nextInt() - 1;
 		String newCategory = PromptUserInput.promptUserCategoryInput(household);
-		double newAmount = PromptUserInput.promptUserAmountInput(household);
+		BigDecimal newAmount = new BigDecimal(PromptUserInput.promptUserAmountInput(household));
 		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable, purchasesTable);
 		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable,
 				purchasesTable);
@@ -87,9 +87,8 @@ public class Purchase {
 		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
 		household.getPurchasesList().set(purchaseIndex, newPurchase);
 		int purchaseId = DatabaseManager.getPurchaseIdByPurchase(connection, oldPurchase.getDatePurchased(),
-				oldPurchase.getCategory(), oldPurchase.getPurchasedBy(), new BigDecimal(oldPurchase.getAmount()));
-		purchasesTable.updatePurchase(connection, purchaseId, newDatePurchased, newCategory, FamilyMember.capitalizeName(newPurchasedBy),
-				new BigDecimal(newAmount));
+				oldPurchase.getCategory(), oldPurchase.getPurchasedBy(), oldPurchase.getAmount());
+		purchasesTable.updatePurchase(connection, purchaseId, newDatePurchased, newCategory, FamilyMember.capitalizeName(newPurchasedBy), newAmount);
 	}
 
 	public static void updatePurchasedBy(Household household, String oldName, String newName) {
@@ -143,11 +142,11 @@ public class Purchase {
 		this.category = category;
 	}
 
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 

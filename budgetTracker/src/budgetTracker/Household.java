@@ -98,15 +98,15 @@ public class Household {
 		int purchaseNum = purchasesList.size() - 1;
 	}
 	
-	public void calculateCategorySpend(Budget budget) {
-		double housingTotal = 0.0;
-		double utilitiesTotal = 0.0;
-		double healthTotal = 0.0;
-		double carTotal = 0.0;
-		double groceryTotal = 0.0;
-		double diningTotal = 0.0;
-		double funTotal = 0.0;
-		double miscTotal = 0.0;
+	public void calculateCategorySpend(Budget budget) { 
+		BigDecimal housingTotal = new BigDecimal(0);
+		BigDecimal utilitiesTotal = new BigDecimal(0);
+		BigDecimal healthTotal = new BigDecimal(0);
+		BigDecimal carTotal = new BigDecimal(0);
+		BigDecimal groceryTotal = new BigDecimal(0);
+		BigDecimal diningTotal = new BigDecimal(0);
+		BigDecimal funTotal = new BigDecimal(0);
+		BigDecimal miscTotal = new BigDecimal(0);
 
 		for (Purchase purchase : purchasesList) {
 			LocalDate purchaseDate = purchase.getDatePurchased();
@@ -115,28 +115,28 @@ public class Household {
 			if (budget.getBudgetMonth() == purchaseMonth && budget.getBudgetYear() == purchaseYear) {
 				switch (purchase.getCategory()) {
 				case "housing":
-					housingTotal += purchase.getAmount();
+					housingTotal = housingTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "utilities":
-					utilitiesTotal += purchase.getAmount();
+					utilitiesTotal = utilitiesTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "health":
-					healthTotal += purchase.getAmount();
+					healthTotal = healthTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "car":
-					carTotal += purchase.getAmount();
+					carTotal = carTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "grocery":
-					groceryTotal += purchase.getAmount();
+					groceryTotal = groceryTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "dining":
-					diningTotal += purchase.getAmount();
+					diningTotal = diningTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "fun":
-					funTotal += purchase.getAmount();
+					funTotal = funTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				case "miscellaneous":
-					miscTotal += purchase.getAmount();
+					miscTotal = miscTotal.add(new BigDecimal(purchase.getAmount()));
 					break;
 				}
 			}

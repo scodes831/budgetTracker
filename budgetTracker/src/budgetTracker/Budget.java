@@ -18,42 +18,42 @@ public class Budget {
 	private int budgetMonth;
 	private int budgetYear;
 
-	private double totalBudgeted;
-	private double totalSpent;
+	private BigDecimal totalBudgeted;
+	private BigDecimal totalSpent;
 
-	private double housingBudget;
-	private double housingSpend;
-	private double housingRemaining;
-	private double utilitiesBudget;
-	private double utilitiesSpend;
-	private double utilitiesRemaining;
-	private double healthBudget;
-	private double healthSpend;
-	private double healthRemaining;
-	private double carBudget;
-	private double carSpend;
-	private double carRemaining;
-	private double groceryBudget;
-	private double grocerySpend;
-	private double groceryRemaining;
-	private double diningBudget;
-	private double diningSpend;
-	private double diningRemaining;
-	private double funBudget;
-	private double funSpend;
-	private double funRemaining;
-	private double miscBudget;
-	private double miscSpend;
-	private double miscRemaining;
+	private BigDecimal housingBudget;
+	private BigDecimal housingSpend;
+	private BigDecimal housingRemaining;
+	private BigDecimal utilitiesBudget;
+	private BigDecimal utilitiesSpend;
+	private BigDecimal utilitiesRemaining;
+	private BigDecimal healthBudget;
+	private BigDecimal healthSpend;
+	private BigDecimal healthRemaining;
+	private BigDecimal carBudget;
+	private BigDecimal carSpend;
+	private BigDecimal carRemaining;
+	private BigDecimal groceryBudget;
+	private BigDecimal grocerySpend;
+	private BigDecimal groceryRemaining;
+	private BigDecimal diningBudget;
+	private BigDecimal diningSpend;
+	private BigDecimal diningRemaining;
+	private BigDecimal funBudget;
+	private BigDecimal funSpend;
+	private BigDecimal funRemaining;
+	private BigDecimal miscBudget;
+	private BigDecimal miscSpend;
+	private BigDecimal miscRemaining;
 
-	Map<String, ArrayList<Double>> budgetMap = new LinkedHashMap<String, ArrayList<Double>>();
+	Map<String, ArrayList<BigDecimal>> budgetMap = new LinkedHashMap<String, ArrayList<BigDecimal>>();
 
 	Budget(int budgetMonth, int budgetYear) {
 		this.budgetMonth = budgetMonth;
 		this.budgetYear = budgetYear;
 	}
 
-	private Map<String, ArrayList<Double>> makeBudgetMap(Household household, Budget budget) {
+	private Map<String, ArrayList<BigDecimal>> makeBudgetMap(Household household, Budget budget) {
 		household.calculateCategorySpend(budget);
 		budgetMap.put("housing", new ArrayList<>(Arrays.asList(getHousingBudget(), getHousingSpend())));
 		budgetMap.put("utilities", new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend())));
@@ -81,34 +81,54 @@ public class Budget {
 
 	public void setUpBudget(Household household, Budget budget, Connection connection,
 			BudgetActualTable budgetActualTable) {
+		BigDecimal runningTotal = new BigDecimal(0);
+		String[] categories = { "Housing", "Utilities", "Health", "Car", "Grocery", "Dining", "Fun", "Miscellaneous" };
+		System.out.println("Let's set up your budget for " + budgetMonthString(budget) + " " + budget.getBudgetYear()
+				+ "!\nYour total household income is $" + household.getIncome());
 		Scanner in = new Scanner(System.in);
-		System.out.println("Let's set up your budget for " + budgetMonthString(budget) + " " + budget.getBudgetYear() + "!\nYour total household income is $" + household.getIncome());
-		setHousingBudget(PromptUserInput.promptUserHousingBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Housing",
-				new BigDecimal(getHousingBudget()), new BigDecimal(0), new BigDecimal(0));
-		setUtilitiesBudget(PromptUserInput.promptUserUtilitiesBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Utilities",
-				new BigDecimal(getUtilitiesBudget()), new BigDecimal(0), new BigDecimal(0));
-		setHealthBudget(PromptUserInput.promptUserHealthBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Health",
-				new BigDecimal(getHealthBudget()), new BigDecimal(0), new BigDecimal(0));
-		setCarBudget(PromptUserInput.promptUserCarBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Car",
-				new BigDecimal(getCarBudget()), new BigDecimal(0), new BigDecimal(0));
-		setGroceryBudget(PromptUserInput.promptUserGroceryBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Grocery",
-				new BigDecimal(getGroceryBudget()), new BigDecimal(0), new BigDecimal(0));
-		setDiningBudget(PromptUserInput.promptUserDiningBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Dining",
-				new BigDecimal(getDiningBudget()), new BigDecimal(0), new BigDecimal(0));
-		setFunBudget(PromptUserInput.promptUserFunBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Fun",
-				new BigDecimal(getFunBudget()), new BigDecimal(0), new BigDecimal(0));
-		setMiscBudget(PromptUserInput.promptUserMiscBudget(in));
-		budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), "Miscellaneous",
-				new BigDecimal(getMiscBudget()), new BigDecimal(0), new BigDecimal(0));
+		for (int i = 0; i < categories.length; i++) {
+			BigDecimal currValue = new BigDecimal(PromptUserInput.promptUserBudgetAmount(in, categories[i]));
+			runningTotal = runningTotal.add(currValue);
+			if (runningTotal.compareTo(new BigDecimal(household.getIncome())) < 0) {
+				System.out.println("budget amount is less than income - OK");
+				setBudgetAmount(categories[i], currValue);
+				budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), categories[i],
+						currValue, new BigDecimal(0), new BigDecimal(0));
+			} else {
+				System.out.println("error - budget over income total");
+			}
+		}
 	}
-	
+
+	private void setBudgetAmount(String category, BigDecimal amount) {
+		switch (category.toLowerCase()) {
+		case "housing":
+			setHousingBudget(amount);
+			break;
+		case "utilities":
+			setUtilitiesBudget(amount);
+			break;
+		case "health":
+			setHealthBudget(amount);
+			break;
+		case "car":
+			setCarBudget(amount);
+			break;
+		case "grocery":
+			setGroceryBudget(amount);
+			break;
+		case "dining":
+			setDiningBudget(amount);
+			break;
+		case "fun":
+			setFunBudget(amount);
+			break;
+		case "miscellanous":
+			setMiscBudget(amount);
+			break;
+		}
+	}
+
 	public boolean isAllIncomeBudgeted(Household household, Budget budget) {
 		return false;
 	}
@@ -267,211 +287,211 @@ public class Budget {
 		this.budgetYear = budgetYear;
 	}
 
-	public double getTotalBudgeted() {
+	public BigDecimal getTotalBudgeted() {
 		return totalBudgeted;
 	}
 
-	public void setTotalBudgeted(double totalBudgeted) {
+	public void setTotalBudgeted(BigDecimal totalBudgeted) {
 		this.totalBudgeted = totalBudgeted;
 	}
 
-	public double getTotalSpent() {
+	public BigDecimal getTotalSpent() {
 		return totalSpent;
 	}
 
-	public void setTotalSpent(double totalSpent) {
+	public void setTotalSpent(BigDecimal totalSpent) {
 		this.totalSpent = totalSpent;
 	}
 
-	public double getHousingBudget() {
+	public BigDecimal getHousingBudget() {
 		return housingBudget;
 	}
 
-	public void setHousingBudget(double housingBudget) {
-		this.housingBudget = housingBudget;
+	public void setHousingBudget(BigDecimal amount) {
+		this.housingBudget = amount;
 	}
 
-	public double getHousingSpend() {
+	public BigDecimal getHousingSpend() {
 		return housingSpend;
 	}
 
-	public void setHousingSpend(double housingSpend) {
+	public void setHousingSpend(BigDecimal housingSpend) {
 		this.housingSpend = housingSpend;
 	}
 
-	public double getUtilitiesBudget() {
+	public BigDecimal getUtilitiesBudget() {
 		return utilitiesBudget;
 	}
 
-	public void setUtilitiesBudget(double utilitiesBudget) {
+	public void setUtilitiesBudget(BigDecimal utilitiesBudget) {
 		this.utilitiesBudget = utilitiesBudget;
 	}
 
-	public double getUtilitiesSpend() {
+	public BigDecimal getUtilitiesSpend() {
 		return utilitiesSpend;
 	}
 
-	public void setUtilitiesSpend(double utilitiesSpend) {
+	public void setUtilitiesSpend(BigDecimal utilitiesSpend) {
 		this.utilitiesSpend = utilitiesSpend;
 	}
 
-	public double getHealthBudget() {
+	public BigDecimal getHealthBudget() {
 		return healthBudget;
 	}
 
-	public void setHealthBudget(double healthBudget) {
+	public void setHealthBudget(BigDecimal healthBudget) {
 		this.healthBudget = healthBudget;
 	}
 
-	public double getHealthSpend() {
+	public BigDecimal getHealthSpend() {
 		return healthSpend;
 	}
 
-	public void setHealthSpend(double healthSpend) {
+	public void setHealthSpend(BigDecimal healthSpend) {
 		this.healthSpend = healthSpend;
 	}
 
-	public double getCarBudget() {
+	public BigDecimal getCarBudget() {
 		return carBudget;
 	}
 
-	public void setCarBudget(double carBudget) {
+	public void setCarBudget(BigDecimal carBudget) {
 		this.carBudget = carBudget;
 	}
 
-	public double getCarSpend() {
+	public BigDecimal getCarSpend() {
 		return carSpend;
 	}
 
-	public void setCarSpend(double carSpend) {
+	public void setCarSpend(BigDecimal carSpend) {
 		this.carSpend = carSpend;
 	}
 
-	public double getGroceryBudget() {
+	public BigDecimal getGroceryBudget() {
 		return groceryBudget;
 	}
 
-	public void setGroceryBudget(double groceryBudget) {
+	public void setGroceryBudget(BigDecimal groceryBudget) {
 		this.groceryBudget = groceryBudget;
 	}
 
-	public double getGrocerySpend() {
+	public BigDecimal getGrocerySpend() {
 		return grocerySpend;
 	}
 
-	public void setGrocerySpend(double grocerySpend) {
+	public void setGrocerySpend(BigDecimal grocerySpend) {
 		this.grocerySpend = grocerySpend;
 	}
 
-	public double getDiningBudget() {
+	public BigDecimal getDiningBudget() {
 		return diningBudget;
 	}
 
-	public void setDiningBudget(double diningBudget) {
+	public void setDiningBudget(BigDecimal diningBudget) {
 		this.diningBudget = diningBudget;
 	}
 
-	public double getDiningSpend() {
+	public BigDecimal getDiningSpend() {
 		return diningSpend;
 	}
 
-	public void setDiningSpend(double diningSpend) {
+	public void setDiningSpend(BigDecimal diningSpend) {
 		this.diningSpend = diningSpend;
 	}
 
-	public double getFunBudget() {
+	public BigDecimal getFunBudget() {
 		return funBudget;
 	}
 
-	public void setFunBudget(double funBudget) {
+	public void setFunBudget(BigDecimal funBudget) {
 		this.funBudget = funBudget;
 	}
 
-	public double getFunSpend() {
+	public BigDecimal getFunSpend() {
 		return funSpend;
 	}
 
-	public void setFunSpend(double funSpend) {
+	public void setFunSpend(BigDecimal funSpend) {
 		this.funSpend = funSpend;
 	}
 
-	public double getMiscBudget() {
+	public BigDecimal getMiscBudget() {
 		return miscBudget;
 	}
 
-	public void setMiscBudget(double miscBudget) {
+	public void setMiscBudget(BigDecimal miscBudget) {
 		this.miscBudget = miscBudget;
 	}
 
-	public double getMiscSpend() {
+	public BigDecimal getMiscSpend() {
 		return miscSpend;
 	}
 
-	public void setMiscSpend(double miscSpend) {
+	public void setMiscSpend(BigDecimal miscSpend) {
 		this.miscSpend = miscSpend;
 	}
 
-	public double getHousingRemaining() {
+	public BigDecimal getHousingRemaining() {
 		return housingRemaining;
 	}
 
-	public void setHousingRemaining(double housingRemaining) {
+	public void setHousingRemaining(BigDecimal housingRemaining) {
 		this.housingRemaining = housingRemaining;
 	}
 
-	public double getUtilitiesRemaining() {
+	public BigDecimal getUtilitiesRemaining() {
 		return utilitiesRemaining;
 	}
 
-	public void setUtilitiesRemaining(double utilitiesRemaining) {
+	public void setUtilitiesRemaining(BigDecimal utilitiesRemaining) {
 		this.utilitiesRemaining = utilitiesRemaining;
 	}
 
-	public double getHealthRemaining() {
+	public BigDecimal getHealthRemaining() {
 		return healthRemaining;
 	}
 
-	public void setHealthRemaining(double healthRemaining) {
+	public void setHealthRemaining(BigDecimal healthRemaining) {
 		this.healthRemaining = healthRemaining;
 	}
 
-	public double getCarRemaining() {
+	public BigDecimal getCarRemaining() {
 		return carRemaining;
 	}
 
-	public void setCarRemaining(double carRemaining) {
+	public void setCarRemaining(BigDecimal carRemaining) {
 		this.carRemaining = carRemaining;
 	}
 
-	public double getGroceryRemaining() {
+	public BigDecimal getGroceryRemaining() {
 		return groceryRemaining;
 	}
 
-	public void setGroceryRemaining(double groceryRemaining) {
+	public void setGroceryRemaining(BigDecimal groceryRemaining) {
 		this.groceryRemaining = groceryRemaining;
 	}
 
-	public double getDiningRemaining() {
+	public BigDecimal getDiningRemaining() {
 		return diningRemaining;
 	}
 
-	public void setDiningRemaining(double diningRemaining) {
+	public void setDiningRemaining(BigDecimal diningRemaining) {
 		this.diningRemaining = diningRemaining;
 	}
 
-	public double getFunRemaining() {
+	public BigDecimal getFunRemaining() {
 		return funRemaining;
 	}
 
-	public void setFunRemaining(double funRemaining) {
+	public void setFunRemaining(BigDecimal funRemaining) {
 		this.funRemaining = funRemaining;
 	}
 
-	public double getMiscRemaining() {
+	public BigDecimal getMiscRemaining() {
 		return miscRemaining;
 	}
 
-	public void setMiscRemaining(double miscRemaining) {
+	public void setMiscRemaining(BigDecimal miscRemaining) {
 		this.miscRemaining = miscRemaining;
 	}
 

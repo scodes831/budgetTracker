@@ -136,8 +136,8 @@ public class Budget {
 	public void editBudget(Household household, Budget budget, Connection connection,
 			BudgetActualTable budgetActualTable) {
 		String category = PromptUserInput.promptUserCategoryInput(household);
-		double newAmount = PromptUserInput.promptUserAmountInput(household);
-		ArrayList<Double> list = budgetMap.get(category);
+		BigDecimal newAmount = new BigDecimal(PromptUserInput.promptUserAmountInput(household));
+		ArrayList<BigDecimal> list = budgetMap.get(category);
 		switch (category) {
 		case "housing":
 			setHousingBudget(newAmount);
@@ -175,7 +175,7 @@ public class Budget {
 		int rowId = DatabaseManager.getBudgetRowIdByBudget(connection, LocalDate.of(budgetYear, budgetMonth, 1),
 				StringUtils.capitalize(category));
 		budgetActualTable.updateBudget(connection, rowId, LocalDate.of(budgetYear, budgetMonth, 1),
-				StringUtils.capitalize(category), new BigDecimal(newAmount).setScale(2, RoundingMode.HALF_UP),
+				StringUtils.capitalize(category), newAmount.setScale(2, RoundingMode.HALF_UP),
 				new BigDecimal(0), new BigDecimal(0));
 
 	}
@@ -198,13 +198,13 @@ public class Budget {
 
 	public Formatter displayBudget(Household household, Budget selectedBudget) {
 		Formatter table = new Formatter();
-		Map<String, ArrayList<Double>> budgetMap = makeBudgetMap(household, selectedBudget);
+		Map<String, ArrayList<BigDecimal>> budgetMap = makeBudgetMap(household, selectedBudget);
 		table.format("%15s %15s %15s %15s\n", "Category", "Budget", "Actual", "Remaining");
 		budgetMap.forEach((k, v) -> {
-			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0) - v.get(1));
+			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0).subtract(v.get(1)));
 		});
-		double totalBudget = calculateTotalBudget(budgetMap);
-		double totalSpend = calculateTotalSpend(household, selectedBudget);
+		BigDecimal totalBudget = calculateTotalBudget(budgetMap);
+		BigDecimal totalSpend = calculateTotalSpend(household, selectedBudget);
 		System.out.println("\nTotal amount budgeted: $" + totalBudget);
 		System.out.println("Total amount spent: $" + totalSpend);
 		System.out.println("Total amount remaining: $" + calculateTotalRemaining(totalBudget, totalSpend) + "\n");
@@ -212,16 +212,16 @@ public class Budget {
 		return table;
 	}
 
-	private double calculateTotalBudget(Map<String, ArrayList<Double>> budgetMap) {
-		double totalBudget = 0.0;
-		for (Map.Entry<String, ArrayList<Double>> entry : budgetMap.entrySet()) {
-			totalBudget += entry.getValue().get(0);
+	private BigDecimal calculateTotalBudget(Map<String, ArrayList<BigDecimal>> budgetMap) {
+		BigDecimal totalBudget = new BigDecimal(0);
+		for (Map.Entry<String, ArrayList<BigDecimal>> entry : budgetMap.entrySet()) {
+			totalBudget = totalBudget.add(entry.getValue().get(0));
 		}
 		return totalBudget;
 	}
 
-	private double calculateTotalSpend(Household household, Budget budget) {
-		double totalSpend = 0.0;
+	private BigDecimal calculateTotalSpend(Household household, Budget budget) {
+		BigDecimal totalSpend = new BigDecimal(0);
 		int budgetMonth = budget.getBudgetMonth();
 		int budgetYear = budget.getBudgetYear();
 		for (Purchase purchase : household.getPurchasesList()) {
@@ -229,15 +229,15 @@ public class Budget {
 			int monthPurchased = datePurchased.getMonthValue();
 			int yearPurchased = datePurchased.getYear();
 			if (budgetMonth == monthPurchased && budgetYear == yearPurchased) {
-				totalSpend += purchase.getAmount();
+				totalSpend = totalSpend.add(purchase.getAmount());
 			}
 		}
 		return totalSpend;
 
 	}
 
-	private double calculateTotalRemaining(double totalBudget, double totalSpend) {
-		return totalBudget - totalSpend;
+	private BigDecimal calculateTotalRemaining(BigDecimal totalBudget, BigDecimal totalSpend) {
+		return totalBudget.subtract(totalSpend);
 	}
 
 	public static String budgetMonthString(Budget budget) {

@@ -87,16 +87,22 @@ public class Budget {
 				+ "!\nYour total household income is $" + household.getIncome());
 		Scanner in = new Scanner(System.in);
 		for (int i = 0; i < categories.length; i++) {
-			BigDecimal currValue = new BigDecimal(PromptUserInput.promptUserBudgetAmount(in, categories[i]));
-			runningTotal = runningTotal.add(currValue);
-			if (runningTotal.compareTo(new BigDecimal(household.getIncome())) < 0) {
-				System.out.println("budget amount is less than income - OK");
-				setBudgetAmount(categories[i], currValue);
-				budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), categories[i],
-						currValue, new BigDecimal(0), new BigDecimal(0));
-			} else {
-				System.out.println("error - budget over income total");
-			}
+			boolean hasError;
+			do {
+				BigDecimal currValue = new BigDecimal(PromptUserInput.promptUserBudgetAmount(in, categories[i]));
+				runningTotal = runningTotal.add(currValue);
+				if (runningTotal.compareTo(new BigDecimal(household.getIncome())) < 0) {
+					hasError = false;
+					setBudgetAmount(categories[i], currValue);
+					budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), categories[i],
+							currValue, new BigDecimal(0), new BigDecimal(0));
+					System.out.println("Income remaining: $" + new BigDecimal(household.getIncome()).subtract(runningTotal) + "\n");
+				} else {
+					hasError = true;
+					runningTotal = runningTotal.subtract(currValue);
+					System.out.println("ERROR - Budgeted amount exceeds household income. Enter a valid amount:\n");
+				}
+			} while (hasError);
 		}
 	}
 

@@ -35,12 +35,19 @@ public class BudgetMenu extends Menu {
 			UsersTable usersTable, BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
-			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
-			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
-			System.out.println(
-					"displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
-			Formatter budgetTable = newBudget.displayBudget(household, newBudget);
-			budgetTable.close();
+			if ((!household.hasZeroFamilyMembers(household)) || household.getIncome() != 0) {
+				System.out.println("result of hasZeroFamilyMembers is " + household.hasZeroFamilyMembers(household));
+				System.out.println("household income is: " + household.getIncome());
+				Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
+				newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
+				System.out.println(
+						"displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
+				Formatter budgetTable = newBudget.displayBudget(household, newBudget);
+				budgetTable.close();
+			} else {
+				System.out.println("Household income is $0. Add a household member or update income to continue.");
+			}
+			
 			break;
 		case 2:
 			budgetActualTable.readAllBudgetNames(connection, household);

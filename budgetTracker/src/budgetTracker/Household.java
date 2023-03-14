@@ -81,6 +81,10 @@ public class Household {
 		return false;
 	}
 	
+	public boolean hasZeroFamilyMembers(Household household) {
+		return household.getHouseholdMembers().size() == 0 ? true : false;
+	}
+	
 	public static int[] generateBudgetName() {
 		Scanner in = new Scanner(System.in);
 		int[] budgetName = new int[2];

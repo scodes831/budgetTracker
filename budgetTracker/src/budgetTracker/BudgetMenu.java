@@ -36,8 +36,6 @@ public class BudgetMenu extends Menu {
 		switch (selection) {
 		case 1:
 			if ((!household.hasZeroFamilyMembers(household)) || household.getIncome() != 0) {
-				System.out.println("result of hasZeroFamilyMembers is " + household.hasZeroFamilyMembers(household));
-				System.out.println("household income is: " + household.getIncome());
 				Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 				newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
 				System.out.println(

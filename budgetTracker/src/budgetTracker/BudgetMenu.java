@@ -13,9 +13,9 @@ public class BudgetMenu extends Menu {
 			try {
 				int selection = showOptions();
 				selectionError = false;
+				retrieveFromDatabase(household, mainMenu, usersTable, connection, budgetActualTable);
 				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable,
 						purchasesTable);
-				retrieveFromDatabase(household, mainMenu, usersTable, connection, budgetActualTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -45,7 +45,6 @@ public class BudgetMenu extends Menu {
 			} else {
 				System.out.println("Household income is $0. Add a household member or update income to continue.");
 			}
-			
 			break;
 		case 2:
 			budgetActualTable.readAllBudgetNames(connection, household);

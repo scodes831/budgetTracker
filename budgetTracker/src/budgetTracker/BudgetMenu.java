@@ -13,7 +13,9 @@ public class BudgetMenu extends Menu {
 			try {
 				int selection = showOptions();
 				selectionError = false;
-				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable, purchasesTable);
+				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable,
+						purchasesTable);
+				retrieveFromDatabase(household, mainMenu, usersTable, connection, budgetActualTable);
 			} catch (Exception e) {
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
@@ -29,16 +31,14 @@ public class BudgetMenu extends Menu {
 		return selection;
 	}
 
-	public void processSelection(Household household, Menu mainMenu, int selection, Connection connection, UsersTable usersTable,
-			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
+	public void processSelection(Household household, Menu mainMenu, int selection, Connection connection,
+			UsersTable usersTable, BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		switch (selection) {
 		case 1:
-			usersTable.readAllUsers(connection, household);
-			household.calculateHouseholdIncome(household);
-			budgetActualTable.readAllBudgetNames(connection, household);
 			Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 			newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
-			System.out.println("displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
+			System.out.println(
+					"displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
 			Formatter budgetTable = newBudget.displayBudget(household, newBudget);
 			budgetTable.close();
 			break;
@@ -46,8 +46,8 @@ public class BudgetMenu extends Menu {
 			budgetActualTable.readAllBudgetNames(connection, household);
 			Budget selectedBudgetDisplay = Budget.selectABudget(household);
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
-			System.out.println("Displaying budget for " + Budget.budgetMonthString(selectedBudgetDisplay)
-					+ " " + selectedBudgetDisplay.getBudgetYear() + ":");
+			System.out.println("Displaying budget for " + Budget.budgetMonthString(selectedBudgetDisplay) + " "
+					+ selectedBudgetDisplay.getBudgetYear() + ":");
 			selectedBudgetDisplay.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
@@ -61,6 +61,13 @@ public class BudgetMenu extends Menu {
 			break;
 		}
 		show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+	}
+
+	public void retrieveFromDatabase(Household household, Menu mainMenu, UsersTable usersTable, Connection connection,
+			BudgetActualTable budgetActualTable) {
+		usersTable.readAllUsers(connection, household);
+		household.calculateHouseholdIncome(household);
+		budgetActualTable.readAllBudgetNames(connection, household);
 	}
 
 }

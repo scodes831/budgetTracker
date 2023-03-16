@@ -17,6 +17,7 @@ public class BudgetMenu extends Menu {
 				processSelection(household, mainMenu, selection, connection, usersTable, budgetActualTable,
 						purchasesTable);
 			} catch (Exception e) {
+				System.out.println(e);
 				selectionError = true;
 				System.out.println("Please enter a valid selection.");
 			}
@@ -39,7 +40,8 @@ public class BudgetMenu extends Menu {
 				Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 				newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
 				System.out.println(
-						"displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
+						"Displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
+				budgetActualTable.readMonthlyBudget(connection, household, newBudget);
 				Formatter budgetTable = newBudget.displayBudget(household, newBudget);
 				budgetTable.close();
 			} else {

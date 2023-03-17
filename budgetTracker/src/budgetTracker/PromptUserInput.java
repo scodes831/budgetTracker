@@ -1,5 +1,6 @@
 package budgetTracker;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.Month;
@@ -96,10 +97,10 @@ public class PromptUserInput {
 		}
 	}
 
-	public static double promptUserAmountInput(Household household) {
+	public static BigDecimal promptUserAmountInput(Household household) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("Enter amount:");
-		double amount = in.nextDouble();
+		BigDecimal amount = new BigDecimal(in.nextDouble());
 		return amount;
 	}
 

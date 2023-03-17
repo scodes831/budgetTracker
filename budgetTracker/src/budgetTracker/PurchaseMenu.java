@@ -27,7 +27,7 @@ public class PurchaseMenu extends Menu {
 		do {
 			LocalDate datePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable, purchasesTable);
 			String purchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable, purchasesTable);
-			BigDecimal amount = new BigDecimal(PromptUserInput.promptUserAmountInput(household));
+			BigDecimal amount = PromptUserInput.promptUserAmountInput(household);
 			String category = PromptUserInput.promptUserCategoryInput(household);
 			household.addPurchase(category, amount, purchasedBy, datePurchased, connection, purchasesTable);
 			purchaseAdded = true;

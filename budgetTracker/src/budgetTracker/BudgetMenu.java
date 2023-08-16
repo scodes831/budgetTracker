@@ -1,6 +1,8 @@
 package budgetTracker;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Formatter;
 import java.util.Scanner;
 
@@ -26,7 +28,7 @@ public class BudgetMenu extends Menu {
 
 	public int showOptions() {
 		System.out.println(
-				"Budget Menu Options:\n1 - Add Budget\n2 - Display Budget\n3 - Edit Budget\n4 - Back to Main Menu");
+				"Budget Menu Options:\n1 - Add Budget\n2 - Display Budget\n3 - Edit Budget\n4 - Export Budget\n5 - Back to Main Menu");
 		Scanner in = new Scanner(System.in);
 		int selection = in.nextInt();
 		return selection;
@@ -39,8 +41,8 @@ public class BudgetMenu extends Menu {
 			if ((!household.hasZeroFamilyMembers(household)) || household.getIncome() != 0) {
 				Budget newBudget = Budget.initializeBudget(household, Household.generateBudgetName());
 				newBudget.setUpBudget(household, newBudget, connection, budgetActualTable);
-				System.out.println(
-						"Displaying budget for " + Budget.budgetMonthString(newBudget) + " " + newBudget.getBudgetYear());
+				System.out.println("Displaying budget for " + Budget.budgetMonthString(newBudget) + " "
+						+ newBudget.getBudgetYear());
 				budgetActualTable.readMonthlyBudget(connection, household, newBudget);
 				Formatter budgetTable = newBudget.displayBudget(household, newBudget);
 				budgetTable.close();
@@ -63,6 +65,15 @@ public class BudgetMenu extends Menu {
 			selectedBudgetEdit.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
 			break;
 		case 4:
+			Budget selectedBudgetExport = Budget.selectABudget(household);
+			LocalDate budgetDate = LocalDate.of(selectedBudgetExport.getBudgetYear(),
+					selectedBudgetExport.getBudgetMonth(), 1);
+			String query = String.format("select * from budgetvsactual where budgetname = '%s'",
+					Date.valueOf(budgetDate));
+			DatabaseManager.exportData(connection, query, "monthly budget");
+			System.out.println("Your budget for " + selectedBudgetExport.getBudgetMonth() + " "
+					+ selectedBudgetExport.getBudgetYear() + " has been exported successfully.");
+		case 5:
 			mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}

@@ -21,14 +21,14 @@ public class DatabaseManager {
 		return connection;
 	}
 	
-	public static void  exportData(Connection connection, SpreadsheetManager sm, String query) {
-		
+	public static void  exportData(Connection connection, String query, String reportType) {
+		SpreadsheetManager sm = new SpreadsheetManager();
 		Statement statement;
 		ResultSet result = null;
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
-			sm.createSpreadsheet(result);
+			sm.createSpreadsheet(result, reportType);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

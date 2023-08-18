@@ -1,9 +1,11 @@
 package budgetTracker;
 
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -22,10 +24,10 @@ public class SpreadsheetManager {
 
 		case "monthly budget":
 			System.out.println("Exporting monthly budget");
-			columnHeaders.put("Category", "String");
-			columnHeaders.put("Budget Amount", "Big Decimal");
-			columnHeaders.put("Spend Amount", "Big Decimal");
-			columnHeaders.put("Remaining", "Big Decimal");
+			columnHeaders.put("category", "String");
+			columnHeaders.put("budgetamount", "Big Decimal");
+			columnHeaders.put("spendamount", "Big Decimal");
+			columnHeaders.put("remainingamount", "Big Decimal");
 			break;
 		}
 
@@ -44,6 +46,25 @@ public class SpreadsheetManager {
 		int columns = 0;
 		for (String key : keys) {
 			headerRow.createCell(columns++).setCellValue(key);
+			
+		}
+		
+		int rowNum = 1;
+		while (data.next()) {
+			XSSFRow row = sheet.createRow(rowNum++);
+			columns = 0;
+			for (Map.Entry<String,String> entry : columnHeaders.entrySet()) {
+				switch (entry.getValue()) {
+				case "String":
+					String str = data.getString(entry.getKey());
+					row.createCell(columns++).setCellValue(str);
+					break;
+				case "Big Decimal":
+					double bd = data.getDouble(entry.getKey());
+					row.createCell(columns++).setCellValue(bd);
+					break;
+				}
+			}
 		}
 	}
 

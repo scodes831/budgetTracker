@@ -14,7 +14,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class SpreadsheetManager {
 
-	public void createSpreadsheet(ResultSet data, String reportType) throws Exception {
+	public void createSpreadsheet(ResultSet data, String reportType, Budget budget) throws Exception {
 
 		XSSFWorkbook workbook = new XSSFWorkbook();
 		XSSFSheet sheet = workbook.createSheet();
@@ -31,7 +31,7 @@ public class SpreadsheetManager {
 			break;
 		}
 
-		readData(data, workbook, sheet, columnHeaders);
+		readData(data, workbook, sheet, columnHeaders, budget);
 		String filePath = ".//exports/" + generateFileName() + ".xlsx";
 		FileOutputStream out = new FileOutputStream(filePath);
 		workbook.write(out);
@@ -40,7 +40,7 @@ public class SpreadsheetManager {
 	}
 
 	private void readData(ResultSet data, XSSFWorkbook workbook, XSSFSheet sheet,
-			LinkedHashMap<String, String> columnHeaders) throws Exception {
+			LinkedHashMap<String, String> columnHeaders, Budget budget) throws Exception {
 		XSSFRow headerRow = sheet.createRow(0);
 		Set<String> keys = columnHeaders.keySet();
 		int columns = 0;
@@ -66,6 +66,12 @@ public class SpreadsheetManager {
 				}
 			}
 		}
+		 XSSFRow totals = sheet.createRow(rowNum);
+		 totals.createCell(0).setCellValue("Total:");
+		 totals.createCell(1).setCellValue(budget.getTotalBudgeted().doubleValue());
+		 totals.createCell(2).setCellValue(budget.getTotalSpent().doubleValue());
+		 totals.createCell(3).setCellValue(budget.getTotalRemaining().doubleValue());
+		  
 	}
 
 	private String generateFileName() {

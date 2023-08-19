@@ -20,6 +20,7 @@ public class Budget {
 
 	private BigDecimal totalBudgeted;
 	private BigDecimal totalSpent;
+	private BigDecimal totalRemaining;
 
 	private BigDecimal housingBudget;
 	private BigDecimal housingSpend;
@@ -499,6 +500,14 @@ public class Budget {
 
 	public void setMiscRemaining(BigDecimal miscRemaining) {
 		this.miscRemaining = miscRemaining;
+	}
+
+	public BigDecimal getTotalRemaining() {
+		return totalRemaining;
+	}
+
+	public void setTotalRemaining(BigDecimal totalRemaining) {
+		this.totalRemaining = totalRemaining;
 	}
 
 }

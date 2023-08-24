@@ -21,14 +21,27 @@ public class DatabaseManager {
 		return connection;
 	}
 	
-	public static void  exportData(Connection connection, String query, String reportType) {
+	public static void  exportData(Connection connection, String query, String reportType, Budget budget) {
 		SpreadsheetManager sm = new SpreadsheetManager();
 		Statement statement;
 		ResultSet result = null;
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery(query);
-			sm.createSpreadsheet(result, reportType);
+			sm.createSpreadsheet(result, reportType, budget);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+	
+	public static void  exportData(Connection connection, String query, String reportType, Household household) {
+		SpreadsheetManager sm = new SpreadsheetManager();
+		Statement statement;
+		ResultSet result = null;
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery(query);
+			sm.createSpreadsheet(result, connection, reportType, household);
 		} catch (Exception e) {
 			System.out.println(e);
 		}

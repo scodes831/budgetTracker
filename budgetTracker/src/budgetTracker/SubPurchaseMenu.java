@@ -39,7 +39,7 @@ public class SubPurchaseMenu implements SubMenu {
 			Purchase.showPurchasesByFamilyMember(household);
 			break;
 		case "c":
-			Purchase.showPurchasesByDate(household.getPurchasesList());
+			Purchase.showPurchasesByDate(household.getPurchasesList(), household);
 			break;
 		case "d":
 			parentMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);

@@ -97,12 +97,25 @@ public class PromptUserInput {
 		}
 	}
 	
-	public static String promptUserSelectionInput(Household household) {
+	public static FamilyMember promptUserSelectionInput(Household household) {
 		household.displayFamilyMembers();
-		System.out.println("Enter family member name to view purchases:");
 		Scanner in = new Scanner(System.in);
-		String nameInput = in.next();
-		return nameInput;
+		System.out.println("Enter family member name to view purchases:");
+		boolean userExists = false;
+		while (!userExists) {
+			try {
+				String nameInput = in.next();
+				for (FamilyMember familyMember : household.getHouseholdMembers()) {
+					if (familyMember.getName().toLowerCase().equals(nameInput.toLowerCase())) {
+						userExists = true;
+						return familyMember;
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Please enter a valid user name.");
+			}
+		}
+		return null;
 	}
 
 	public static BigDecimal promptUserAmountInput(Household household) {

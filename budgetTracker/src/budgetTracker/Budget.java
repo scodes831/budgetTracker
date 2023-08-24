@@ -64,6 +64,9 @@ public class Budget {
 		budgetMap.put("dining", new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
 		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend())));
 		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));
+		calculateTotalBudgeted(budgetMap);
+		calculateTotalSpent(household, budget);
+		calculateTotalRemaining(getTotalBudgeted(), getTotalSpent());
 		return budgetMap;
 	}
 
@@ -210,24 +213,23 @@ public class Budget {
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0).subtract(v.get(1)));
 		});
-		BigDecimal totalBudget = calculateTotalBudget(budgetMap);
-		BigDecimal totalSpend = calculateTotalSpend(household, selectedBudget);
-		System.out.println("\nTotal amount budgeted: $" + totalBudget);
-		System.out.println("Total amount spent: $" + totalSpend);
-		System.out.println("Total amount remaining: $" + calculateTotalRemaining(totalBudget, totalSpend) + "\n");
+		
+		System.out.println("\nTotal amount budgeted: $" + getTotalBudgeted());
+		System.out.println("Total amount spent: $" + getTotalSpent());
+		System.out.println("Total amount remaining: $" + getTotalRemaining() + "\n");
 		System.out.println(table);
 		return table;
 	}
 
-	private BigDecimal calculateTotalBudget(Map<String, ArrayList<BigDecimal>> budgetMap) {
+	private void calculateTotalBudgeted(Map<String, ArrayList<BigDecimal>> budgetMap) {
 		BigDecimal totalBudget = new BigDecimal(0);
 		for (Map.Entry<String, ArrayList<BigDecimal>> entry : budgetMap.entrySet()) {
 			totalBudget = totalBudget.add(entry.getValue().get(0));
 		}
-		return totalBudget;
+		setTotalBudgeted(totalBudget);
 	}
 
-	private BigDecimal calculateTotalSpend(Household household, Budget budget) {
+	private void calculateTotalSpent(Household household, Budget budget) {
 		BigDecimal totalSpend = new BigDecimal(0);
 		int budgetMonth = budget.getBudgetMonth();
 		int budgetYear = budget.getBudgetYear();
@@ -239,12 +241,11 @@ public class Budget {
 				totalSpend = totalSpend.add(purchase.getAmount());
 			}
 		}
-		return totalSpend;
-
+		setTotalSpent(totalSpend);
 	}
 
-	private BigDecimal calculateTotalRemaining(BigDecimal totalBudget, BigDecimal totalSpend) {
-		return totalBudget.subtract(totalSpend);
+	private void calculateTotalRemaining(BigDecimal totalBudget, BigDecimal totalSpend) {
+		setTotalRemaining(totalBudget.subtract(totalSpend));
 	}
 
 	public static String budgetMonthString(Budget budget) {

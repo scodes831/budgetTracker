@@ -37,7 +37,7 @@ public class PurchaseMenu extends Menu {
 
 	public int showOptions() {
 		System.out.println(
-				"Purchase Menu Options:\n1 - Add a Purchase\n2 - Display Purchases\n3 - Edit a Purchase\n4 - Back to Main Menu");
+				"Purchase Menu Options:\n1 - Add a Purchase\n2 - Display Purchases\n3 - Edit a Purchase\n4 - Export Purchases\n5 - Back to Main Menu");
 		Scanner in = new Scanner(System.in);
 		int selection = in.nextInt();
 		return selection;
@@ -62,6 +62,9 @@ public class PurchaseMenu extends Menu {
 			Purchase.editPurchases(household, connection, usersTable, purchasesTable);
 			break;
 		case 4:
+			String query = String.format("select * from purchases order by purchasedate");
+			DatabaseManager.exportData(connection, query, "all purchases", household);
+		case 5:
 			mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;
 		}

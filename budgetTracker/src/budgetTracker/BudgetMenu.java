@@ -70,7 +70,7 @@ public class BudgetMenu extends Menu {
 					selectedBudgetExport.getBudgetMonth(), 1);
 			String query = String.format("select * from budgetvsactual where budgetname = '%s'",
 					Date.valueOf(budgetDate));
-			DatabaseManager.exportData(connection, query, "monthly budget");
+			DatabaseManager.exportData(connection, query, "monthly budget", selectedBudgetExport);
 			System.out.println("Your budget for " + selectedBudgetExport.getBudgetMonth() + " "
 					+ selectedBudgetExport.getBudgetYear() + " has been exported successfully.");
 		case 5:

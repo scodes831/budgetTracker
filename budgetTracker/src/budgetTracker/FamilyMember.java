@@ -9,12 +9,6 @@ public class FamilyMember {
 		this.name = name;
 		this.salary = salary;
 	}
-	
-	public static String capitalizeName(String name) {
-		String firstL = name.substring(0,1).toUpperCase();
-		String remainder = name.substring(1);
-		return firstL + remainder;
-	}
 
 	public String getName() {
 		return name;

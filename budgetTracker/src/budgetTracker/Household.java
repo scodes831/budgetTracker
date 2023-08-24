@@ -71,6 +71,12 @@ public class Household {
 			}
 		}
 	}
+	
+	public String capitalizeName(String name) {
+		String firstL = name.substring(0,1).toUpperCase();
+		String remainder = name.substring(1);
+		return firstL + remainder;
+	}
 
 	public boolean checkFamilyMember(Household household, String purchasedBy) {
 		for (FamilyMember familyMember : household.getHouseholdMembers()) {

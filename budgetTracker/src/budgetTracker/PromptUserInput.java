@@ -96,6 +96,14 @@ public class PromptUserInput {
 			return household.getHouseholdMembers().get(household.getHouseholdMembers().size()-1).getName();
 		}
 	}
+	
+	public static String promptUserSelectionInput(Household household) {
+		household.displayFamilyMembers();
+		System.out.println("Enter family member name to view purchases:");
+		Scanner in = new Scanner(System.in);
+		String nameInput = in.next();
+		return nameInput;
+	}
 
 	public static BigDecimal promptUserAmountInput(Household household) {
 		Scanner in = new Scanner(System.in);

@@ -26,13 +26,11 @@ public class Purchase {
 	}
 
 	public static void showPurchasesByFamilyMember(Household household) {
-		System.out.println("Enter family member name to view purchases:");
-		Scanner in = new Scanner(System.in);
-		String nameInput = in.next();
+		String familyMember = PromptUserInput.promptUserSelectionInput(household);
 		ArrayList<Purchase> newList = new ArrayList<Purchase>();
-		System.out.println("Displaying all purchases for " + FamilyMember.capitalizeName(nameInput) + "\n");
+		System.out.println("Displaying all purchases for " + FamilyMember.capitalizeName(familyMember) + "\n");
 		for (Purchase purchase : household.getPurchasesList()) {
-			if (purchase.getPurchasedBy().toLowerCase().equals(nameInput.toLowerCase())) {
+			if (purchase.getPurchasedBy().toLowerCase().equals(familyMember.toLowerCase())) {
 				newList.add(purchase);
 			}
 		}

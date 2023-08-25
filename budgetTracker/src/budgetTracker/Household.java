@@ -103,7 +103,7 @@ public class Household {
 		Purchase purchase = new Purchase(category, amount, purchasedBy, datePurchased);
 		System.out.println("Added purchase of $" + amount + " spent on " + category + " by " + purchasedBy + " on "
 				+ datePurchased);
-		purchasesTable.insertPurchasesRow(connection, datePurchased, category, purchasedBy, amount);
+		purchasesTable.insertPurchasesRow(connection, this, datePurchased, category, purchasedBy, amount);
 		int purchaseNum = purchasesList.size() - 1;
 	}
 	

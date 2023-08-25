@@ -62,8 +62,9 @@ public class PurchaseMenu extends Menu {
 			Purchase.editPurchases(household, connection, usersTable, purchasesTable);
 			break;
 		case 4:
-			String query = String.format("select * from purchases order by purchasedate");
-			DatabaseManager.exportData(connection, query, "all purchases", household);
+			SubExportMenu subExportMenu = new SubExportMenu();
+			subExportMenu.show(household, this, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+			break;
 		case 5:
 			mainMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;

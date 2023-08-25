@@ -22,14 +22,14 @@ public class PurchasesTable {
 		}
 	}
 
-	public void insertPurchasesRow(Connection connection, LocalDate purchaseDate, String category, String purchasedBy,
+	public void insertPurchasesRow(Connection connection, Household household, LocalDate purchaseDate, String category, String purchasedBy,
 			BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
 			String query = String.format(
 					"insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');",
 					java.sql.Date.valueOf(purchaseDate), category,
-					DatabaseManager.getUserIdByUsername(connection, FamilyMember.capitalizeName(purchasedBy)),
+					DatabaseManager.getUserIdByUsername(connection, household.capitalizeName(purchasedBy)),
 					purchaseAmount);
 			statement = connection.createStatement();
 			statement.executeUpdate(query);

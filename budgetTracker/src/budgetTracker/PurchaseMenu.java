@@ -62,6 +62,8 @@ public class PurchaseMenu extends Menu {
 			Purchase.editPurchases(household, connection, usersTable, purchasesTable);
 			break;
 		case 4:
+			usersTable.readAllUsers(connection, household);
+			purchasesTable.readAllPurchases(connection, household);
 			SubExportMenu subExportMenu = new SubExportMenu();
 			subExportMenu.show(household, this, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 			break;

@@ -72,7 +72,7 @@ public class SpreadsheetManager {
 		Set<String> keys = columnHeaders.keySet();
 		int columns = 0;
 		for (String key : keys) {
-			headerRow.createCell(columns++).setCellValue(key);
+			headerRow.createCell(columns++).setCellValue(key.toUpperCase());
 		}
 
 		int rowNum = 1;
@@ -106,7 +106,7 @@ public class SpreadsheetManager {
 		Set<String> keys = columnHeaders.keySet();
 		int columns = 0;
 		for (String key : keys) {
-			headerRow.createCell(columns++).setCellValue(key);
+			headerRow.createCell(columns++).setCellValue(key.toUpperCase());
 		}
 
 		int rowNum = 1;

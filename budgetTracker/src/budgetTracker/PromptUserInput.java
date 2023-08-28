@@ -136,4 +136,12 @@ public class PromptUserInput {
 		int budgetIndex = in.nextInt() - 1;
 		return budgetIndex;
 	}
+	
+	public static String promptUserDateSelection() {
+		System.out.println(
+				"How do you want to view purchases?\na - Purchases Today\nb - Purchases This Week\nc - Purchases This Month");
+		Scanner in = new Scanner(System.in);
+		String selection = in.next();
+		return selection;
+	}
 }

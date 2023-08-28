@@ -52,11 +52,15 @@ public class SpreadsheetManager {
 		switch (reportType) {
 		case "all purchases":
 			System.out.println("Exporting all purchases");
-			columnHeaders.put("purchasedate", "Date");
-			columnHeaders.put("category", "String");
-			columnHeaders.put("purchasedby", "String");
-			columnHeaders.put("purchaseamount", "Big Decimal");
+			break;
+		case "purchases by user":
+			System.out.println("Exporting the user's purchases");
 		}
+		
+		columnHeaders.put("purchasedate", "Date");
+		columnHeaders.put("category", "String");
+		columnHeaders.put("purchasedby", "String");
+		columnHeaders.put("purchaseamount", "Big Decimal");
 
 		readData(data, connection, workbook, sheet, columnHeaders, household);
 		String filePath = ".//exports/" + generateFileName() + "_all_purchases.xlsx";

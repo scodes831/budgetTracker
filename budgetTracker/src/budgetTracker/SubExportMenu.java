@@ -1,6 +1,8 @@
 package budgetTracker;
 
 import java.sql.Connection;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class SubExportMenu implements SubMenu {
@@ -46,11 +48,31 @@ public class SubExportMenu implements SubMenu {
 			DatabaseManager.exportData(connection, userPurchasesQuery, "purchases by user", household);
 			break;
 		case "c":
+			String dateRange = PromptUserInput.promptUserDateSelection();
+			LocalDate today = LocalDate.now();
+			exportPurchasesByDateRange(connection, household, dateRange, today);
 			break;
 		case "d":
 			parentMenu.show(household, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
 		}
 		show(household, parentMenu, mainMenu, connection, usersTable, budgetActualTable, purchasesTable);
+	}
+	
+	private void exportPurchasesByDateRange(Connection connection, Household household, String dateRange, LocalDate today) {
+		String query = null;
+		switch (dateRange) {
+		case "a":
+			//today
+			break;
+		case "b":
+			query = String.format("select * from purchases where purchasedate >= '%s' and purchasedate <= '%s'", java.sql.Date.valueOf(today.minusDays(7)), java.sql.Date.valueOf(today));
+			break;
+		case "c":
+			//this month
+			break;
+		}
+		DatabaseManager.exportData(connection, query, "purchases by date", household);
+		
 	}
 
 }

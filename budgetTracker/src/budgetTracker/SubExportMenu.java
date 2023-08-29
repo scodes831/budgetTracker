@@ -62,7 +62,7 @@ public class SubExportMenu implements SubMenu {
 		String query = null;
 		switch (dateRange) {
 		case "a":
-			//today
+			query = String.format("select * from purchases where purchasedate = '%s'", java.sql.Date.valueOf(today));
 			break;
 		case "b":
 			query = String.format("select * from purchases where purchasedate >= '%s' and purchasedate <= '%s'", java.sql.Date.valueOf(today.minusDays(7)), java.sql.Date.valueOf(today));

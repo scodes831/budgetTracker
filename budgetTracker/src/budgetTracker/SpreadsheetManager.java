@@ -55,6 +55,8 @@ public class SpreadsheetManager {
 			break;
 		case "purchases by user":
 			System.out.println("Exporting the user's purchases");
+		case "purchases by date":
+			System.out.println("Exporting purchases by date range");
 		}
 		
 		columnHeaders.put("purchasedate", "Date");

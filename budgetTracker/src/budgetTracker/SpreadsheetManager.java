@@ -58,7 +58,7 @@ public class SpreadsheetManager {
 		case "purchases by date":
 			System.out.println("Exporting purchases by date range");
 		}
-		
+
 		columnHeaders.put("purchasedate", "Date");
 		columnHeaders.put("category", "String");
 		columnHeaders.put("purchasedby", "String");
@@ -121,7 +121,8 @@ public class SpreadsheetManager {
 			columns = 0;
 			for (Map.Entry<String, String> entry : columnHeaders.entrySet()) {
 				if (entry.getKey().equals("purchasedby")) {
-					String purchasedByName = DatabaseManager.getUsernameByUserId(connection, Integer.valueOf(data.getString(entry.getKey())));
+					String purchasedByName = DatabaseManager.getUsernameByUserId(connection,
+							Integer.valueOf(data.getString(entry.getKey())));
 					row.createCell(columns++).setCellValue(purchasedByName);
 				} else {
 					switch (entry.getValue()) {
@@ -136,7 +137,8 @@ public class SpreadsheetManager {
 					case "Date":
 						String[] strDate = data.getString(entry.getKey()).split("-");
 						Calendar date = new GregorianCalendar();
-						date.set(Integer.valueOf(strDate[0]), Integer.valueOf(strDate[1])-1, Integer.valueOf(strDate[2])); 
+						date.set(Integer.valueOf(strDate[0]), Integer.valueOf(strDate[1]) - 1,
+								Integer.valueOf(strDate[2]));
 						XSSFCellStyle dateStyle = workbook.createCellStyle();
 						dateStyle.setDataFormat((short) 14);
 						XSSFCell cell = row.createCell(columns++);

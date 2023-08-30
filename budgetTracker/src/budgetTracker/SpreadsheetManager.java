@@ -89,7 +89,7 @@ public class SpreadsheetManager {
 				switch (entry.getValue()) {
 				case "String":
 					String str = data.getString(entry.getKey());
-					row.createCell(columns++).setCellValue(str);
+					row.createCell(columns++).setCellValue(capitalizeFirstLetter(str));
 					break;
 				case "Big Decimal":
 					double bd = data.getDouble(entry.getKey());
@@ -128,7 +128,7 @@ public class SpreadsheetManager {
 					switch (entry.getValue()) {
 					case "String":
 						String str = data.getString(entry.getKey());
-						row.createCell(columns++).setCellValue(str);
+						row.createCell(columns++).setCellValue(capitalizeFirstLetter(str));
 						break;
 					case "Big Decimal":
 						double bd = data.getDouble(entry.getKey());
@@ -153,6 +153,12 @@ public class SpreadsheetManager {
 
 	private String generateFileName() {
 		return String.valueOf(LocalDateTime.now()).replaceAll("-", "_");
+	}
+	
+	private String capitalizeFirstLetter(String str) {
+		String firstLetter = str.substring(0,1).toUpperCase();
+		String newStr = firstLetter + str.substring(1);
+		return newStr;
 	}
 
 }

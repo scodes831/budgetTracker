@@ -60,15 +60,16 @@ public class SubExportMenu implements SubMenu {
 	
 	private void exportPurchasesByDateRange(Connection connection, Household household, String dateRange, LocalDate today) {
 		String query = null;
+		Date dateToday = java.sql.Date.valueOf(today);
 		switch (dateRange) {
 		case "a":
-			query = String.format("select * from purchases where purchasedate = '%s'", java.sql.Date.valueOf(today));
+			query = String.format("select * from purchases where purchasedate = '%s'", dateToday);
 			break;
 		case "b":
-			query = String.format("select * from purchases where purchasedate >= '%s' and purchasedate <= '%s'", java.sql.Date.valueOf(today.minusDays(7)), java.sql.Date.valueOf(today));
+			query = String.format("select * from purchases where purchasedate >= '%s' and purchasedate <= '%s'", java.sql.Date.valueOf(today.minusDays(7)), dateToday);
 			break;
 		case "c":
-			//this month
+			query = "select * from purchases where purchasedate between date_trunc('month', current_date) and (date_trunc('month', current_date) + interval '1 month - 1 second');";
 			break;
 		}
 		DatabaseManager.exportData(connection, query, "purchases by date", household);

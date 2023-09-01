@@ -125,10 +125,10 @@ public class PromptUserInput {
 		return amount;
 	}
 
-	public static int promptUserBudgetSelection(Household household) {
+	public static int promptUserBudgetSelection(Household household, String message) {
 		int lineNum = 1;
 		Scanner in = new Scanner(System.in);
-		System.out.println("Please enter the line number of the budget to display:");
+		System.out.println("Please enter the line number of the budget to " + message + ":");
 		for (Budget budget : household.getBudgets()) {
 			System.out.println(lineNum + ": " + Budget.budgetMonthString(budget) + " " + budget.getBudgetYear());
 			lineNum++;

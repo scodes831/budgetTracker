@@ -103,10 +103,15 @@ public class SpreadsheetManager {
 		}
 		XSSFRow totals = sheet.createRow(rowNum);
 		totals.createCell(0).setCellValue("Total:");
-		totals.createCell(1).setCellValue(budget.getTotalBudgeted().doubleValue());
-		totals.createCell(2).setCellValue(budget.getTotalSpent().doubleValue());
-		totals.createCell(3).setCellValue(budget.getTotalRemaining().doubleValue());
-
+		XSSFCell totalBudgeted = totals.createCell(1);
+		totalBudgeted.setCellValue(budget.getTotalBudgeted().doubleValue());
+		formatCurrencyCell(totalBudgeted, workbook);
+		XSSFCell totalSpent = totals.createCell(2);
+		totalSpent.setCellValue(budget.getTotalSpent().doubleValue());
+		formatCurrencyCell(totalSpent, workbook);
+		XSSFCell totalRemaining = totals.createCell(3);
+		totalRemaining.setCellValue(budget.getTotalRemaining().doubleValue());
+		formatCurrencyCell(totalRemaining, workbook);
 	}
 
 	private void readData(ResultSet data, Connection connection, XSSFWorkbook workbook, XSSFSheet sheet,

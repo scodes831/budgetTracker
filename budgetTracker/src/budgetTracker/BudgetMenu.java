@@ -51,7 +51,7 @@ public class BudgetMenu extends Menu {
 			}
 			break;
 		case 2:
-			budgetActualTable.readAllBudgetNames(connection, household);
+			//budgetActualTable.readAllBudgetNames(connection, household);
 			Budget selectedBudgetDisplay = Budget.selectABudget(household, "display");
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
 			System.out.println("Displaying budget for " + Budget.budgetMonthString(selectedBudgetDisplay) + " "

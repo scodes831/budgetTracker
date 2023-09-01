@@ -66,6 +66,8 @@ public class BudgetMenu extends Menu {
 			break;
 		case 4:
 			Budget selectedBudgetExport = Budget.selectABudget(household);
+			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetExport);
+			selectedBudgetExport.displayBudget(household, selectedBudgetExport);
 			LocalDate budgetDate = LocalDate.of(selectedBudgetExport.getBudgetYear(),
 					selectedBudgetExport.getBudgetMonth(), 1);
 			String query = String.format("select * from budgetvsactual where budgetname = '%s'",

@@ -83,6 +83,7 @@ public class SpreadsheetManager {
 
 		int rowNum = 1;
 		while (data.next()) {
+			XSSFCell cell;
 			XSSFRow row = sheet.createRow(rowNum++);
 			columns = 0;
 			for (Map.Entry<String, String> entry : columnHeaders.entrySet()) {
@@ -93,7 +94,9 @@ public class SpreadsheetManager {
 					break;
 				case "Big Decimal":
 					double bd = data.getDouble(entry.getKey());
-					row.createCell(columns++).setCellValue(bd);
+					cell = row.createCell(columns++);
+					cell.setCellValue(bd);
+					formatCurrencyCell(cell, workbook);
 					break;
 				}
 			}
@@ -117,6 +120,7 @@ public class SpreadsheetManager {
 
 		int rowNum = 1;
 		while (data.next()) {
+			XSSFCell cell;
 			XSSFRow row = sheet.createRow(rowNum++);
 			columns = 0;
 			for (Map.Entry<String, String> entry : columnHeaders.entrySet()) {
@@ -132,7 +136,9 @@ public class SpreadsheetManager {
 						break;
 					case "Big Decimal":
 						double bd = data.getDouble(entry.getKey());
-						row.createCell(columns++).setCellValue(bd);
+						cell = row.createCell(columns++);
+						cell.setCellValue(bd);
+						formatCurrencyCell(cell, workbook);
 						break;
 					case "Date":
 						String[] strDate = data.getString(entry.getKey()).split("-");
@@ -141,7 +147,7 @@ public class SpreadsheetManager {
 								Integer.valueOf(strDate[2]));
 						XSSFCellStyle dateStyle = workbook.createCellStyle();
 						dateStyle.setDataFormat((short) 14);
-						XSSFCell cell = row.createCell(columns++);
+						cell = row.createCell(columns++);
 						cell.setCellValue(date);
 						cell.setCellStyle(dateStyle);
 						break;
@@ -159,6 +165,12 @@ public class SpreadsheetManager {
 		String firstLetter = str.substring(0,1).toUpperCase();
 		String newStr = firstLetter + str.substring(1);
 		return newStr;
+	}
+	
+	private void formatCurrencyCell(XSSFCell cell, XSSFWorkbook workbook) {
+		XSSFCellStyle currencyStyle = workbook.createCellStyle();
+		currencyStyle.setDataFormat((short)7);
+		cell.setCellStyle(currencyStyle);
 	}
 
 }

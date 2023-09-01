@@ -52,20 +52,20 @@ public class BudgetMenu extends Menu {
 			break;
 		case 2:
 			budgetActualTable.readAllBudgetNames(connection, household);
-			Budget selectedBudgetDisplay = Budget.selectABudget(household);
+			Budget selectedBudgetDisplay = Budget.selectABudget(household, "display");
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
 			System.out.println("Displaying budget for " + Budget.budgetMonthString(selectedBudgetDisplay) + " "
 					+ selectedBudgetDisplay.getBudgetYear() + ":");
 			selectedBudgetDisplay.displayBudget(household, selectedBudgetDisplay);
 			break;
 		case 3:
-			Budget selectedBudgetEdit = Budget.selectABudget(household);
+			Budget selectedBudgetEdit = Budget.selectABudget(household, "display");
 			System.out.println("Editing your " + Budget.budgetMonthString(selectedBudgetEdit) + " "
 					+ selectedBudgetEdit.getBudgetYear() + " budget:");
 			selectedBudgetEdit.editBudget(household, selectedBudgetEdit, connection, budgetActualTable);
 			break;
 		case 4:
-			Budget selectedBudgetExport = Budget.selectABudget(household);
+			Budget selectedBudgetExport = Budget.selectABudget(household, "export");
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetExport);
 			selectedBudgetExport.displayBudget(household, selectedBudgetExport);
 			LocalDate budgetDate = LocalDate.of(selectedBudgetExport.getBudgetYear(),

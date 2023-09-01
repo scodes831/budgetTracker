@@ -200,8 +200,8 @@ public class Budget {
 		return -1;
 	}
 
-	public static Budget selectABudget(Household household) {
-		int budgetIndex = PromptUserInput.promptUserBudgetSelection(household);
+	public static Budget selectABudget(Household household, String message) {
+		int budgetIndex = PromptUserInput.promptUserBudgetSelection(household, message);
 		Budget selectedBudget = household.getBudgets().get(budgetIndex);
 		return selectedBudget;
 	}

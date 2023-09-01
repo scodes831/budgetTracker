@@ -99,7 +99,7 @@ public class Budget {
 					hasError = false;
 					setBudgetAmount(categories[i], currValue);
 					budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), categories[i],
-							currValue, new BigDecimal(0), new BigDecimal(0));
+							currValue, new BigDecimal(0), currValue);
 					System.out.println("Income remaining: $" + new BigDecimal(household.getIncome()).subtract(runningTotal) + "\n");
 				} else {
 					hasError = true;

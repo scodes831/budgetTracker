@@ -3,7 +3,7 @@ package budgetTracker;
 import java.sql.Connection;
 
 public class Main {
-	
+
 	public static void main(String[] args) {
 		Connection connection = DatabaseManager.connectDatabase("budgettracker", null, null);
 		UsersTable usersTable = new UsersTable();

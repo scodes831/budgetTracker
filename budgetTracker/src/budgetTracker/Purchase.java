@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class Purchase {
 	
+	static ArrayList<Integer> allPurchaseIds = new ArrayList<>();
+	
 	int purchaseId;
 	String category;
 	BigDecimal amount;
@@ -16,10 +18,33 @@ public class Purchase {
 	LocalDate datePurchased;
 
 	Purchase(String category, BigDecimal amount, String purchasedBy, LocalDate datePurchased) {
+		this.purchaseId = generatePurchaseId();
 		this.category = category;
 		this.amount = amount;
 		this.purchasedBy = purchasedBy;
 		this.datePurchased = datePurchased;
+	}
+	
+	Purchase(int purchaseId, String category, BigDecimal amount, String purchasedBy, LocalDate datePurchased) {
+		this.category = category;
+		this.amount = amount;
+		this.purchasedBy = purchasedBy;
+		this.datePurchased = datePurchased;
+	}
+
+	private int generatePurchaseId() {
+		int id; 
+		boolean uniqueId = true;
+		do {
+			id = (int) Math.floor(Math.random() *10000);
+			for (Integer i : getAllPurchaseIds()) {
+				if (i == id) {
+					uniqueId = false;
+				}
+			}
+		} while (!uniqueId);
+		getAllPurchaseIds().add(id);
+		return id;
 	}
 
 	public static void showAllPurchases(Household household) {
@@ -185,5 +210,13 @@ public class Purchase {
 
 	public void setPurchaseId(int purchaseId) {
 		this.purchaseId = purchaseId;
+	}
+
+	public static ArrayList<Integer> getAllPurchaseIds() {
+		return allPurchaseIds;
+	}
+
+	public static void setAllPurchaseIds(ArrayList<Integer> allPurchaseIds) {
+		Purchase.allPurchaseIds = allPurchaseIds;
 	}
 }

@@ -178,4 +178,12 @@ public class Purchase {
 	public void setDatePurchased(LocalDate datePurchased) {
 		this.datePurchased = datePurchased;
 	}
+
+	public int getPurchaseId() {
+		return purchaseId;
+	}
+
+	public void setPurchaseId(int purchaseId) {
+		this.purchaseId = purchaseId;
+	}
 }

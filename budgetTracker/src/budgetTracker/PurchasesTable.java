@@ -11,7 +11,7 @@ public class PurchasesTable {
 	public void createPurchasesTable(Connection connection) {
 		Statement statement;
 		try {
-			String query = "CREATE TABLE IF NOT EXISTS purchases (purchaseId SERIAL PRIMARY KEY, "
+			String query = "CREATE TABLE IF NOT EXISTS purchases (purchaseId INTEGER PRIMARY KEY, "
 					+ "purchaseDate DATE, category VARCHAR(20), "
 					+ "purchasedBy INTEGER, purchaseAmount NUMERIC(10,2), "
 					+ "FOREIGN KEY (purchasedBy) REFERENCES users(userId))";
@@ -22,13 +22,13 @@ public class PurchasesTable {
 		}
 	}
 
-	public void insertPurchasesRow(Connection connection, Household household, LocalDate purchaseDate, String category, String purchasedBy,
+	public void insertPurchasesRow(Connection connection, Household household, int purchaseId, LocalDate purchaseDate, String category, String purchasedBy,
 			BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
 			String query = String.format(
-					"insert into purchases (purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s');",
-					java.sql.Date.valueOf(purchaseDate), category,
+					"insert into purchases (purchaseId, purchaseDate, category, purchasedBy, purchaseAmount) values ('%s','%s','%s','%s','%s');",
+					purchaseId, java.sql.Date.valueOf(purchaseDate), category,
 					DatabaseManager.getUserIdByUsername(connection, household.capitalizeName(purchasedBy)),
 					purchaseAmount);
 			statement = connection.createStatement();
@@ -55,6 +55,7 @@ public class PurchasesTable {
 	}
 
 	public void readAllPurchases(Connection connection, Household household) {
+		System.out.println("inside readAllPurchases");
 		Statement statement;
 		ResultSet result;
 		try {
@@ -63,6 +64,7 @@ public class PurchasesTable {
 			result = statement.executeQuery(query);
 			while (result.next()) {
 				boolean alreadyExists = false;
+				int purchaseId = Integer.valueOf(result.getString("purchaseid"));
 				String[] purchaseDate = result.getString("purchasedate").split("-");
 				int purchYear = Integer.valueOf(purchaseDate[0]);
 				int purchMonth = Integer.valueOf(purchaseDate[1]);
@@ -73,18 +75,15 @@ public class PurchasesTable {
 				String purchBy = DatabaseManager.getUsernameByUserId(connection,
 						Integer.valueOf(result.getString("purchasedby")));
 				for (int i = 0; i < household.getPurchasesList().size(); i++) {
-					if (household.getPurchasesList().get(i).getCategory().toLowerCase()
-							.equals(purchCategory.toLowerCase())
-							&& household.getPurchasesList().get(i).getAmount() == purchAmount
-							&& household.getPurchasesList().get(i).getPurchasedBy().toLowerCase()
-									.equals(purchBy.toLowerCase())
-							&& household.getPurchasesList().get(i).getDatePurchased().equals(purchDate)) {
+					
+					if (household.getPurchasesList().get(i).getPurchaseId() == purchaseId) {
 						alreadyExists = true;
 					}
 				}
 
 				if (!alreadyExists) {
-					Purchase currPurchase = new Purchase(purchCategory, purchAmount, purchBy, purchDate);
+					Purchase currPurchase = new Purchase(purchaseId, purchCategory, purchAmount, purchBy, purchDate);
+					Purchase.getAllPurchaseIds().add(purchaseId);
 					household.getPurchasesList().add(currPurchase);
 				}
 			}

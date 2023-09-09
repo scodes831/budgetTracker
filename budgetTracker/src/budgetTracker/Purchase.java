@@ -8,7 +8,8 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 public class Purchase {
-
+	
+	int purchaseId;
 	String category;
 	BigDecimal amount;
 	String purchasedBy;
@@ -68,7 +69,7 @@ public class Purchase {
 	}
 
 	public static void editPurchases(Household household, Connection connection, UsersTable usersTable,
-			PurchasesTable purchasesTable) {
+			PurchasesTable purchasesTable, BudgetActualTable budgetTable) {
 		displayPurchases(household.getPurchasesList(), household);
 		System.out.println("\nEnter the line number of the purchase you want to edit: ");
 		Scanner in = new Scanner(System.in);
@@ -77,7 +78,7 @@ public class Purchase {
 		BigDecimal newAmount = PromptUserInput.promptUserAmountInput(household);
 		String newPurchasedBy = PromptUserInput.promptUserNameInput(household, connection, usersTable, purchasesTable);
 		LocalDate newDatePurchased = PromptUserInput.promptUserDateInput(household, connection, usersTable,
-				purchasesTable);
+				purchasesTable, budgetTable);
 		Purchase oldPurchase = household.getPurchasesList().get(purchaseIndex);
 		Purchase newPurchase = new Purchase(newCategory, newAmount, newPurchasedBy, newDatePurchased);
 		household.getPurchasesList().set(purchaseIndex, newPurchase);
@@ -92,6 +93,23 @@ public class Purchase {
 				purchase.setPurchasedBy(newName);
 			}
 		}
+	}
+	
+	public Budget matchPurchaseToBudget(Household household) {
+		Budget budget = null;
+		
+		int purchaseYr = this.getDatePurchased().getYear();
+		int purchaseMonth = this.getDatePurchased().getMonthValue();
+		System.out.println("from the purchase: " + purchaseYr + " " + purchaseMonth);
+		
+		for (Budget b : household.getBudgets()) {
+			System.out.println("from the budget: " + b.getBudgetMonth() + " " + b.getBudgetYear());
+			if (b.getBudgetMonth() == purchaseMonth && b.getBudgetYear() == purchaseYr) {
+				return b;
+			}
+		}
+		
+		return budget;
 	}
 
 	public static ArrayList<Purchase> viewPurchasesToday(ArrayList<Purchase> purchasesList, LocalDate todaysDate) {

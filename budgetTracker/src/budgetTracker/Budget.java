@@ -56,14 +56,20 @@ public class Budget {
 
 	private Map<String, ArrayList<BigDecimal>> makeBudgetMap(Household household, Budget budget) {
 		household.calculateCategorySpend(budget);
-		budgetMap.put("housing", new ArrayList<>(Arrays.asList(getHousingBudget(), getHousingSpend())));
-		budgetMap.put("utilities", new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend())));
-		budgetMap.put("health", new ArrayList<>(Arrays.asList(getHealthBudget(), getHealthSpend())));
-		budgetMap.put("car", new ArrayList<>(Arrays.asList(getCarBudget(), getCarSpend())));
-		budgetMap.put("grocery", new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend())));
-		budgetMap.put("dining", new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend())));
-		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend())));
-		budgetMap.put("miscellaneous", new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend())));
+		budgetMap.put("housing",
+				new ArrayList<>(Arrays.asList(getHousingBudget(), getHousingSpend(), getHousingRemaining())));
+		budgetMap.put("utilities",
+				new ArrayList<>(Arrays.asList(getUtilitiesBudget(), getUtilitiesSpend(), getUtilitiesRemaining())));
+		budgetMap.put("health",
+				new ArrayList<>(Arrays.asList(getHealthBudget(), getHealthSpend(), getHealthRemaining())));
+		budgetMap.put("car", new ArrayList<>(Arrays.asList(getCarBudget(), getCarSpend(), getCarRemaining())));
+		budgetMap.put("grocery",
+				new ArrayList<>(Arrays.asList(getGroceryBudget(), getGrocerySpend(), getGroceryRemaining())));
+		budgetMap.put("dining",
+				new ArrayList<>(Arrays.asList(getDiningBudget(), getDiningSpend(), getDiningRemaining())));
+		budgetMap.put("fun", new ArrayList<>(Arrays.asList(getFunBudget(), getFunSpend(), getFunRemaining())));
+		budgetMap.put("miscellaneous",
+				new ArrayList<>(Arrays.asList(getMiscBudget(), getMiscSpend(), getMiscRemaining())));
 		calculateTotalBudgeted(budgetMap);
 		calculateTotalSpent(household, budget);
 		calculateTotalRemaining(getTotalBudgeted(), getTotalSpent());
@@ -98,9 +104,10 @@ public class Budget {
 				if (runningTotal.compareTo(new BigDecimal(household.getIncome())) < 0) {
 					hasError = false;
 					setBudgetAmount(categories[i], currValue);
-					budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1), categories[i],
-							currValue, new BigDecimal(0), currValue);
-					System.out.println("Income remaining: $" + new BigDecimal(household.getIncome()).subtract(runningTotal) + "\n");
+					budgetActualTable.insertBudgetRow(connection, LocalDate.of(budgetYear, budgetMonth, 1),
+							categories[i], currValue, new BigDecimal(0), currValue);
+					System.out.println("Income remaining: $"
+							+ new BigDecimal(household.getIncome()).subtract(runningTotal) + "\n");
 				} else {
 					hasError = true;
 					runningTotal = runningTotal.subtract(currValue);
@@ -146,7 +153,7 @@ public class Budget {
 	public void editBudget(Household household, Budget budget, Connection connection,
 			BudgetActualTable budgetActualTable) {
 		String category = PromptUserInput.promptUserCategoryInput(household);
-		BigDecimal newAmount = new BigDecimal(PromptUserInput.promptUserAmountInput(household));
+		BigDecimal newAmount = PromptUserInput.promptUserAmountInput(household);
 		ArrayList<BigDecimal> list = budgetMap.get(category);
 		switch (category) {
 		case "housing":
@@ -185,8 +192,8 @@ public class Budget {
 		int rowId = DatabaseManager.getBudgetRowIdByBudget(connection, LocalDate.of(budgetYear, budgetMonth, 1),
 				StringUtils.capitalize(category));
 		budgetActualTable.updateBudget(connection, rowId, LocalDate.of(budgetYear, budgetMonth, 1),
-				StringUtils.capitalize(category), newAmount.setScale(2, RoundingMode.HALF_UP),
-				new BigDecimal(0), new BigDecimal(0));
+				StringUtils.capitalize(category), newAmount.setScale(2, RoundingMode.HALF_UP), new BigDecimal(0),
+				new BigDecimal(0));
 
 	}
 
@@ -213,7 +220,7 @@ public class Budget {
 		budgetMap.forEach((k, v) -> {
 			table.format("%15s %15s %15s %15s\n", k, v.get(0), v.get(1), v.get(0).subtract(v.get(1)));
 		});
-		
+
 		System.out.println("\nTotal amount budgeted: $" + getTotalBudgeted());
 		System.out.println("Total amount spent: $" + getTotalSpent());
 		System.out.println("Total amount remaining: $" + getTotalRemaining() + "\n");
@@ -246,6 +253,105 @@ public class Budget {
 
 	private void calculateTotalRemaining(BigDecimal totalBudget, BigDecimal totalSpend) {
 		setTotalRemaining(totalBudget.subtract(totalSpend));
+	}
+
+	public BigDecimal updateCategorySpendAmount(Household household, String category, Budget budget) {
+		BigDecimal categorySpend = new BigDecimal(0);
+		for (Purchase purchase : household.getPurchasesList()) {
+			if (purchase.getDatePurchased().getYear() == budget.getBudgetYear()
+					&& purchase.getDatePurchased().getMonthValue() == budget.getBudgetMonth()
+					&& purchase.getCategory().toLowerCase().equals(category.toLowerCase())) {
+				categorySpend = categorySpend.add(purchase.getAmount());
+			}
+		}
+		switch (category.toLowerCase()) {
+		case "housing":
+			setHousingSpend(categorySpend);
+			break;
+		case "utilities":
+			setUtilitiesSpend(categorySpend);
+			break;
+		case "health":
+			setHealthSpend(categorySpend);
+			break;
+		case "car":
+			setCarSpend(categorySpend);
+			break;
+		case "grocery":
+			setGrocerySpend(categorySpend);
+			break;
+		case "dining":
+			setDiningSpend(categorySpend);
+			break;
+		case "fun":
+			setFunSpend(categorySpend);
+			break;
+		case "miscellanous":
+			setMiscSpend(categorySpend);
+			break;
+		}
+		return categorySpend;
+	}
+
+	public BigDecimal updateCategoryRemainingAmount(String category) {
+		BigDecimal categoryRemaining = new BigDecimal(0);
+		switch (category.toLowerCase()) {
+		case "housing":
+			categoryRemaining = getHousingBudget().subtract(getHousingSpend());
+			setHousingRemaining(categoryRemaining);
+			break;
+		case "utilities":
+			categoryRemaining = getUtilitiesBudget().subtract(getUtilitiesSpend());
+			setUtilitiesRemaining(categoryRemaining);
+			break;
+		case "health":
+			categoryRemaining = getHealthBudget().subtract(getHealthSpend());
+			setHealthRemaining(categoryRemaining);
+			break;
+		case "car":
+			categoryRemaining = getCarBudget().subtract(getCarSpend());
+			setCarRemaining(categoryRemaining);
+			break;
+		case "grocery":
+			categoryRemaining = getGroceryBudget().subtract(getGrocerySpend());
+			setGroceryRemaining(categoryRemaining);
+			break;
+		case "dining":
+			categoryRemaining = getDiningBudget().subtract(getDiningSpend());
+			setDiningRemaining(categoryRemaining);
+			break;
+		case "fun":
+			categoryRemaining = getFunBudget().subtract(getFunSpend());
+			setFunRemaining(categoryRemaining);
+			break;
+		case "miscellanous":
+			categoryRemaining = getMiscBudget().subtract(getMiscSpend());
+			setMiscRemaining(categoryRemaining);
+			break;
+		}
+		return categoryRemaining;
+	}
+	
+	public BigDecimal getCategoryBudgetAmount(String category) {
+		switch (category.toLowerCase()) {
+		case "housing":
+			return getHousingBudget();
+		case "utilities":
+			return getUtilitiesBudget();
+		case "health":
+			return getHealthBudget();
+		case "car":
+			return getCarBudget();
+		case "grocery":
+			return getGroceryBudget();
+		case "dining":
+			return getDiningBudget();
+		case "fun":
+			return getFunBudget();
+		case "miscellanous":
+			return getMiscBudget();
+		}
+		return null;
 	}
 
 	public static String budgetMonthString(Budget budget) {
@@ -510,5 +616,4 @@ public class Budget {
 	public void setTotalRemaining(BigDecimal totalRemaining) {
 		this.totalRemaining = totalRemaining;
 	}
-
 }

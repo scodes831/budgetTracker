@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class SubPurchaseMenu implements SubMenu {
 
 	public void show(Household household, Menu purchaseMenu, Menu mainMenu, Connection connection, UsersTable usersTable,
-			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable ) {
+			BudgetActualTable budgetActualTable, PurchasesTable purchasesTable) {
 		boolean selectionError;
 		do {
 			try {

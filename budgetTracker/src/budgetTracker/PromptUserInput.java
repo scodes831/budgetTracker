@@ -57,7 +57,7 @@ public class PromptUserInput {
 	}
 
 	public static LocalDate promptUserDateInput(Household household, Connection connection, UsersTable usersTable,
-			PurchasesTable purchasesTable) {
+			PurchasesTable purchasesTable, BudgetActualTable budgetTable) {
 		Scanner in = new Scanner(System.in);
 		boolean inputNeeded = true;
 		System.out.println("When was the purchase made? Please enter the date in MM-DD-YYYY format.");
@@ -67,7 +67,7 @@ public class PromptUserInput {
 				String dateRegex = "(\\d{2}-\\d{2}-\\d{4})";
 				if (!dateInput.toString().matches(dateRegex)) {
 					System.out.println("Invalid date format. You must use MM-DD-YYYY format");
-					PurchaseMenu.addPurchaseMenu(household, connection, usersTable, purchasesTable);
+					PurchaseMenu.addPurchaseMenu(household, connection, usersTable, purchasesTable, budgetTable);
 				} else {
 					String[] dateInputArr = new String[3];
 					dateInputArr = dateInput.toString().split("-");

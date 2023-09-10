@@ -111,12 +111,17 @@ public class Household {
 		getPurchasesList().add(purchase);
 		int rowId = DatabaseManager.getBudgetRowIdByBudget(connection,
 				LocalDate.of(datePurchased.getYear(), datePurchased.getMonth(), 1), StringUtils.capitalize(category));
+		updateBudgetActualRemainingValues(purchase, budgetTable, category, connection, rowId);
+		
+	}
+	
+	public void updateBudgetActualRemainingValues(Purchase purchase, BudgetActualTable budgetTable, String category, Connection connection, int rowId) {
 		Budget matchBudget = purchase.matchPurchaseToBudget(this);
 		budgetTable.readMonthlyBudget(connection, this, matchBudget);
 		BigDecimal categoryBudget = matchBudget.getCategoryBudgetAmount(category);
 		BigDecimal newCategorySpend = matchBudget.updateCategorySpendAmount(this, category, matchBudget);
 		BigDecimal newCategoryRemaining = matchBudget.updateCategoryRemainingAmount(category);
-		budgetTable.updateBudget(connection, rowId, LocalDate.of(datePurchased.getYear(), datePurchased.getMonth(), 1),
+		budgetTable.updateBudget(connection, rowId, LocalDate.of(purchase.getDatePurchased().getYear(), purchase.getDatePurchased().getMonth(), 1),
 				StringUtils.capitalize(category), categoryBudget, newCategorySpend, newCategoryRemaining);
 	}
 

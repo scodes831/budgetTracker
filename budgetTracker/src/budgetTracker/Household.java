@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Formatter;
 
 public class Household {
@@ -55,8 +58,8 @@ public class Household {
 		String editName = in.next();
 		for (FamilyMember familyMember : getHouseholdMembers()) {
 			if (familyMember.getName().toLowerCase().equals(editName.toLowerCase())) {
-				System.out.println("Name is currently set up as: " + familyMember.getName()
-						+ " with a salary of $" + familyMember.getSalary() + ". Enter new name:");
+				System.out.println("Name is currently set up as: " + familyMember.getName() + " with a salary of $"
+						+ familyMember.getSalary() + ". Enter new name:");
 				String oldName = familyMember.getName();
 				String newName = in.next();
 				familyMember.setName(newName);
@@ -66,14 +69,14 @@ public class Household {
 				familyMember.setSalary(newSalary);
 				usersTable.updateUser(connection, newName, oldName, new BigDecimal(newSalary));
 				System.out.println("Name has been updated to " + familyMember.getName());
-				System.out.println("Salary for " + familyMember.getName() + " has been updated to $"
-							+ familyMember.getSalary());
+				System.out.println(
+						"Salary for " + familyMember.getName() + " has been updated to $" + familyMember.getSalary());
 			}
 		}
 	}
-	
+
 	public String capitalizeName(String name) {
-		String firstL = name.substring(0,1).toUpperCase();
+		String firstL = name.substring(0, 1).toUpperCase();
 		String remainder = name.substring(1);
 		return firstL + remainder;
 	}
@@ -86,11 +89,11 @@ public class Household {
 		}
 		return false;
 	}
-	
+
 	public boolean hasZeroFamilyMembers(Household household) {
 		return household.getHouseholdMembers().size() == 0 ? true : false;
 	}
-	
+
 	public static int[] generateBudgetName() {
 		Scanner in = new Scanner(System.in);
 		int[] budgetName = new int[2];
@@ -99,15 +102,25 @@ public class Household {
 		return budgetName;
 	}
 
-	public void addPurchase(String category, BigDecimal amount, String purchasedBy, LocalDate datePurchased, Connection connection, PurchasesTable purchasesTable) {
+	public void addPurchase(String category, BigDecimal amount, String purchasedBy, LocalDate datePurchased,
+			Connection connection, PurchasesTable purchasesTable, BudgetActualTable budgetTable) {
 		Purchase purchase = new Purchase(category, amount, purchasedBy, datePurchased);
 		System.out.println("Added purchase of $" + amount + " spent on " + category + " by " + purchasedBy + " on "
 				+ datePurchased);
-		purchasesTable.insertPurchasesRow(connection, this, datePurchased, category, purchasedBy, amount);
-		int purchaseNum = purchasesList.size() - 1;
+		purchasesTable.insertPurchasesRow(connection, this, purchase.getPurchaseId(), datePurchased, category, purchasedBy, amount);
+		getPurchasesList().add(purchase);
+		int rowId = DatabaseManager.getBudgetRowIdByBudget(connection,
+				LocalDate.of(datePurchased.getYear(), datePurchased.getMonth(), 1), StringUtils.capitalize(category));
+		Budget matchBudget = purchase.matchPurchaseToBudget(this);
+		budgetTable.readMonthlyBudget(connection, this, matchBudget);
+		BigDecimal categoryBudget = matchBudget.getCategoryBudgetAmount(category);
+		BigDecimal newCategorySpend = matchBudget.updateCategorySpendAmount(this, category, matchBudget);
+		BigDecimal newCategoryRemaining = matchBudget.updateCategoryRemainingAmount(category);
+		budgetTable.updateBudget(connection, rowId, LocalDate.of(datePurchased.getYear(), datePurchased.getMonth(), 1),
+				StringUtils.capitalize(category), categoryBudget, newCategorySpend, newCategoryRemaining);
 	}
-	
-	public void calculateCategorySpend(Budget budget) { 
+
+	public void calculateCategorySpend(Budget budget) {
 		BigDecimal housingTotal = new BigDecimal(0);
 		BigDecimal utilitiesTotal = new BigDecimal(0);
 		BigDecimal healthTotal = new BigDecimal(0);
@@ -150,7 +163,7 @@ public class Household {
 				}
 			}
 		}
-		
+
 		budget.setHousingSpend(housingTotal);
 		budget.setUtilitiesSpend(utilitiesTotal);
 		budget.setHealthSpend(healthTotal);
@@ -159,7 +172,7 @@ public class Household {
 		budget.setDiningSpend(diningTotal);
 		budget.setFunSpend(funTotal);
 		budget.setMiscSpend(miscTotal);
-		
+
 	}
 
 	public void calculateHouseholdIncome(Household household) {

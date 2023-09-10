@@ -46,6 +46,8 @@ public class Budget {
 	private BigDecimal miscBudget;
 	private BigDecimal miscSpend;
 	private BigDecimal miscRemaining;
+	
+	final String[] budgetCategories = new String[] {"housing", "utilities", "health", "car", "grocery", "dining", "fun", "misc"};
 
 	Map<String, ArrayList<BigDecimal>> budgetMap = new LinkedHashMap<String, ArrayList<BigDecimal>>();
 
@@ -615,5 +617,9 @@ public class Budget {
 
 	public void setTotalRemaining(BigDecimal totalRemaining) {
 		this.totalRemaining = totalRemaining;
+	}
+
+	public String[] getBudgetCategories() {
+		return budgetCategories;
 	}
 }

@@ -2,8 +2,6 @@
 <classpath>
   <classpathentry kind="src" path="src" including="**/*.java"/>
   <classpathentry kind="output" path="target/classes"/>
-  <classpathentry kind="var" path="M2_REPO/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar" sourcepath="M2_REPO/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar" sourcepath="M2_REPO/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1-sources.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar" sourcepath="M2_REPO/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar" sourcepath="M2_REPO/org/postgresql/postgresql/42.6.0/postgresql-42.6.0-sources.jar"/>
@@ -20,8 +18,5 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/xmlbeans/xmlbeans/5.1.1/xmlbeans-5.1.1.jar" sourcepath="M2_REPO/org/apache/xmlbeans/xmlbeans/5.1.1/xmlbeans-5.1.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-compress/1.21/commons-compress-1.21.jar" sourcepath="M2_REPO/org/apache/commons/commons-compress/1.21/commons-compress-1.21-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/github/virtuald/curvesapi/1.07/curvesapi-1.07.jar" sourcepath="M2_REPO/com/github/virtuald/curvesapi/1.07/curvesapi-1.07-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/logging/log4j/log4j-core/3.0.0-alpha1/log4j-core-3.0.0-alpha1.jar" sourcepath="M2_REPO/org/apache/logging/log4j/log4j-core/3.0.0-alpha1/log4j-core-3.0.0-alpha1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/apache/logging/log4j/log4j-plugins/3.0.0-alpha1/log4j-plugins-3.0.0-alpha1.jar" sourcepath="M2_REPO/org/apache/logging/log4j/log4j-plugins/3.0.0-alpha1/log4j-plugins-3.0.0-alpha1-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/com/fasterxml/woodstox/woodstox-core/6.5.0/woodstox-core-6.5.0.jar" sourcepath="M2_REPO/com/fasterxml/woodstox/woodstox-core/6.5.0/woodstox-core-6.5.0-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar" sourcepath="M2_REPO/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/logging/log4j/log4j-core/2.20.0/log4j-core-2.20.0.jar" sourcepath="M2_REPO/org/apache/logging/log4j/log4j-core/2.20.0/log4j-core-2.20.0-sources.jar"/>
 </classpath>

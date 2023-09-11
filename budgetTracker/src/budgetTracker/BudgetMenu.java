@@ -53,6 +53,7 @@ public class BudgetMenu extends Menu {
 		case 2:
 			Budget selectedBudgetDisplay = Budget.selectABudget(household, "display");
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetDisplay);
+			purchasesTable.readAllPurchases(connection, household);
 			household.updateDisplayBudgetActualRemainingValues(budgetActualTable, selectedBudgetDisplay, connection);
 			System.out.println("Displaying budget for " + Budget.budgetMonthString(selectedBudgetDisplay) + " "
 					+ selectedBudgetDisplay.getBudgetYear() + ":");
@@ -67,6 +68,7 @@ public class BudgetMenu extends Menu {
 		case 4:
 			Budget selectedBudgetExport = Budget.selectABudget(household, "export");
 			budgetActualTable.readMonthlyBudget(connection, household, selectedBudgetExport);
+			purchasesTable.readAllPurchases(connection, household);
 			household.updateDisplayBudgetActualRemainingValues(budgetActualTable, selectedBudgetExport, connection);
 			selectedBudgetExport.displayBudget(household, selectedBudgetExport);
 			LocalDate budgetDate = LocalDate.of(selectedBudgetExport.getBudgetYear(),

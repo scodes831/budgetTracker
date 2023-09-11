@@ -47,7 +47,7 @@ public class Budget {
 	private BigDecimal miscSpend;
 	private BigDecimal miscRemaining;
 	
-	final String[] budgetCategories = new String[] {"housing", "utilities", "health", "car", "grocery", "dining", "fun", "misc"};
+	final String[] budgetCategories = new String[] {"housing", "utilities", "health", "car", "grocery", "dining", "fun", "miscellaneous"};
 
 	Map<String, ArrayList<BigDecimal>> budgetMap = new LinkedHashMap<String, ArrayList<BigDecimal>>();
 
@@ -350,7 +350,7 @@ public class Budget {
 			return getDiningBudget();
 		case "fun":
 			return getFunBudget();
-		case "miscellanous":
+		case "miscellaneous":
 			return getMiscBudget();
 		}
 		return null;

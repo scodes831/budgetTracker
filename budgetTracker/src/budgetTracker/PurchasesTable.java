@@ -22,8 +22,8 @@ public class PurchasesTable {
 		}
 	}
 
-	public void insertPurchasesRow(Connection connection, Household household, int purchaseId, LocalDate purchaseDate, String category, String purchasedBy,
-			BigDecimal purchaseAmount) {
+	public void insertPurchasesRow(Connection connection, Household household, int purchaseId, LocalDate purchaseDate,
+			String category, String purchasedBy, BigDecimal purchaseAmount) {
 		Statement statement;
 		try {
 			String query = String.format(
@@ -55,7 +55,6 @@ public class PurchasesTable {
 	}
 
 	public void readAllPurchases(Connection connection, Household household) {
-		System.out.println("inside readAllPurchases");
 		Statement statement;
 		ResultSet result;
 		try {
@@ -75,7 +74,7 @@ public class PurchasesTable {
 				String purchBy = DatabaseManager.getUsernameByUserId(connection,
 						Integer.valueOf(result.getString("purchasedby")));
 				for (int i = 0; i < household.getPurchasesList().size(); i++) {
-					
+
 					if (household.getPurchasesList().get(i).getPurchaseId() == purchaseId) {
 						alreadyExists = true;
 					}

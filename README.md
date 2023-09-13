@@ -1,3 +1,9 @@
-# budgetTracker
+# Budget Tracker
 
-Budget Tracker allows users to set up a monthly budget for their household and keep track of purchases. Users can add family members to their household and view purchase history by family member and date. Users can add and edit their budget, family members, and purchases within Budget Tracker.
+## Overview
+
+Budget Tracker allows users to keep track of their monthly household budget and purchases by category. After adding household members, users can add a monthly budget and any purchases they have made. Budget Tracker displays a user's household budget along with the total amounts spent and remaining, and users can also export a spreadsheet of their monthly budget and purchase information. 
+
+## Built With
+-Java
+-PostgreSQL

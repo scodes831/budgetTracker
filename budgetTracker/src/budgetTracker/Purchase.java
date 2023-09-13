@@ -122,18 +122,13 @@ public class Purchase {
 	
 	public Budget matchPurchaseToBudget(Household household) {
 		Budget budget = null;
-		
 		int purchaseYr = this.getDatePurchased().getYear();
-		int purchaseMonth = this.getDatePurchased().getMonthValue();
-		System.out.println("from the purchase: " + purchaseYr + " " + purchaseMonth);
-		
+		int purchaseMonth = this.getDatePurchased().getMonthValue();		
 		for (Budget b : household.getBudgets()) {
-			System.out.println("from the budget: " + b.getBudgetMonth() + " " + b.getBudgetYear());
 			if (b.getBudgetMonth() == purchaseMonth && b.getBudgetYear() == purchaseYr) {
 				return b;
 			}
 		}
-		
 		return budget;
 	}
 

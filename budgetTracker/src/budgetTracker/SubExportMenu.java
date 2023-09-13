@@ -36,14 +36,11 @@ public class SubExportMenu implements SubMenu {
 		switch (selection) {
 		case "a":
 			String query = String.format("select * from purchases order by purchasedate");
-			System.out.println(query);
 			DatabaseManager.exportData(connection, query, "all purchases", household);
 			break;
 		case "b":
 			FamilyMember input = PromptUserInput.promptUserSelectionInput(household);
-			System.out.println("selected user's name is " + input.getName());
 			int userId = DatabaseManager.getUserIdByUsername(connection, input.getName());
-			System.out.println("selected user userId is " + userId);
 			String userPurchasesQuery = String.format("select * from purchases where purchasedby = '%s'", userId);
 			DatabaseManager.exportData(connection, userPurchasesQuery, "purchases by user", household);
 			break;
